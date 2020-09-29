@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{6962f309-9dce-436c-b155-1c10748717c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\DX">
+      <UniqueIdentifier>{9a74c3f2-31a6-4e76-98cb-fa42a680f70b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\buCoreGraphicsAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreTexture2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buImgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui.cpp">
+      <Filter>ImGui\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_draw.cpp">
+      <Filter>ImGui\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.cpp">
+      <Filter>ImGui\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.cpp">
+      <Filter>ImGui\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_widgets.cpp">
+      <Filter>ImGui\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="include\buResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\buCoreGraphicsAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buPrerequisitesCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreViewport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreTexture2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreSwapchain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreRenderTargetView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreVertexShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCorePixelShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreInputLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BaseApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreDepthStencilView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreSampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buImgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imconfig.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_internal.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_rectpack.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_textedit.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_truetype.h">
+      <Filter>ImGui\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

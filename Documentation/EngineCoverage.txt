@@ -1,0 +1,178 @@
+/**
+ * @brief COVERAGE
+ */
+
+ // <! Warning > 
+ // (x) Change the std::sqrt for the Math::sqrt
+
+ // Basic Classes
+ // - [/] buMath.h 
+ // - [x] buPlatformMath.h - This is for the basic math 
+ // - [x] Plugger
+ // - [x] Degrees
+ // - [x] Radians
+ // - [x] Vector2I - Unit testing implemented
+ // - [x] Vector2f - Unit testing implemented
+ // - [x] Vector3I - Unit testing implemented
+ // - [x] Vector3f - Unit testing implemented
+ // - [x] Vector4I - Unit testing implemented
+ // - [x] Vector4f - Unit testing implemented
+ // - [x] Matrix4x4 - Unit testing implemented
+ // - [x] Quaternions - Unit testing implemented - Need to check what other classes need to work
+ // - [/] Shapes - Is the father of the next classes
+ //   - [x] Rectangle - Unit testing implemented
+ //   - [x] Box - Unit testing implemented
+ //   - [x] Planes - Unit testing implemented
+ //   - [x] Spheres - Unit testing implemented - Need to check equation. 
+ //   - [X] Rays - Unit testing implemented
+ // - [/] Frustrum
+
+
+ // VECTORS 
+ // (x) VECTORI2D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) cross
+ //   (x) magnitude
+ //   (x) normalize
+ // (x) VECTORF2D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) cross
+ //   (x) magnitude
+ //   (x) normalize
+ // (x) VECTORI3D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) cross
+ //   (x) magnitude
+ //   (x) normalize
+ // (x) VECTORF3D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) cross
+ //   (x) magnitude
+ //   (x) normalize
+ // (x) VECTORI4D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) magnitude
+ //   (x) normalize
+ // (x) VECTORF4D
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Div
+ //   (x) dot
+ //   (x) magnitude
+ //   (x) normalize
+
+ // MATRIX
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (/) Div
+ //   (x) Det
+ //   (x) transpose
+
+ // Queaternions
+ //   (x) Add
+ //   (x) Sub
+ //   (x) Mul
+ //   (x) Mag
+ //   (x) Normalize
+ //   (/) Rotate
+ //   (x) Inverse
+ //   (x) Conjugate
+  
+
+ // SHAPES
+ // (x) Rectangle
+ // (x) Box
+ // (x) Planes
+ // (x) Spheres
+ // (x) Rays
+ // ( ) Frustrum
+
+ // Classes
+ // (x) Degrees
+ // (x) Radians
+
+ // Trigonometry
+ // (x) Series de teilor
+ // fast cos, sin, tan, cot
+ // Factor de impresicion
+
+
+
+  // Parcial 2
+  // ( ) Lib "buCore" -> .lib - > Any system that doesnt need to be related with game -> it has graphics api that derivates from dxAPI graphics api
+  //  ( ) Virtual functions from graphics api of DXAPI
+  //  ( ) buCamera
+  //  ( ) buTransform
+  // This is for the initializations of resources of DX without getting the DX format to CREATE or PROVIDE 
+  //  ( ) Graphics_API
+  //   ( ) buDevice 
+  //   ( ) buDevice Context
+  //   ( ) buSwapchain
+  //   ( ) buDepth Stencil View
+  //   ( ) Buffers
+  //     ( ) buBuffer -> (Parent)
+  //     ( ) buConstBuffer
+  //     ( ) buVertexBuffer
+  //     ( ) buPixelBuffer
+  //   ( ) buInputLayout
+  //   ( ) buVertexShader
+  //   ( ) buPixelShader
+  //   ( ) buRasterizer
+  //   ( ) buTexture
+  //   ( ) buViewport
+  //   ( ) buSampler
+  //   ( ) buWindow
+  //   ( ) Texture
+  //     ( ) buTexture2D
+  //     ( ) buRenderTarget
+  //     ( ) buDepth Stencil
+
+  // ( ) Lib "buCoreUnitTest" -> For unit testing
+
+  // ( ) lib for DXAPI called graphics api
+  //  ( ) buDevice 
+  //  ( ) buDevice Context
+  //  ( ) buSwapchain
+  //  ( ) buDepth Stencil View
+  //  ( ) Buffers
+  //    ( ) buBuffer -> (Parent)
+  //    ( ) buConstBuffer
+  //    ( ) buVertexBuffer
+  //    ( ) buPixelBuffer
+  //  ( ) buInputLayout
+  //  ( ) buVertexShader
+  //  ( ) buPixelShader
+  //  ( ) buRasterizer
+  //  ( ) buTexture
+  //  ( ) buViewport
+  //  ( ) buSampler
+  //  ( ) buWindow
+  //  ( ) Texture
+  //    ( ) buTexture2D
+  //    ( ) buRenderTarget
+  //    ( ) buDepth Stencil
+
+
+  // ( ) lib for DXAPI_UnitTest called graphics api
