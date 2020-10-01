@@ -145,12 +145,14 @@ namespace buEngineSDK
     m_graphicsAPI->createInputLayout(vertexShader, inputLayout);
     m_graphicsAPI->createPixelShader(pixelShader);
     // Load texture
-    Log("Resource Manager - Loading Image from file [Data/Textures/1KDiff.jpeg]");
-    meshTexture = m_graphicsAPI->loadImageFromFile("Data/Textures/1KDiff.jpeg",
+    Log("Resource Manager - Loading Image from file [Data/Textures/AmongUs.png]");
+    meshTexture = m_graphicsAPI->loadImageFromFile("Data/Textures/AmongUs.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
 
-    
+    meshIcon_UI = m_graphicsAPI->loadImageFromFile("Data/Textures/cubes.png",
+                                                   m_screenWidth,
+                                                   m_screenHeight);
     // Create sampler
     m_graphicsAPI->createSamplerState(sampler);
     // Create view matrix
@@ -182,7 +184,7 @@ namespace buEngineSDK
     buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
     buVector3F At(m_at[0], m_at[1], m_at[2]);
     buVector3F Up(m_up[0], m_up[1], m_up[2]);
-
+    
     m_view.lookAtMatrixLH(Eye, At, Up);
 
     // Initialize the projection matrix
@@ -193,19 +195,27 @@ namespace buEngineSDK
       m_far);
 
     // Set Mesh transform
-    buVector3F scale(m_Scale[0] * m_EngineScale, m_Scale[1] * m_EngineScale, m_Scale[2] * m_EngineScale);
-    m_World.scaleMatrix(scale);
-    buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
-    m_World.rotateMatrix(rotation, m_angle);
-    if (m_isRotating) {
-      m_angle += _deltaTime;
-    }
-    else {
-      m_angle = 0;
+    if (currModel->m_meshIsLoaded) {
+
+      m_testTransform.setScale(m_Scale[0] * m_EngineScale, m_Scale[1] * m_EngineScale, m_Scale[2] * m_EngineScale);
+      m_World.scaleMatrix(m_testTransform.getScale());
+      m_testTransform.setRotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
+      m_World.rotateMatrix(m_testTransform.getRotation(), m_angle);
+      if (m_isRotating) {
+        m_angle += _deltaTime;
+      }
+      else {
+        m_angle = 0;
+      }
+      m_testTransform.setPosition(m_position[0], m_position[1], m_position[2]);
+      //m_testTransform.setPosition(
+      //  m_graphicsAPI->getGameObjects()[0].m_transform.getPosition().arr[0],
+      //  m_graphicsAPI->getGameObjects()[0].m_transform.getPosition().arr[1],
+      //  m_graphicsAPI->getGameObjects()[0].m_transform.getPosition().arr[2]);
+
+      m_World.translateMatrix(m_testTransform.getPosition());
     }
 
-    buVector3F position(m_position[0], m_position[1], m_position[2]);
-    m_World.translateMatrix(position);
     //m_World.transpose();
     m_meshColor.x = 1; //(buMath::sinf(_deltaTime * 1.0f) + 1.0f) * 0.5f;
     m_meshColor.y = 1; //(buMath::cosf(_deltaTime * 3.0f) + 1.0f) * 0.5f;

@@ -21,6 +21,7 @@
 #include <buCoreDepthStencilView.h>
 #include <buCoreSampler.h>
 #include <buCoreModelLoader.h>
+#include <buGameObject.h>
 //#include <buImgui.h>
 namespace buEngineSDK {
 
@@ -419,6 +420,15 @@ namespace buEngineSDK {
 
    virtual Vector<void*>
    getShaderResource() {return Vector<void*>();};
+
+   virtual void
+   createGameObject(uint32 _id, String _name) {};
+
+   virtual buGameObject 
+   getGameObject(uint32 _id) {return buGameObject(); };
+
+   virtual Vector<buGameObject> 
+   getGameObjects() { return Vector<buGameObject>();};
  private:
 
  };

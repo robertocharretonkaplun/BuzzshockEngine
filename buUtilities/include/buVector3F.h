@@ -212,7 +212,10 @@ namespace buEngineSDK {
    * @brief Member in charge of storing the point of the z - coordinate.
    */
   float z;
-  
+  /**
+   * @brief 
+   */
+  float arr[3];
   /**
    * @brief Member in charge of giving an integer point with zero values.
    */

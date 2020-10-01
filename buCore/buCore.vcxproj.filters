@@ -158,5 +158,11 @@
     <ClInclude Include="include\buAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\buGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

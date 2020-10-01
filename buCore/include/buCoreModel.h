@@ -99,7 +99,7 @@ namespace buEngineSDK {
 		Vector<buCoreMesh> m_meshes;
 		Vector<SimpleVertex> m_vertices;
 		Vector<uint32> m_indices;
-
+		bool m_meshIsLoaded = false;
 		/**
 		 * @brief 
 		 */
