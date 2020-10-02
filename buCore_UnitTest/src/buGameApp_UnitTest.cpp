@@ -153,6 +153,11 @@ namespace buEngineSDK
     meshIcon_UI = m_graphicsAPI->loadImageFromFile("Data/Textures/cubes.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
+
+    transformIcon_UI = m_graphicsAPI->loadImageFromFile("Data/Textures/3d.png",
+      m_screenWidth,
+      m_screenHeight);
+
     // Create sampler
     m_graphicsAPI->createSamplerState(sampler);
     // Create view matrix
