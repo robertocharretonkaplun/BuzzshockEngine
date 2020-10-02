@@ -15,7 +15,7 @@
 #include "imgui\ImGuiDirectX\imgui.h"
 #include "imgui\ImGuiDirectX\imgui_impl_dx11.h"
 #include "imgui\ImGuiDirectX\imgui_impl_win32.h"
-
+#include "buNumLimits.h"
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
 																						  WPARAM wParam,

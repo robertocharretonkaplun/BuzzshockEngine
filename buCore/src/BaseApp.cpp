@@ -308,9 +308,9 @@ namespace buEngineSDK {
         ImGui::SameLine();
         ImGui::Text("Tranform");
         
-        ImGui::InputFloat3("Position", m_position);
+        ImGui::SliderFloat3("Position", m_position, -NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32);
         ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
-        ImGui::InputFloat3("Scale", m_Scale);
+        ImGui::SliderFloat3("Scale", m_Scale, -NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32);
         if (ImGui::Button("Rotate")) {
           if (m_isRotating) {
             m_isRotating = false;

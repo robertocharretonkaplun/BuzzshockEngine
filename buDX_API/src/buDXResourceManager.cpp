@@ -51,7 +51,6 @@ namespace buEngineSDK {
 
       for (uint32 j = 0; j < currMesh->mNumVertices; ++j) {
         auto fullVertex = currMesh->mVertices[j];
-
         m_model.m_vertices.emplace_back();
         auto& tmpvertex = m_model.m_vertices[m_model.m_vertices.size() - 1];
 
@@ -65,6 +64,13 @@ namespace buEngineSDK {
           auto currTexCoord = currMesh->mTextureCoords[0][j];
           tmpvertex.Tex.x = currTexCoord.x;
           tmpvertex.Tex.y = currTexCoord.y;
+        }
+        // Allocate Normals
+        if (currMesh->HasNormals()) {
+          auto currNormals = currMesh->mNormals[j];
+          tmpvertex.Nor.x = currNormals.x;
+          tmpvertex.Nor.y = currNormals.y;
+          tmpvertex.Nor.z = currNormals.z;
         }
       }
 

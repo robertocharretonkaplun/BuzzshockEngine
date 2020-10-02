@@ -34,6 +34,7 @@ struct VS_INPUT
 {
     float4 Pos : POSITION;
     float2 Tex : TEXCOORD0;
+    float3 Nor : NORMAL0;
     uint4 BonesIDs : BLENDINDICES0;
     float4 Weights : BLENDWEIGHT0;
 };
@@ -42,6 +43,7 @@ struct PS_INPUT
 {
     float4 Pos : SV_POSITION;
     float2 Tex : TEXCOORD0;
+    float3 Nor : NORMAL0;
 };
 
 matrix Identity =
@@ -51,6 +53,14 @@ matrix Identity =
     { 0, 0, 1, 0 },
     { 0, 0, 0, 1 }
 };
+
+// Lamber Diffuse Method
+float
+Lambert_Diffuse(in float3 lightDir, in float3 surfNormal) {
+  float f = dot(lightDir, surfNormal) * 4 + 0.5; // This is for toon shading
+  f = int(f);
+  return max(0.0f, f * .25);
+}
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
@@ -73,7 +83,7 @@ PS_INPUT VS( VS_INPUT input )
     output.Pos = mul( output.Pos, View );
     output.Pos = mul( output.Pos, Projection );
     output.Tex = input.Tex;
-    
+    output.Nor = normalize(mul(float4(input.Nor, 0), World));
 
     return output;
 }
@@ -82,7 +92,19 @@ PS_INPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-float4 PS( PS_INPUT input) : SV_Target
+float4 PS(PS_INPUT input) : SV_Target
 {
-    return txDiffuse.Sample(samLinear, input.Tex) * vMeshColor;
+  float3 LightPos = float3(100, 0, 1000);
+
+  float3 surfColor = float3(1, 1,0);
+
+  float3 LightDir = normalize(LightPos - input.Pos);
+
+  float kD = Lambert_Diffuse(LightDir, input.Nor);
+
+  float3 finalColor = surfColor * kD * 0.8f;
+
+  float3 texColor = txDiffuse.Sample(samLinear, input.Tex) * finalColor;
+  return float4(finalColor, 1);
+  //return txDiffuse.Sample(samLinear, input.Tex) * vMeshColor;
 }
