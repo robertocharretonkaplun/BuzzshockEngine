@@ -94,9 +94,9 @@ PS_INPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-  float3 LightPos = float3(100, 0, 1000);
+  float3 LightPos = float3(-100, 0, 0);
 
-  float3 surfColor = float3(1, 1,0);
+  float3 surfColor = float3(1, 0,0);
 
   float3 LightDir = normalize(LightPos - input.Pos);
 
