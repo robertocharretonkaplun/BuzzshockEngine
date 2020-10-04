@@ -144,7 +144,6 @@ namespace buEngineSDK {
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());
-    m_model.m_meshIsLoaded = true;
   }
 
   buCoreModel*

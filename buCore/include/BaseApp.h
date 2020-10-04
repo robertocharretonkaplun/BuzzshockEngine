@@ -215,7 +215,7 @@ namespace buEngineSDK {
 		 */
 		Vector<String> m_logs;
 		Vector<String> m_GONames;
-		uint32 m_selectedGO = 0;
+
 		float dealtaTime = 0;
 		float oldTime = 0;
 	};

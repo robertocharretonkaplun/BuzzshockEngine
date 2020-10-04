@@ -23,7 +23,6 @@
 #include "buDXBuffer.h"
 #include "buDXDepthStencilView.h"
 #include "buDXSampler.h"
-#include "buGameObject.h"
 //#include "buDXImgui.h"
 // Assimp
 
@@ -445,15 +444,6 @@ namespace buEngineSDK {
     */
    Vector<void*>
    getShaderResource() override;
-
-   void
-   createGameObject(uint32 _id, String _name) override;
-
-   buGameObject
-   getGameObject(uint32 _id) override;
-
-   Vector<buGameObject> 
-   getGameObjects() override;
   private:
    /**
     * @brief Device ID.
@@ -481,7 +471,6 @@ namespace buEngineSDK {
    uint32 m_height = 0;
    
    Vector<void*> m_ShaderResources;
-   Vector<buGameObject> m_gameObjects;
 };
  
  /** 

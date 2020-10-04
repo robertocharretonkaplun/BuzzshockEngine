@@ -5,7 +5,7 @@ namespace buEngineSDK {
   int32 
   BaseApp::run() {
     // Create Window
-    m_windowName = "Buzzshock Engine";
+    m_windowName = "Buzz shock Engine";
     m_screenWidth = 1350;
     m_screenHeight = 700;
     createWindow();
@@ -174,27 +174,6 @@ namespace buEngineSDK {
         if (ImGui::MenuItem("Save...", "CTRL+S")) {
 
         }
-        if (ImGui::MenuItem("Import Model", "CTRL+i")) {
-          OPENFILENAME ofn = { 0 };
-          TCHAR szFile[260] = { 0 };
-          // Initialize remaining fields of OPENFILENAME structure
-          ofn.lStructSize = sizeof(ofn);
-          ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-          ofn.lpstrFile = szFile;
-          ofn.nMaxFile = sizeof(szFile);
-          ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-          ofn.nFilterIndex = 1;
-          ofn.lpstrFileTitle = nullptr;
-          ofn.nMaxFileTitle = 0;
-          ofn.lpstrInitialDir = nullptr;
-          ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-          if (GetOpenFileName(&ofn) == TRUE) {
-            Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
-            m_resourceManager->loadMesh(ofn.lpstrFile);
-            m_GONames.push_back(m_resourceManager->getModel()->TexName);
-          }
-        }
         ImGui::Separator();
 
         if (ImGui::MenuItem("Exit", "CTRL+F4")) {
@@ -254,33 +233,16 @@ namespace buEngineSDK {
       ImGui::End();
     }
 
-    ImGui::Begin("World Outliner", nullptr, ImGuiWindowFlags_MenuBar);
-    if (ImGui::BeginMenuBar()) {
-      if (ImGui::BeginMenu("+")) {
-        if (ImGui::MenuItem("Empty Object")) {
-          m_graphicsAPI->createGameObject(0, "Empty Object");
-        }
-        ImGui::EndMenu();
-      }
-      ImGui::EndMenuBar();
-    }
-    
-    for (uint32 i = 0; i < m_graphicsAPI->getGameObjects().size(); i++)
-    {
+    ImGui::Begin("World Outliner");
+    for (int i = 0; i < m_GONames.size(); ++i) {
       ImGui::AlignTextToFramePadding();
-      bool treeopen = ImGui::TreeNodeEx(m_graphicsAPI->getGameObjects()[i].m_name.c_str(), ImGuiTreeNodeFlags_AllowItemOverlap);
+      bool treeopen = ImGui::TreeNodeEx(m_GONames[i].c_str(), ImGuiTreeNodeFlags_AllowItemOverlap);
       ImGui::SameLine();
-      if (ImGui::Button("+")) {
-        m_selectedGO = m_graphicsAPI->getGameObjects()[i].m_id;
-        ImGui::OpenPopup("ElementList");
-      }
+      if (ImGui::Button("+")) ImGui::OpenPopup("ElementList");
       if (treeopen) {
         ImGui::TreePop();
       }
-
     }
-    //for (int i = 0; i < m_graphicsAPI->getGameObject(0) .size(); ++i) {
-    //}
     ImGui::End();
 
     ImGui::Begin("Camera Inspector");
@@ -292,74 +254,46 @@ namespace buEngineSDK {
     ImGui::End();
 
     ImGui::Begin("Inspector");
-    for (uint32 i = 0; i < m_graphicsAPI->getGameObjects().size(); i++) {
-      if (m_selectedGO == m_graphicsAPI->getGameObjects()[i].m_id)
-      {
-        ImGui::Image(m_graphicsAPI->getShaderResource()[1],
-            ImVec2(15, 15));
-        ImGui::SameLine();
-        ImGui::Text(m_graphicsAPI->getGameObjects()[i].m_name.c_str());
-        ImGui::SameLine();
-        bool checked;
-        ImGui::Checkbox("Static", &checked);
-        ImGui::Separator();
-
-        ImGui::Text("Tranform");
-        
-        ImGui::InputFloat3("Position", m_position);
-        ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
-        ImGui::InputFloat3("Scale", m_Scale);
-        if (ImGui::Button("Rotate")) {
-          if (m_isRotating) {
-            m_isRotating = false;
-          }
-          else {
-            m_isRotating = true;
-          }
-        }
-        ImGui::SliderFloat("Ang", &m_angle,-3,3);
-        ImGui::Separator();
-        auto currModel = m_resourceManager->getModel();
-        if (currModel->m_meshIsLoaded) {
-          ImGui::Text("Mesh Renderer");
-
-          //for (uint32 i = 0; i < m_GONames.size(); i++) {
-          //  if(ImGui::ImageButton(m_graphicsAPI->getShaderResource()[1],
-          //    ImVec2(64, 64))) { };
-          //  ImGui::SameLine();
-          //}
-
-          for (uint32 i = 0; i < 1; ++i) {
-            //ImGui::Text("Material ");
-            if (ImGui::ImageButton(m_graphicsAPI->getShaderResource()[i], 
-                                   ImVec2(64, 64))) {
-              //OPENFILENAME ofn = { 0 };
-              //TCHAR szFile[260] = { 0 };
-              //// Initialize remaining fields of OPENFILENAME structure
-              //ofn.lStructSize = sizeof(ofn);
-              //ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-              //ofn.lpstrFile = szFile;
-              //ofn.nMaxFile = sizeof(szFile);
-              //ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-              //ofn.nFilterIndex = 1;
-              //ofn.lpstrFileTitle = nullptr;
-              //ofn.nMaxFileTitle = 0;
-              //ofn.lpstrInitialDir = nullptr;
-              //ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-              //if (GetOpenFileName(&ofn) == TRUE) {
-              //}
-            }
-          }
-
-        }
-        ImGui::Separator();
-        ImGui::Button("Add Component");
+    ImGui::Text("Tranform");
+    
+    ImGui::InputFloat3("Translation", m_position);
+    ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
+    ImGui::InputFloat3("Scale", m_Scale);
+    if (ImGui::Button("Rotate")) {
+      if (m_isRotating) {
+        m_isRotating = false;
+      }
+      else {
+        m_isRotating = true;
       }
     }
+    //ImGui::SameLine();
+    ImGui::SliderFloat("Ang", &m_angle,-3,3);
+    ImGui::Text("Mesh Renderer");
+    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
+      ImGui::Text("Material ");
+      if (ImGui::ImageButton(m_graphicsAPI->getShaderResource()[i], 
+                             ImVec2(128, 128))) {
+        OPENFILENAME ofn = { 0 };
+        TCHAR szFile[260] = { 0 };
+        // Initialize remaining fields of OPENFILENAME structure
+        ofn.lStructSize = sizeof(ofn);
+        ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
+        ofn.lpstrFile = szFile;
+        ofn.nMaxFile = sizeof(szFile);
+        ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
+        ofn.nFilterIndex = 1;
+        ofn.lpstrFileTitle = nullptr;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = nullptr;
+        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
+        if (GetOpenFileName(&ofn) == TRUE) {
+        }
+      }
+    }
     ImGui::End();
-    /*
+      
     ImGui::Begin("Content Browser", nullptr, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("Open...")) {
@@ -390,7 +324,6 @@ namespace buEngineSDK {
       ImGui::EndMenuBar();
     }
     ImGui::End();
-    */
 
     ImGui::Begin("Console", nullptr, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar()) {
@@ -575,16 +508,16 @@ namespace buEngineSDK {
 
     colors[ImGuiCol_Text] = ImVec4(0.92f, 0.92f, 0.92f, 1.00f);
     colors[ImGuiCol_TextDisabled] = ImVec4(0.44f, 0.44f, 0.44f, 1.00f);
-    colors[ImGuiCol_WindowBg] = ImVec4(0,0,0, .40f);
+    colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
     colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
     colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
-    colors[ImGuiCol_Border] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
+    colors[ImGuiCol_Border] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
     colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
     colors[ImGuiCol_FrameBg] = ImVec4(0.11f, 0.11f, 0.11f, 1.00f);
-    colors[ImGuiCol_FrameBgHovered] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
+    colors[ImGuiCol_FrameBgHovered] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
     colors[ImGuiCol_FrameBgActive] = ImVec4(0.78f, 0.55f, 0.21f, 1.00f);
-    colors[ImGuiCol_TitleBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
-    colors[ImGuiCol_TitleBgActive] = ImVec4(0.003921569, 0.7019608, 1, 1.00f);
+    colors[ImGuiCol_TitleBg] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
+    colors[ImGuiCol_TitleBgActive] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
     colors[ImGuiCol_MenuBarBg] = ImVec4(0.11f, 0.11f, 0.11f, 1.00f);
     colors[ImGuiCol_ScrollbarBg] = ImVec4(0.06f, 0.06f, 0.06f, 0.53f);
@@ -594,10 +527,10 @@ namespace buEngineSDK {
     colors[ImGuiCol_CheckMark] = ImVec4(0.78f, 0.55f, 0.21f, 1.00f);
     colors[ImGuiCol_SliderGrab] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_SliderGrabActive] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
-    colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
+    colors[ImGuiCol_Button] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
     colors[ImGuiCol_ButtonHovered] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_ButtonActive] = ImVec4(0.78f, 0.55f, 0.21f, 1.00f);
-    colors[ImGuiCol_Header] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
+    colors[ImGuiCol_Header] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
     colors[ImGuiCol_HeaderHovered] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_HeaderActive] = ImVec4(0.93f, 0.65f, 0.14f, 1.00f);
     colors[ImGuiCol_Separator] = ImVec4(0.21f, 0.21f, 0.21f, 1.00f);
@@ -606,7 +539,7 @@ namespace buEngineSDK {
     colors[ImGuiCol_ResizeGrip] = ImVec4(0.21f, 0.21f, 0.21f, 1.00f);
     colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_ResizeGripActive] = ImVec4(0.78f, 0.55f, 0.21f, 1.00f);
-    colors[ImGuiCol_Tab] = ImVec4(0.0f, 0.0f, 0.0f, 0.6f);
+    colors[ImGuiCol_Tab] = ImVec4(0.51f, 0.36f, 0.15f, 1.00f);
     colors[ImGuiCol_TabHovered] = ImVec4(0.91f, 0.64f, 0.13f, 1.00f);
     colors[ImGuiCol_TabActive] = ImVec4(0.78f, 0.55f, 0.21f, 1.00f);
     colors[ImGuiCol_TabUnfocused] = ImVec4(0.07f, 0.10f, 0.15f, 0.97f);

@@ -19,7 +19,6 @@
 #include <buVector4F.h>
 #include <buMatrix4x4.h>
 #include <buDegrees.h>
-#include <buTransform.h>
 
 
 namespace buEngineSDK {
@@ -121,11 +120,6 @@ namespace buEngineSDK {
 		 * @brief Member that creates a texture for a mesh.
 		 */
 		SPtr<buCoreTexture2D> meshTexture;
-		
-		/**
-		 * @brief UI icon for the loaded mesh
-		 */
-		SPtr<buCoreTexture2D> meshIcon_UI;
 
 		/**
 		 * @brief Member that creates a sampler object. 
@@ -178,9 +172,7 @@ namespace buEngineSDK {
 		/**
 		 * @brief Member that sets the clear color 
 		 */
-		//float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
-		float ClearColor[4] = { 0.5803221f, 0.5901454f, 0.5943396f, 1.0f };
+		float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
 		//float ClearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; 
-		buTransform m_testTransform;
 	};
 }

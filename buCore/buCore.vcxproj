@@ -230,13 +230,11 @@
     <ClInclude Include="include\buCoreTexture2D.h" />
     <ClInclude Include="include\buCoreVertexShader.h" />
     <ClInclude Include="include\buCoreViewport.h" />
-    <ClInclude Include="include\buGameObject.h" />
     <ClInclude Include="include\buImgui.h" />
     <ClInclude Include="include\buNode.h" />
     <ClInclude Include="include\buPrerequisitesCore.h" />
     <ClInclude Include="include\buResourceManager.h" />
     <ClInclude Include="include\buScene.h" />
-    <ClInclude Include="include\buTransform.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
