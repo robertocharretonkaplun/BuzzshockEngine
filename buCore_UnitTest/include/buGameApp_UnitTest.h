@@ -126,7 +126,6 @@ namespace buEngineSDK {
 		 * @brief UI icon for the loaded mesh
 		 */
 		SPtr<buCoreTexture2D> meshIcon_UI;
-		SPtr<buCoreTexture2D> transformIcon_UI;
 
 		/**
 		 * @brief Member that creates a sampler object. 

@@ -303,9 +303,7 @@ namespace buEngineSDK {
         bool checked;
         ImGui::Checkbox("Static", &checked);
         ImGui::Separator();
-        ImGui::Image(m_graphicsAPI->getShaderResource()[2],
-          ImVec2(15, 15));
-        ImGui::SameLine();
+
         ImGui::Text("Tranform");
         
         ImGui::InputFloat3("Position", m_position);
