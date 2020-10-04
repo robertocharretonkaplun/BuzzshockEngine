@@ -51,6 +51,7 @@ namespace buEngineSDK {
 
       for (uint32 j = 0; j < currMesh->mNumVertices; ++j) {
         auto fullVertex = currMesh->mVertices[j];
+
         m_model.m_vertices.emplace_back();
         auto& tmpvertex = m_model.m_vertices[m_model.m_vertices.size() - 1];
 
@@ -65,6 +66,7 @@ namespace buEngineSDK {
           tmpvertex.Tex.x = currTexCoord.x;
           tmpvertex.Tex.y = currTexCoord.y;
         }
+
         // Allocate Normals
         if (currMesh->HasNormals()) {
           auto currNormals = currMesh->mNormals[j];
@@ -150,7 +152,6 @@ namespace buEngineSDK {
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());
-    m_model.m_meshIsLoaded = true;
   }
 
   buCoreModel*

@@ -3,29 +3,17 @@
 namespace buEngineSDK {
   const buVector3F buVector3F::Zero = buVector3F(0.0f, 0.0f, 0.0f);
 
-  buVector3F::buVector3F(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {
-    arr[0] = _x;
-    arr[1] = _y;
-    arr[2] = _z;
-  }
+  buVector3F::buVector3F(float _x, float _y, float _z) : x(_x), y(_y), z(_z) { }
 
   buVector3F::~buVector3F() { }
 
-  buVector3F::buVector3F(const buVector3F& _v) : x(_v.x), y(_v.y), z(_v.z) {
-    arr[0] = _v.x;
-    arr[1] = _v.y;
-    arr[2] = _v.z;
-  }
+  buVector3F::buVector3F(const buVector3F& _v) : x(_v.x), y(_v.y), z(_v.z) { }
 
   buVector3F& 
   buVector3F::operator=(const buVector3F& _v) {
     x = _v.x;
     y = _v.y;
     z = _v.z;
-
-    arr[0] = _v.x;
-    arr[1] = _v.y;
-    arr[2] = _v.z;
     return *this;
   }
 

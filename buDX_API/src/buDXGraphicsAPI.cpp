@@ -691,28 +691,4 @@ namespace buEngineSDK {
     return m_ShaderResources;
   }
 
-  void buDXGraphicsAPI::createGameObject(uint32 _id, String _name)
-  {
-    buGameObject tmpGameObject;
-    tmpGameObject.m_id = _id;
-    tmpGameObject.m_name = _name;
-    m_gameObjects.push_back(tmpGameObject);
-  }
-
-  buGameObject buDXGraphicsAPI::getGameObject(uint32 _id)
-  {
-    buGameObject selectedGO;
-    for (int32 i = 0; i < m_gameObjects.size(); i++) {
-      if (m_gameObjects[i].m_id == _id) {
-        selectedGO = m_gameObjects[i];
-      }
-    }
-    return selectedGO;
-  }
-
-  Vector<buGameObject> buDXGraphicsAPI::getGameObjects()
-  {
-    return m_gameObjects;
-  }
-
 }
