@@ -57,7 +57,7 @@ namespace buEngineSDK
     Log("GraphMan - Creating Input Layout...");
     inputLayout = graphMan.createInputLayout();
     Vector<INPUT_LAYOUT_DESC> layoutDesc;
-    layoutDesc.resize(4);
+    layoutDesc.resize(5);
     // Positions
     layoutDesc[0].semanticName = "POSITION";
     layoutDesc[0].semanticIndex = 0;
@@ -74,22 +74,31 @@ namespace buEngineSDK
     layoutDesc[1].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
     layoutDesc[1].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
     layoutDesc[1].instanceDataStepRate = 0;
-    // Bones
-    layoutDesc[2].semanticName = "BLENDINDICES";
+    // texcoords
+    layoutDesc[2].semanticName = "NORMAL";
     layoutDesc[2].semanticIndex = 0;
-    layoutDesc[2].format = DXGI_FORMAT_R32G32B32A32_UINT;
+    layoutDesc[2].format = DXGI_FORMAT_R32G32B32_FLOAT;
     layoutDesc[2].inputSlot = 0;
     layoutDesc[2].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
     layoutDesc[2].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
     layoutDesc[2].instanceDataStepRate = 0;
-    // Weights
-    layoutDesc[3].semanticName = "BLENDWEIGHT";
+    // Bones
+    layoutDesc[3].semanticName = "BLENDINDICES";
     layoutDesc[3].semanticIndex = 0;
-    layoutDesc[3].format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    layoutDesc[3].format = DXGI_FORMAT_R32G32B32A32_UINT;
     layoutDesc[3].inputSlot = 0;
     layoutDesc[3].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
     layoutDesc[3].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
     layoutDesc[3].instanceDataStepRate = 0;
+    // Weights
+    layoutDesc[4].semanticName = "BLENDWEIGHT";
+    layoutDesc[4].semanticIndex = 0;
+    layoutDesc[4].format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    layoutDesc[4].inputSlot = 0;
+    layoutDesc[4].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+    layoutDesc[4].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+    layoutDesc[4].instanceDataStepRate = 0;
+
 
     inputLayout->init(&layoutDesc[0], layoutDesc.size());
 

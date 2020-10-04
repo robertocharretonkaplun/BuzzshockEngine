@@ -66,6 +66,14 @@ namespace buEngineSDK {
           tmpvertex.Tex.x = currTexCoord.x;
           tmpvertex.Tex.y = currTexCoord.y;
         }
+
+        // Allocate Normals
+        if (currMesh->HasNormals()) {
+          auto currNormals = currMesh->mNormals[j];
+          tmpvertex.Nor.x = currNormals.x;
+          tmpvertex.Nor.y = currNormals.y;
+          tmpvertex.Nor.z = currNormals.z;
+        }
       }
 
       
