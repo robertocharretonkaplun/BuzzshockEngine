@@ -194,6 +194,12 @@
     <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.cpp" />
     <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_widgets.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
     <ClCompile Include="include\buResourceManager.cpp" />
     <ClCompile Include="src\BaseApp.cpp" />
     <ClCompile Include="src\buCoreConfig.cpp" />
@@ -202,6 +208,7 @@
     <ClCompile Include="src\buCoreModel.cpp" />
     <ClCompile Include="src\buCoreModelLoader.cpp" />
     <ClCompile Include="src\buCoreTexture2D.cpp" />
+    <ClCompile Include="src\buGraphicsDebug.cpp" />
     <ClCompile Include="src\buImgui.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +220,16 @@
     <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_rectpack.h" />
     <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_textedit.h" />
     <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_truetype.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h" />
     <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\BSPNodeTree.h" />
     <ClInclude Include="include\buAnimation.h" />
     <ClInclude Include="include\buCoreBuffer.h" />
     <ClInclude Include="include\buCoreConfig.h" />
@@ -230,6 +246,7 @@
     <ClInclude Include="include\buCoreTexture2D.h" />
     <ClInclude Include="include\buCoreVertexShader.h" />
     <ClInclude Include="include\buCoreViewport.h" />
+    <ClInclude Include="include\buGraphicsDebug.h" />
     <ClInclude Include="include\buImgui.h" />
     <ClInclude Include="include\buNode.h" />
     <ClInclude Include="include\buPrerequisitesCore.h" />

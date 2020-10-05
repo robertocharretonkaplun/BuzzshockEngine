@@ -19,7 +19,7 @@
 #include <buVector4F.h>
 #include <buMatrix4x4.h>
 #include <buDegrees.h>
-
+#include <buGraphicsDebug.h>
 
 namespace buEngineSDK {
 
@@ -172,7 +172,12 @@ namespace buEngineSDK {
 		/**
 		 * @brief Member that sets the clear color 
 		 */
-		float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
-		//float ClearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; 
+		//float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
+		float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
+
+		/**
+		 * @brief 
+		 */
+		buGraphicsDebug m_lineDebugger;
 	};
 }

@@ -155,7 +155,7 @@ namespace buEngineSDK
     m_graphicsAPI->createPixelShader(pixelShader);
     // Load texture
     Log("Resource Manager - Loading Image from file [Data/Textures/1KDiff.jpeg]");
-    meshTexture = m_graphicsAPI->loadImageFromFile("Data/Textures/1KDiff.jpeg",
+    meshTexture = m_graphicsAPI->loadImageFromFile("Data/Textures/SpiderMan_TXT.jpg",
                                                    m_screenWidth,
                                                    m_screenHeight);
 

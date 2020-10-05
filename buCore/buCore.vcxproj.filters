@@ -19,6 +19,9 @@
     <Filter Include="ImGui\DX">
       <UniqueIdentifier>{9a74c3f2-31a6-4e76-98cb-fa42a680f70b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\Docking">
+      <UniqueIdentifier>{c9952cce-b86f-47e8-a03c-957627bded5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buCoreGraphicsAPI.cpp">
@@ -61,6 +64,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\buCoreMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buGraphicsDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +180,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buGraphicsDebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BSPNodeTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
