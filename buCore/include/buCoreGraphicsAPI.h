@@ -115,23 +115,14 @@ namespace buEngineSDK {
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreViewport>
-  createViewport(float /*width*/,
-                 float /*height*/,
-                 float /*minDepth*/,
-                 float /*maxDepth*/,
-                 float /*topLeftX*/, 
-                 float /*topLeftY*/) { return nullptr; }
+  createViewport(float /*width*/, float /*height*/) { return nullptr; }
 
   /**
    * @brief Virtual method that creates a temporal reference to a texture2D object.
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreTexture2D>
-  createTexture2D(int32 /*width*/,
-                  int32 /*height*/,
-                  uint32 /*format*/, 
-                  uint32 /*bindflags*/,
-                  uint32 /*miplevels*/) { return nullptr; };
+  createTexture2D(int32 /*width*/, int32 /*height*/) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a swap chain object.

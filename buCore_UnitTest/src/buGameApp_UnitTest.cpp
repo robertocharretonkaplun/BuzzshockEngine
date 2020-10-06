@@ -18,19 +18,11 @@ namespace buEngineSDK
     // Initialize 
     // Create the back buffer
     Log("GraphMan - Creating backbuffer ...");
-    backBuffer = graphMan.createTexture2D(m_screenWidth,
-                                          m_screenHeight, 
-                                          DXGI_FORMAT_D24_UNORM_S8_UINT,
-                                          D3D11_BIND_DEPTH_STENCIL,
-                                          1);
+    backBuffer = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
 
     // Create depth stencil texture
     Log("GraphMan - Creating depth Stenil ...");
-    depthStencil = graphMan.createTexture2D(m_screenWidth,
-                                            m_screenHeight, 
-                                            DXGI_FORMAT_D24_UNORM_S8_UINT,
-                                            D3D11_BIND_DEPTH_STENCIL,
-                                            1);
+    depthStencil = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
 
     // Create depth stencil View
     Log("GraphMan - Creating depth Stenil View...");
@@ -41,17 +33,12 @@ namespace buEngineSDK
     renderTargetView = graphMan.createRenderTargetView();
 
     // Create Viewport
-    viewport = graphMan.createViewport((float)m_screenWidth, 
-                                       (float)m_screenHeight,
-                                       0.0f,
-                                       1.0f,
-                                       0.0f,
-                                       0.0f);
+    viewport = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
 
     // Create Vertex Shader
     Log("GraphMan - Creating Vertex Shader...");
     vertexShader = graphMan.createVertexShader();
-    vertexShader->init(L"Data/Shaders/CubeProjectFor.fx", "VS", "vs_5_0");
+    vertexShader->init(L"CubeProjectFor.fx");
 
     // Create input layout
     Log("GraphMan - Creating Input Layout...");
@@ -99,17 +86,12 @@ namespace buEngineSDK
     layoutDesc[4].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
     layoutDesc[4].instanceDataStepRate = 0;
 
-
     inputLayout->init(&layoutDesc[0], layoutDesc.size());
 
     // Create Pixel shader 
     Log("GraphMan - Creating Pixel Shader...");
     pixelShader = graphMan.createPixelShader();
-    pixelShader->init(L"Data/Shaders/CubeProjectFor.fx", "PS", "ps_5_0");
-
-    //Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
-    //m_resourceManager->loadMesh("Data/Models/AdvanceDancing.fbx");
-    //m_GONames.push_back(m_resourceManager->getModel()->TexName);
+    pixelShader->init(L"CubeProjectFor.fx");
   
     // Create Never Changes
     Log("GraphMan - Creating Constant Buffers...");
@@ -154,8 +136,8 @@ namespace buEngineSDK
     m_graphicsAPI->createInputLayout(vertexShader, inputLayout);
     m_graphicsAPI->createPixelShader(pixelShader);
     // Load texture
-    Log("Resource Manager - Loading Image from file [Data/Textures/1KDiff.jpeg]");
-    meshTexture = m_graphicsAPI->loadImageFromFile("Data/Textures/SpiderMan_TXT.jpg",
+    Log("Resource Manager - Loading Image from file [1KDiff.jpeg]");
+    meshTexture = m_graphicsAPI->loadImageFromFile("SpiderMan_TXT.jpg",
                                                    m_screenWidth,
                                                    m_screenHeight);
 

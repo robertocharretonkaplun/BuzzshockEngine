@@ -11,12 +11,10 @@ namespace buEngineSDK {
   }
 
   void 
-  buDXPixelShader::init(WString _fileName, 
-                        String _entryPoint,
-                        String _shaderModel) {
+  buDXPixelShader::init(WString _fileName) {
     CompileShaderFromFile(_fileName, 
-                          _entryPoint, 
-                          _shaderModel, 
+                          "PS", 
+                          "ps_5_0",
                           &m_compilePixelShader);
   }
 
@@ -38,8 +36,8 @@ namespace buEngineSDK {
 #endif
 
     ID3DBlob* pErrorBlob = nullptr;
-
-    hr = D3DCompileFromFile(szFileName.c_str(),
+    WString extraPath = L"Data/Shaders/" + szFileName;
+    hr = D3DCompileFromFile(extraPath.c_str(),
                             nullptr,
                             nullptr,
                             szEntryPoint.c_str(),

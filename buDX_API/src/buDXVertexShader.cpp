@@ -6,12 +6,10 @@ namespace buEngineSDK {
   }
 
   void
-  buDXVertexShader::init(WString _fileName,
-                         String _entryPoint,
-                         String _shaderModel) {
+  buDXVertexShader::init(WString _fileName) {
     compileShaderFromFile(_fileName, 
-                          _entryPoint, 
-                          _shaderModel, 
+                          "VS",
+                          "vs_5_0", 
                           &m_compileVertexShader);
   }
 
@@ -32,8 +30,9 @@ namespace buEngineSDK {
 #endif
 
     ID3DBlob* pErrorBlob = nullptr;
-
-    hr = D3DCompileFromFile(szFileName.c_str(),
+    WString extraPath = L"Data/Shaders/" + szFileName;
+    
+    hr = D3DCompileFromFile(extraPath.c_str(),
                             nullptr,
                             nullptr,
                             szEntryPoint.c_str(),

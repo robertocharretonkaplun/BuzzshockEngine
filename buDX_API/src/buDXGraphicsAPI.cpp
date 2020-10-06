@@ -132,25 +132,16 @@ namespace buEngineSDK {
   }
 
   SPtr<buCoreViewport>
-  buDXGraphicsAPI::createViewport(float width, 
-                                  float height, 
-                                  float minDepth,
-                                  float maxDepth, 
-                                  float topLeftX,
-                                  float topLeftY) {
+  buDXGraphicsAPI::createViewport(float width, float height) {
     auto pviewport = std::make_shared<buDXViewport>();
     auto viewport = reinterpret_cast<buDXViewport*>(pviewport.get());
-    viewport->init(width, height, minDepth, maxDepth, topLeftX, topLeftY);
+    viewport->init(width, height, 0.0f, 1.0f, 0.0f, 0.0f);
     return pviewport;
     //return SPtr<buCoreViewport>();
   }
 
   SPtr<buCoreTexture2D> 
-  buDXGraphicsAPI::createTexture2D(int32 width, 
-                                   int32 height, 
-                                   uint32 format,
-                                   uint32 bindflags,
-                                   uint32 miplevels ) {
+  buDXGraphicsAPI::createTexture2D(int32 width, int32 height ) {
     auto ptexture2D = std::make_shared<buDXTexture2D>();
     auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
 
@@ -160,11 +151,11 @@ namespace buEngineSDK {
                   D3D11_USAGE_DEFAULT,
                   width,
                   height,
-                  miplevels,
+                  1,
                   1,
                   1,
                   0,
-                  bindflags,
+                  D3D11_BIND_DEPTH_STENCIL,
                   0,
                   0);
 
@@ -445,14 +436,15 @@ namespace buEngineSDK {
     auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
 
     String texturePath;
-    FILE* f = stbi__fopen(_filepath.c_str(), "rb");
-
+    String folderPath = "Data/Textures/";
+    folderPath += _filepath;
+    FILE* f = stbi__fopen(folderPath.c_str(), "rb");
     // If the texture path wasnt loaded correctly
     if (!f) {
       texturePath = "Data/Textures/DefaultTexture.png";
     }
     else {
-      texturePath = _filepath;
+      texturePath = folderPath;
     }
 
 

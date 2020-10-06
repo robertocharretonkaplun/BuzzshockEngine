@@ -27,7 +27,7 @@ namespace buEngineSDK {
 		* @brief 
 		*/
 		void
-		init(WString _fileName, String _entryPoint, String _shaderModel) override;
+		init(WString _fileName) override;
 		/**
      * @brief
      * @param

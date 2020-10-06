@@ -30,7 +30,7 @@ namespace buEngineSDK {
    * @bug 
    */
   void
-  init(WString _fileName, String _entryPoint, String _shaderModel) override;
+  init(WString _fileName) override;
   /**
    * @brief
    * @param

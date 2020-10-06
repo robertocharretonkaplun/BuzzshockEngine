@@ -120,8 +120,7 @@ namespace buEngineSDK {
    * @bug
    */
    SPtr<buCoreViewport>
-   createViewport(float width, float height, float minDepth,
-                  float maxDepth, float topLeftX, float topLeftY) override;
+   createViewport(float width, float height) override;
    
    /** 
    * @brief 
@@ -131,10 +130,7 @@ namespace buEngineSDK {
    */
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
-                   int32 height,
-                   uint32 format,
-                   uint32 bindflags,
-                   uint32 miplevels) override;
+                   int32 height ) override;
 
    /** 
     * @brief 
