@@ -12,9 +12,6 @@
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
-//#include "imgui\ImGuiDirectX\imgui.h"
-//#include "imgui\ImGuiDirectX\imgui_impl_dx11.h"
-//#include "imgui\ImGuiDirectX\imgui_impl_win32.h"
 #include "imgui\imGuiDocking\imgui.h"
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -182,10 +179,27 @@ namespace buEngineSDK {
 		SPtr<buCoreDepthStencilView> depthStencilView;
 
 		/**
+		 * @brief Member that will be used as a depth stencil texture.
+		 */
+		SPtr<buCoreTexture2D> depthStencil;
+		/*
+		 * @brief Member that will be used as a back buffer texture.
+		 */
+		SPtr<buCoreTexture2D> backBuffer;
+		/**
 		 * @brief Member that creates a render target view object.
 		 */
 		SPtr<buCoreRenderTargetView> renderTargetView;
 
+		/**
+		 * @brief Member that creates a viewport object.
+		 */
+		SPtr<buCoreViewport> viewport;
+
+		/*
+		* @brief 
+		*/
+		float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
 		/**
 		 * @brief 
 		 */

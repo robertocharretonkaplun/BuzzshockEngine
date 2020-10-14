@@ -157,7 +157,7 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCoreVertexShader>
-   createVertexShader() override;
+   createVertexShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -166,7 +166,7 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCorePixelShader>
-   createPixelShader() override;
+   createPixelShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -175,7 +175,8 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCoreInputLayout>
-   createInputLayout() override;
+   createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                     Vector<String> _semanticNames) override;
 
    /** 
     * @brief 
@@ -188,6 +189,9 @@ namespace buEngineSDK {
                 uint32 bindFlags,
                 uint32 offset,
                 void* bufferData) override;
+
+   SPtr<buCoreBuffer>
+   createBuffer(uint32 byteWidth) override;
 
    /** 
     * @brief 

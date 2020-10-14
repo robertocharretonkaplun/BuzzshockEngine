@@ -14,143 +14,46 @@ namespace buEngineSDK
 
   void 
   buGameApp_UnitTest::onCreate() {
-    auto& graphMan = g_graphicsAPI();
     // Initialize 
-    // Create the back buffer
-    Log("GraphMan - Creating backbuffer ...");
-    backBuffer = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
-
-    // Create depth stencil texture
-    Log("GraphMan - Creating depth Stenil ...");
-    depthStencil = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
-
-    // Create depth stencil View
-    Log("GraphMan - Creating depth Stenil View...");
-    depthStencilView = graphMan.createDepthStencilView();
-
-    // Create render target view
-    Log("GraphMan - Creating Render Target View...");
-    renderTargetView = graphMan.createRenderTargetView();
-
-    // Create Viewport
-    viewport = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
-
+    auto& graphMan = g_graphicsAPI();
+    WString shaderFileName = L"ToonShading.fx";
     // Create Vertex Shader
-    Log("GraphMan - Creating Vertex Shader...");
-    vertexShader = graphMan.createVertexShader();
-    vertexShader->init(L"CubeProjectFor.fx");
+    vertexShader = graphMan.createVertexShader(shaderFileName);
 
     // Create input layout
-    Log("GraphMan - Creating Input Layout...");
-    inputLayout = graphMan.createInputLayout();
-    Vector<INPUT_LAYOUT_DESC> layoutDesc;
-    layoutDesc.resize(5);
-    // Positions
-    layoutDesc[0].semanticName = "POSITION";
-    layoutDesc[0].semanticIndex = 0;
-    layoutDesc[0].format = DXGI_FORMAT_R32G32B32_FLOAT;
-    layoutDesc[0].inputSlot = 0;
-    layoutDesc[0].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    layoutDesc[0].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    layoutDesc[0].instanceDataStepRate = 0;
-    // texcoords
-    layoutDesc[1].semanticName = "TEXCOORD";
-    layoutDesc[1].semanticIndex = 0;
-    layoutDesc[1].format = DXGI_FORMAT_R32G32_FLOAT;
-    layoutDesc[1].inputSlot = 0;
-    layoutDesc[1].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    layoutDesc[1].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    layoutDesc[1].instanceDataStepRate = 0;
-    // texcoords
-    layoutDesc[2].semanticName = "NORMAL";
-    layoutDesc[2].semanticIndex = 0;
-    layoutDesc[2].format = DXGI_FORMAT_R32G32B32_FLOAT;
-    layoutDesc[2].inputSlot = 0;
-    layoutDesc[2].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    layoutDesc[2].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    layoutDesc[2].instanceDataStepRate = 0;
-    // Bones
-    layoutDesc[3].semanticName = "BLENDINDICES";
-    layoutDesc[3].semanticIndex = 0;
-    layoutDesc[3].format = DXGI_FORMAT_R32G32B32A32_UINT;
-    layoutDesc[3].inputSlot = 0;
-    layoutDesc[3].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    layoutDesc[3].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    layoutDesc[3].instanceDataStepRate = 0;
-    // Weights
-    layoutDesc[4].semanticName = "BLENDWEIGHT";
-    layoutDesc[4].semanticIndex = 0;
-    layoutDesc[4].format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    layoutDesc[4].inputSlot = 0;
-    layoutDesc[4].alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    layoutDesc[4].inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    layoutDesc[4].instanceDataStepRate = 0;
+    Vector<String> semanticNames = { "POSITION" ,
+                                     "TEXCOORD", 
+                                     "NORMAL", 
+                                     "BLENDINDICES",
+                                     "BLENDWEIGHT"};
 
-    inputLayout->init(&layoutDesc[0], layoutDesc.size());
+    inputLayout = graphMan.createInputLayout(vertexShader, semanticNames);
 
     // Create Pixel shader 
-    Log("GraphMan - Creating Pixel Shader...");
-    pixelShader = graphMan.createPixelShader();
-    pixelShader->init(L"CubeProjectFor.fx");
+    pixelShader = graphMan.createPixelShader(shaderFileName);
   
     // Create Never Changes
-    Log("GraphMan - Creating Constant Buffers...");
-    neverChanges = graphMan.createBuffer(sizeof(CBNeverChanges),
-                                         D3D11_BIND_CONSTANT_BUFFER, 
-                                         0,
-                                         nullptr);
+    neverChanges = graphMan.createBuffer(sizeof(CBNeverChanges));
     // Create Change On Resize
-    changeOnResize = graphMan.createBuffer(sizeof(CBChangeOnResize), 
-                                           D3D11_BIND_CONSTANT_BUFFER, 
-                                           0,
-                                           nullptr);
+    changeOnResize = graphMan.createBuffer(sizeof(CBChangeOnResize));
     // Create Change Every Frame
-    changeEveryFrame = graphMan.createBuffer(sizeof(CBChangesEveryFrame), 
-                                             D3D11_BIND_CONSTANT_BUFFER, 
-                                             0,
-                                             nullptr);
+    changeEveryFrame = graphMan.createBuffer(sizeof(CBChangesEveryFrame));
 
-    BonesTranform = graphMan.createBuffer(sizeof(cbBonesTranform),
-                                          D3D11_BIND_CONSTANT_BUFFER, 
-                                          0,
-                                          nullptr);
-
-    // Sampler
-    Log("GraphMan - Creating Samplers...");
+    BonesTranform = graphMan.createBuffer(sizeof(cbBonesTranform));
+    
+    // Create sampler
     sampler = graphMan.createSampler();
-    sampler->init(D3D11_FILTER_MIN_MAG_MIP_LINEAR,
-                  D3D11_TEXTURE_ADDRESS_WRAP,
-                  D3D11_TEXTURE_ADDRESS_WRAP,
-                  D3D11_TEXTURE_ADDRESS_WRAP,
-                  D3D11_COMPARISON_NEVER,
-                  0,
-                  D3D11_FLOAT32_MAX);
 
-    //m_graphicsAPI->createDeviceAndSwapChain(m_window);
-    m_graphicsAPI->createTextureForBackBuffer(backBuffer);
-    //m_graphicsAPI->createTexture(depthStencil);
-    m_graphicsAPI->createDepthStencilView(depthStencil, depthStencilView);
-    m_graphicsAPI->createRenderTargetView(backBuffer, renderTargetView);
-   //m_graphicsAPI->setShaderSubresource(backBuffer);
-    m_graphicsAPI->createVertexShader(vertexShader);
-    m_graphicsAPI->createInputLayout(vertexShader, inputLayout);
-    m_graphicsAPI->createPixelShader(pixelShader);
     // Load texture
-    Log("Resource Manager - Loading Image from file [1KDiff.jpeg]");
-    meshTexture = m_graphicsAPI->loadImageFromFile("SpiderMan_TXT.jpg",
+    meshTexture = m_graphicsAPI->loadImageFromFile("sp_diffuse.jpg",
                                                    m_screenWidth,
                                                    m_screenHeight);
 
-    
-    // Create sampler
-    m_graphicsAPI->createSamplerState(sampler);
     // Create view matrix
     m_World = buMatrix4x4(0.2f, 0.0f, 0.0f, 0.0f,
                           0.0f, 0.2f, 0.0f, 0.0f,
                           0.0f, 0.0f, 0.2f, 0.0f,
                           0.0f, 0.0f, 0.0f, 0.2f);
-
-    
   }
 
   void 
@@ -184,7 +87,9 @@ namespace buEngineSDK
       m_far);
 
     // Set Mesh transform
-    buVector3F scale(m_Scale[0] * m_EngineScale, m_Scale[1] * m_EngineScale, m_Scale[2] * m_EngineScale);
+    buVector3F scale(m_Scale[0] * m_EngineScale, 
+                     m_Scale[1] * m_EngineScale, 
+                     m_Scale[2] * m_EngineScale);
     m_World.scaleMatrix(scale);
     buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
     m_World.rotateMatrix(rotation, m_angle);
@@ -240,17 +145,7 @@ namespace buEngineSDK
         0);
     }
 
-    // Set viewport
-    m_graphicsAPI->setViewport(viewport);
-    // Set Render Targets
-    m_graphicsAPI->setRenderTargets(1, renderTargetView, depthStencilView);
-    // Clear the back buffer 
-    m_graphicsAPI->clearRenderTargetView(renderTargetView, ClearColor);
-    // Clear depth stencil view
-    m_graphicsAPI->clearDepthStencilView(depthStencilView,
-      D3D11_CLEAR_DEPTH,
-      1.0f,
-      0);
+    
     // Update variables that change once per frame
     CBChangesEveryFrame cb;
     //m_World.transpose();
@@ -277,7 +172,6 @@ namespace buEngineSDK
     // Set samplers
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
 
-    //auto currModel = m_resourceManager->getModel();
     auto meshNum = currModel->m_meshes.size();
 
     for (uint32 i = 0; i < meshNum; ++i) {
@@ -289,12 +183,11 @@ namespace buEngineSDK
       // Set vertex buffer
       m_graphicsAPI->setVertexBuffers(currModel->m_vertexBuffer);
       // Set Index buffer
-      m_graphicsAPI->setIndexBuffer(currModel->m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+      m_graphicsAPI->setIndexBuffer(currModel->m_indexBuffer, 
+                                    Format::E::BU_FORMAT_R32_UINT,
+                                    0);
       // Draw
       m_graphicsAPI->drawIndexed(currMesh.m_numIndices, currMesh.m_baseIndex, 0);
     }
-
-    //// Present
-    //m_graphicsAPI->present(0, 0);
   }
 }

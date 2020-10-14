@@ -143,12 +143,14 @@ namespace buEngineSDK {
 
     auto& graphMan = g_graphicsAPI();
 
-    m_model.m_vertexBuffer = graphMan.createBuffer(sizeof(SimpleVertex) * m_model.m_vertices.size(),
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
       D3D11_BIND_VERTEX_BUFFER,
       sizeof(SimpleVertex),
       m_model.m_vertices.data());
 
-    m_model.m_indexBuffer = graphMan.createBuffer(sizeof(uint32) * m_model.m_indices.size(),
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());

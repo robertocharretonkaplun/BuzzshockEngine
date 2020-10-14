@@ -5,18 +5,36 @@ namespace buEngineSDK {
   int32 
   BaseApp::run() {
     // Create Window
-    m_windowName = "Buzz shock Engine";
+    m_windowName = "Buzzshock Engine";
     m_screenWidth = 1350;
     m_screenHeight = 700;
     createWindow();
     // Create systems
     initSystems();
 
-    
     // Sends message onCreate method
+    auto& graphMan = g_graphicsAPI();
+    // Create Backbuffer
+    backBuffer = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
+
+    // Create depth stencil texture
+    depthStencil = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
+
+    // Create depth stencil View
+    depthStencilView = graphMan.createDepthStencilView();
+
+    // Create render target view
+    renderTargetView = graphMan.createRenderTargetView();
+
+    // Create Viewport
+    viewport = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
+
+    //m_graphicsAPI->createDeviceAndSwapChain(m_window);
+    m_graphicsAPI->createTextureForBackBuffer(backBuffer);
+    //m_graphicsAPI->createTexture(depthStencil);
+    m_graphicsAPI->createDepthStencilView(depthStencil, depthStencilView);
+    m_graphicsAPI->createRenderTargetView(backBuffer, renderTargetView);
     onCreate();
-
-
     // Init Imgui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -268,9 +286,9 @@ namespace buEngineSDK {
     ImGui::End();
 
     ImGui::Begin("Camera Inspector");
-    ImGui::SliderFloat3("Up", m_up, -10, 10);
-    ImGui::SliderFloat3("At", m_at, -10, 10);
-    ImGui::SliderFloat3("Eye", m_eye, -10, 10);
+    ImGui::SliderFloat3("Up", m_up, -100, 100);
+    ImGui::SliderFloat3("At", m_at, -100, 100);
+    ImGui::SliderFloat3("Eye", m_eye, -100, 100);
     ImGui::SliderFloat("Near", &m_near,0, 300);
     ImGui::SliderFloat("Far", &m_far,0, 300);
     ImGui::End();
@@ -278,7 +296,7 @@ namespace buEngineSDK {
     ImGui::Begin("Inspector");
     ImGui::Text("Tranform");
     
-    ImGui::SliderFloat3("Translation", m_position, 1, 50);
+    ImGui::SliderFloat3("Translation", m_position, 1, 100);
     ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
     ImGui::SliderFloat3("Scale", m_Scale, 1, 50);
     if (ImGui::Button("Rotate")) {
@@ -349,8 +367,19 @@ namespace buEngineSDK {
 
   void 
   BaseApp::render() {
+    // Set viewport
+    m_graphicsAPI->setViewport(viewport);
+    // Set Render Targets
+    m_graphicsAPI->setRenderTargets(1, renderTargetView, depthStencilView);
+    // Clear the back buffer 
+    m_graphicsAPI->clearRenderTargetView(renderTargetView, ClearColor);
+    // Clear depth stencil view
+    m_graphicsAPI->clearDepthStencilView(depthStencilView,
+      1, // D3D11_CLEAR_DEPTH
+      1.0f,
+      0);
     onRender();   
-
+    // Render ImGui Data
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     // Present

@@ -180,20 +180,62 @@ namespace buEngineSDK {
   }
 
   SPtr<buCoreVertexShader> 
-  buDXGraphicsAPI::createVertexShader() {
+  buDXGraphicsAPI::createVertexShader(WString _fileName) {
     auto vertexShader = std::make_shared<buDXVertexShader>();
+    auto tmpVertexShader = reinterpret_cast<buDXVertexShader*>(vertexShader.get());
+
+    tmpVertexShader->init(_fileName);
+
+    HRESULT hr = m_device->CreateVertexShader(
+      tmpVertexShader->m_compileVertexShader->GetBufferPointer(),
+      tmpVertexShader->m_compileVertexShader->GetBufferSize(),
+      nullptr,
+      &tmpVertexShader->m_vertexShader);
+
     return vertexShader;
   }
 
   SPtr<buCorePixelShader> 
-  buDXGraphicsAPI::createPixelShader() {
+  buDXGraphicsAPI::createPixelShader(WString _fileName) {
     auto pixelShader = std::make_shared<buDXPixelShader>();
+    auto tmpPixelShader = reinterpret_cast<buDXPixelShader*>(pixelShader.get());
+
+    tmpPixelShader->init(_fileName);
+
+    // Create the pixel shader
+    static_cast<int>(m_device->CreatePixelShader(
+      tmpPixelShader->m_compilePixelShader->GetBufferPointer(),
+      tmpPixelShader->m_compilePixelShader->GetBufferSize(),
+      nullptr,
+      &tmpPixelShader->m_pixelShader));
+
     return pixelShader;
   }
 
   SPtr<buCoreInputLayout>
-  buDXGraphicsAPI::createInputLayout() {
+  buDXGraphicsAPI::createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                                     Vector<String> _semanticNames) {
     auto inputLayout = std::make_shared<buDXInputLayout>();
+    auto tmpInputLayout = reinterpret_cast<buDXInputLayout*>(inputLayout.get());
+
+    
+    // Vertex Shader
+    if (_vertexShader.expired()) {
+      return nullptr;
+    }
+    auto vsObj = _vertexShader.lock();
+    auto tmpVS = reinterpret_cast<buDXVertexShader*>(vsObj.get());
+
+
+    // Create the input layout
+    tmpInputLayout->init(_semanticNames);
+    static_cast<int>(m_device->CreateInputLayout(tmpInputLayout->m_descriptor.data(),
+      (UINT)tmpInputLayout->m_descriptor.size(),
+      tmpVS->m_compileVertexShader->GetBufferPointer(),
+      tmpVS->m_compileVertexShader->GetBufferSize(),
+      &tmpInputLayout->m_inputLayout));
+
+
     return inputLayout;
   }
 
@@ -229,6 +271,34 @@ namespace buEngineSDK {
     return buffer;
   }
 
+  SPtr<buCoreBuffer> buDXGraphicsAPI::createBuffer(uint32 byteWidth) {
+    auto buffer = std::make_shared<buDXBuffer>();
+    auto tmpBuffer = reinterpret_cast<buDXBuffer*>(buffer.get());
+    tmpBuffer->init(D3D11_USAGE_DEFAULT,
+                    byteWidth,
+                    D3D11_BIND_CONSTANT_BUFFER,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    nullptr);
+
+    if (nullptr == tmpBuffer->m_bufferData) {
+      m_device->CreateBuffer(&tmpBuffer->m_descriptor,
+                             nullptr,
+                             &tmpBuffer->m_buffer);
+      return buffer;
+    }
+    else {
+      m_device->CreateBuffer(&tmpBuffer->m_descriptor,
+                             &tmpBuffer->m_subresourceData,
+                             &tmpBuffer->m_buffer);
+      return buffer;
+    }
+    return buffer;
+  }
+
   SPtr<buCoreDepthStencilView>
   buDXGraphicsAPI::createDepthStencilView() {
     auto depthStencilView = std::make_shared<buDXDepthStencilView>();
@@ -238,6 +308,19 @@ namespace buEngineSDK {
   SPtr<buCoreSampler> 
   buDXGraphicsAPI::createSampler() {
     auto sampler = std::make_shared<buDXSampler>();
+    auto tmpSampler = reinterpret_cast<buDXSampler*>(sampler.get());
+
+    tmpSampler->init(D3D11_FILTER_MIN_MAG_MIP_LINEAR,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_COMPARISON_NEVER,
+      0,
+      D3D11_FLOAT32_MAX);
+
+    static_cast<int>(m_device->CreateSamplerState(&tmpSampler->m_descriptor,
+      &tmpSampler->m_sampler));
+
     return sampler;
   }
 

@@ -10,16 +10,14 @@
 #include <buPrerequisitesCore.h>
 #include "buCoreVertexShader.h"
 
-namespace buEngineSDK {
-	struct INPUT_LAYOUT_DESC {
-		String semanticName;
-		uint32 semanticIndex = 0;
-		uint32 format = 0;
-		uint32 inputSlot = 0;
-		uint32 alignedByteOffset = 0;
-		uint32 inputSlotClass = 0;
-		uint32 instanceDataStepRate = 0;
+namespace InputClassification {
+	enum E {
+		BU_INPUT_PER_VERTEX_DATA = 0,
+		BU_INPUT_PER_INSTANCE_DATA = 1
 	};
+}
+
+namespace buEngineSDK {
 
 	class buCoreInputLayout {
 	public:
@@ -37,7 +35,7 @@ namespace buEngineSDK {
 		 * @brief Virtual method that initialize the object.
 		 */
 		virtual void 
-	  init(INPUT_LAYOUT_DESC* _descriptor, uint32 _numElements) = 0;
+	  init(Vector<String> _semanticNames) = 0;
 	private:
 
 	};
