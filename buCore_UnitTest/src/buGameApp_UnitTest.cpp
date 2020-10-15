@@ -4,7 +4,10 @@
 namespace buEngineSDK
 {
   buGameApp_UnitTest::buGameApp_UnitTest() {
-    m_World = buMatrix4x4::IDENTITY;
+    m_World = buMatrix4x4(0.2f, 0.0f, 0.0f, 0.0f,
+                          0.0f, 0.2f, 0.0f, 0.0f,
+                          0.0f, 0.0f, 0.2f, 0.0f,
+                          0.0f, 0.0f, 0.0f, 0.2f);
     m_view = buMatrix4x4::ZERO;
     m_projection = buMatrix4x4::ZERO;
   }
@@ -21,13 +24,8 @@ namespace buEngineSDK
     vertexShader = graphMan.createVertexShader(shaderFileName);
 
     // Create input layout
-    Vector<String> semanticNames = { "POSITION" ,
-                                     "TEXCOORD", 
-                                     "NORMAL", 
-                                     "BLENDINDICES",
-                                     "BLENDWEIGHT"};
-
-    inputLayout = graphMan.createInputLayout(vertexShader, semanticNames);
+    inputLayout = graphMan.createInputLayout(vertexShader, 
+      { "POSITION" , "TEXCOORD", "NORMAL", "BLENDINDICES", "BLENDWEIGHT"});
 
     // Create Pixel shader 
     pixelShader = graphMan.createPixelShader(shaderFileName);
@@ -45,15 +43,9 @@ namespace buEngineSDK
     sampler = graphMan.createSampler();
 
     // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("sp_diffuse.jpg",
+    meshTexture = m_graphicsAPI->loadImageFromFile("TacitRonin_D.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
-
-    // Create view matrix
-    m_World = buMatrix4x4(0.2f, 0.0f, 0.0f, 0.0f,
-                          0.0f, 0.2f, 0.0f, 0.0f,
-                          0.0f, 0.0f, 0.2f, 0.0f,
-                          0.0f, 0.0f, 0.0f, 0.2f);
   }
 
   void 
@@ -144,7 +136,6 @@ namespace buEngineSDK
         0,
         0);
     }
-
     
     // Update variables that change once per frame
     CBChangesEveryFrame cb;

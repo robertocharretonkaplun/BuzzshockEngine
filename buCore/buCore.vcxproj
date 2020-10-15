@@ -231,6 +231,7 @@
     <ClInclude Include="include\BaseApp.h" />
     <ClInclude Include="include\BSPNodeTree.h" />
     <ClInclude Include="include\buAnimation.h" />
+    <ClInclude Include="include\buCamera.h" />
     <ClInclude Include="include\buCoreBuffer.h" />
     <ClInclude Include="include\buCoreConfig.h" />
     <ClInclude Include="include\buCoreDepthStencilView.h" />
