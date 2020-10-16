@@ -185,6 +185,7 @@
     <ClCompile Include="include\buDXModelLoader.cpp" />
     <ClCompile Include="include\buDXSampler.cpp" />
     <ClCompile Include="include\buResource.cpp" />
+    <ClCompile Include="src\buCamera.cpp" />
     <ClCompile Include="src\buDXBuffer.cpp" />
     <ClCompile Include="src\buDXGraphicsAPI.cpp" />
     <ClCompile Include="src\buDXImgui.cpp" />

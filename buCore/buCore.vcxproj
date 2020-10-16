@@ -200,6 +200,7 @@
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
+    <ClCompile Include="include\buCamera.cpp" />
     <ClCompile Include="include\buResourceManager.cpp" />
     <ClCompile Include="src\BaseApp.cpp" />
     <ClCompile Include="src\buCoreConfig.cpp" />

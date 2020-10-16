@@ -66,6 +66,10 @@ namespace buEngineSDK {
         layout.SemanticName = "BLENDWEIGHT";
         layout.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
       }
+      if (_semanticNames[element] == "TANGENT") {
+        layout.SemanticName = "TANGENT";
+        layout.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+      }
       layout.InputSlot = 0;
       layout.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
       layout.InputSlotClass = (D3D11_INPUT_CLASSIFICATION)

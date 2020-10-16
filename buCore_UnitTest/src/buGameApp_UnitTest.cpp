@@ -19,13 +19,13 @@ namespace buEngineSDK
   buGameApp_UnitTest::onCreate() {
     // Initialize 
     auto& graphMan = g_graphicsAPI();
-    WString shaderFileName = L"ToonShading.fx";
+    WString shaderFileName = L"Normal.fx";
     // Create Vertex Shader
-    vertexShader = graphMan.createVertexShader(shaderFileName);
+    vertexShader = graphMan.createVertexShader(shaderFileName); // Put the entry point
 
     // Create input layout
     inputLayout = graphMan.createInputLayout(vertexShader, 
-      { "POSITION" , "TEXCOORD", "NORMAL", "BLENDINDICES", "BLENDWEIGHT"});
+      { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT", "BLENDINDICES", "BLENDWEIGHT"});
 
     // Create Pixel shader 
     pixelShader = graphMan.createPixelShader(shaderFileName);
@@ -43,7 +43,11 @@ namespace buEngineSDK
     sampler = graphMan.createSampler();
 
     // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("TacitRonin_D.png",
+    meshTexture = m_graphicsAPI->loadImageFromFile("a.png",
+                                                   m_screenWidth,
+                                                   m_screenHeight);
+
+    normalTexture = m_graphicsAPI->loadImageFromFile("n.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
   }
@@ -77,6 +81,10 @@ namespace buEngineSDK
       static_cast<float>(m_screenHeight),
       m_near,
       m_far);
+
+    // Set View Direction
+    buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
+    cb.viewDirection = viewDir;
 
     // Set Mesh transform
     buVector3F scale(m_Scale[0] * m_EngineScale, 
@@ -138,7 +146,7 @@ namespace buEngineSDK
     }
     
     // Update variables that change once per frame
-    CBChangesEveryFrame cb;
+    
     //m_World.transpose();
     cb.mWorld = m_World;
     cb.vMeshColor = m_meshColor;
@@ -169,6 +177,7 @@ namespace buEngineSDK
       auto& currMesh = currModel->m_meshes[i];
       // Set Mesh texture
       m_graphicsAPI->PSSetShaderResources(meshTexture, 0, 1);
+      m_graphicsAPI->PSSetShaderResources(normalTexture, 1, 1);
       // Set primitive topology
       m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
       // Set vertex buffer

@@ -178,6 +178,7 @@ namespace buEngineSDK {
 	struct CBChangesEveryFrame {
 		buMatrix4x4 mWorld = buMatrix4x4::ZERO;
 		buVector4F vMeshColor;
+		buVector4F viewDirection;
 	};
 
 	struct cbBonesTranform
@@ -248,6 +249,7 @@ namespace buEngineSDK {
 		 * @brief Member that creates a texture for a mesh.
 		 */
 		SPtr<buCoreTexture2D> meshTexture;
+		SPtr<buCoreTexture2D> normalTexture;
 
 		/**
 		 * @brief Member that creates a sampler object. 
@@ -307,5 +309,7 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		buGraphicsDebug m_lineDebugger;
+
+    CBChangesEveryFrame cb;
 	};
 }

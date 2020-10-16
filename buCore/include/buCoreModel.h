@@ -21,6 +21,7 @@ namespace buEngineSDK {
 		buVector3F Pos;
 		buVector2F Tex;
 		buVector3F Nor;
+		buVector3F Tan;
 		uint32 boneIDs[4] = { NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32, 
 													NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32 };
 		float boneWeights[4] = { 0.0f , 0.0f, 0.0f, 0.0f };

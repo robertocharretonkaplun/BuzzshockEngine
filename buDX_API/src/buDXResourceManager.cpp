@@ -74,6 +74,13 @@ namespace buEngineSDK {
           tmpvertex.Nor.y = currNormals.y;
           tmpvertex.Nor.z = currNormals.z;
         }
+
+        if (currMesh->HasTangentsAndBitangents()) {
+          auto currTangents = currMesh->mTangents[j];
+          tmpvertex.Tan.x = currTangents.x;
+          tmpvertex.Tan.y = currTangents.y;
+          tmpvertex.Tan.z = currTangents.z;
+        }
       }
 
       
