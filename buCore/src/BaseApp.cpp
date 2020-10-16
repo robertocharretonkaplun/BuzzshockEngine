@@ -310,10 +310,16 @@ namespace buEngineSDK {
     ImGui::SliderFloat("Far", &m_far,0, 300);
     ImGui::End();
 
+    ImGui::Begin("Shaders");
+    ImGui::SliderFloat3("LightPos", m_lightPos, -1000, 1000);
+    ImGui::ColorEdit3("LightColor", m_LightColor);
+    ImGui::ColorEdit3("SurfColor", m_surfColor);
+    ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
+    ImGui::End();
     ImGui::Begin("Inspector");
     ImGui::Text("Tranform");
     
-    ImGui::SliderFloat3("Translation", m_position, 1, 100);
+    ImGui::SliderFloat3("Translation", m_position, -100, 100);
     ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
     ImGui::SliderFloat3("Scale", m_Scale, 1, 50);
     if (ImGui::Button("Rotate")) {
@@ -324,6 +330,8 @@ namespace buEngineSDK {
         m_isRotating = true;
       }
     }
+
+
     //ImGui::SameLine();
     ImGui::SliderFloat("Ang", &m_angle,-3,3);
     ImGui::Text("Mesh Renderer");

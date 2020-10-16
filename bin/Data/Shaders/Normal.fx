@@ -23,6 +23,10 @@ cbuffer cbChangesEveryFrame : register(b2)
   matrix World;
   float4 vMeshColor;
   float4 viewPosition;
+  float3 LightPos;
+  float3 LightColor;
+  float3 surfColor;
+  float4 LightIntensity;
 };
 
 cbuffer cbBonesTransform : register (b3)
@@ -101,11 +105,6 @@ PS_INPUT VS(VS_INPUT input) {
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target {
   // Position of light
-  float3 LightPos = float3(0, -1000, 0);
-  float LightIntensity = 2.0f;
-  float3 LightColor = float3(1,1,1); // Light Color
-  float3 surfColor = float3(1,1,1); // Material Color
-
   // Computes the light direction of the light to this pixel
   float3 LightDir = LightPos - input.Pos;
   float distance = length(LightPos);
@@ -141,7 +140,7 @@ float4 PS(PS_INPUT input) : SV_Target {
   float intensity = pow(kS, 128.0f);
 
   // Compute final diffuse
-  float3 finalDiffuse = surfColor * kD * LightColor * DiffuseTex.xyz * LightIntensity;
+  float3 finalDiffuse = surfColor * kD * LightColor * DiffuseTex.xyz * LightIntensity[0];
 
   // Compute final specular
   float3 finalSpecular = kS * intensity * LightColor;

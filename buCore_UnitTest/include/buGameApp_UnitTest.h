@@ -179,6 +179,10 @@ namespace buEngineSDK {
 		buMatrix4x4 mWorld = buMatrix4x4::ZERO;
 		buVector4F vMeshColor;
 		buVector4F viewDirection;
+		buVector4F LightPos;
+		buVector4F LightColor;
+		buVector4F surfColor;
+    buVector4F constants;
 	};
 
 	struct cbBonesTranform

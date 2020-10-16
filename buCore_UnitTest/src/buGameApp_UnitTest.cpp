@@ -43,11 +43,11 @@ namespace buEngineSDK
     sampler = graphMan.createSampler();
 
     // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("a.png",
+    meshTexture = m_graphicsAPI->loadImageFromFile("Dragon_head_Low_Dragon_Head_BaseColor.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
 
-    normalTexture = m_graphicsAPI->loadImageFromFile("n.png",
+    normalTexture = m_graphicsAPI->loadImageFromFile("Dragon_head_Low_Dragon_Head_Normal.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
   }
@@ -85,7 +85,14 @@ namespace buEngineSDK
     // Set View Direction
     buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
     cb.viewDirection = viewDir;
-
+    buVector4F lightPos(m_lightPos[0], m_lightPos[1], m_lightPos[2], 0);
+    cb.LightPos = lightPos;
+    buVector4F LightColor(m_LightColor[0], m_LightColor[1], m_LightColor[2], 0);
+    cb.LightColor = LightColor;
+    buVector4F surfColor(m_surfColor[0], m_surfColor[1], m_surfColor[2], 0);
+    cb.surfColor = surfColor;
+    buVector4F constants(m_constants[0], 0,0, 0);
+    cb.constants = constants;
     // Set Mesh transform
     buVector3F scale(m_Scale[0] * m_EngineScale, 
                      m_Scale[1] * m_EngineScale, 
