@@ -225,7 +225,7 @@ namespace buEngineSDK {
 		float m_up[3] = { 0.0f, 1.0f, 0.0f };
 		float m_at[3] = { 0.0f, 60.0f, 0.0f };
 		float m_eye[3] = { 0.0f, 60.0f, -60.0f };
-		Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
+		//Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
 		float m_lightPos[3] = { 0.0f, -1000.0f, 0.0f };
 		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };

@@ -33,13 +33,6 @@ namespace buEngineSDK {
     buVector2F Tex;
   };
 
-  struct CBNeverChanges {
-    buMatrix4x4 mView;
-  };
-
-  struct CBChangeOnResize {
-    buMatrix4x4 mProjection;
-  };
 
   struct CBChangesEveryFrame {
     buMatrix4x4 mWorld;

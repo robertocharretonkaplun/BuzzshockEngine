@@ -1,31 +1,37 @@
 #pragma once
 #include <buPrerequisitesCore.h>
 #include <buMatrix4x4.h>
+#include <buCoreBuffer.h>
+#include <buCoreGraphicsAPI.h>
+#include <buDegrees.h>
+#include <buCommons.h>
+
 namespace buEngineSDK {
-	class buCamera
+
+	class BU_CORE_EXPORT buCamera
 	{
 	public:
+		buCamera() = default;
 		buCamera(String _name, uint32 _id);
 		~buCamera() = default;
 
 		void
-		update(float posX[3], float posY[3], float posZ[3]);
+		update(buVector3F _eye,
+					 buVector3F _up, 
+					 buVector3F _at,
+					 float _angle,
+					 float _aspectRatio, 
+					 float _near, 
+					 float _far);
 
 		void 
 		render();
 
 	private:
-		String m_name;
-		uint32 m_id;
-		buMatrix4x4 m_view;
-		buMatrix4x4 m_proyection;
+		String m_name = "";
+		uint32 m_id = 0;
 
-		buVector3F Eye;
-		buVector3F Up;
-		buVector3F At;
-
-		float Near;
-		float Far;
-		float Angle;
+		CBCamera m_cameraData;
+		SPtr<buCoreBuffer> m_cameraBuffer;
 	};
 }

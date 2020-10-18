@@ -20,6 +20,7 @@
 #include <buMatrix4x4.h>
 #include <buDegrees.h>
 #include <buGraphicsDebug.h>
+#include <buCamera.h>
 
 namespace Format {
 	enum E {
@@ -166,15 +167,6 @@ namespace BindFlag {
 
 namespace buEngineSDK {
 
-
-	struct CBNeverChanges	{
-		buMatrix4x4 mView;
-	};
-
-	struct CBChangeOnResize	{
-		buMatrix4x4 mProjection;
-	};
-
 	struct CBChangesEveryFrame {
 		buMatrix4x4 mWorld = buMatrix4x4::ZERO;
 		buVector4F vMeshColor;
@@ -261,24 +253,12 @@ namespace buEngineSDK {
 		SPtr<buCoreSampler> sampler;
 
 		/**
-		 * @brief Member that creates a never changes buffer. 
-		 */
-		SPtr<buCoreBuffer> neverChanges;
-
-		/**
-		 * @brief Member that creates a change on resize buffer.
-		 */
-		SPtr<buCoreBuffer> changeOnResize;
-
-		/**
 	 	 * @brief Member that creates a changes every frame object. 
 		 */
 		SPtr<buCoreBuffer> changeEveryFrame;
 
 		SPtr<buCoreBuffer> BonesTranform;
 
-		//
-		//SPtr<buCoreModelLoader> m_loader;
 		
 		/**
 		 * @brief Member that sets the world matrix
@@ -287,16 +267,6 @@ namespace buEngineSDK {
                           0.0f, 0.2f, 0.0f, 0.0f,
                           0.0f, 0.0f, 0.2f, 0.0f,
                           0.0f, 0.0f, 0.0f, 0.2f);
-
-		/**
-		 * @brief Member that sets the view matrix.
-		 */
-		buMatrix4x4 m_view = buMatrix4x4::ZERO;
-
-		/**
-		 * @brief Member that set the projection matrix. 
-		 */
-		buMatrix4x4 m_projection = buMatrix4x4::ZERO;
 		
 		/**
 		 * @brief Member that sets the color of the mesh.
@@ -308,7 +278,7 @@ namespace buEngineSDK {
 		 */
 		//float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
 		
-
+    buCamera m_camera;
 		/**
 		 * @brief 
 		 */

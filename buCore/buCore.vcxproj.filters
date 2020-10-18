@@ -16,9 +16,6 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{6962f309-9dce-436c-b155-1c10748717c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\DX">
-      <UniqueIdentifier>{9a74c3f2-31a6-4e76-98cb-fa42a680f70b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui\Docking">
       <UniqueIdentifier>{c9952cce-b86f-47e8-a03c-957627bded5a}</UniqueIdentifier>
     </Filter>
@@ -35,21 +32,6 @@
     </ClCompile>
     <ClCompile Include="src\buImgui.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_draw.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_widgets.cpp">
-      <Filter>ImGui\DX</Filter>
     </ClCompile>
     <ClCompile Include="include\buResourceManager.cpp">
       <Filter>Source Files</Filter>
@@ -87,7 +69,10 @@
     <ClCompile Include="src\buGraphicsDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\buCamera.cpp">
+    <ClCompile Include="src\buCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,30 +121,6 @@
     </ClInclude>
     <ClInclude Include="include\buImgui.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imconfig.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_internal.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_rectpack.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_textedit.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_truetype.h">
-      <Filter>ImGui\DX</Filter>
     </ClInclude>
     <ClInclude Include="include\buResourceManager.h">
       <Filter>Header Files</Filter>
@@ -216,6 +177,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCommons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

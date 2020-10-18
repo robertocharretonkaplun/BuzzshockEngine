@@ -8,17 +8,13 @@ Texture2D txDiffuse : register(t0);
 Texture2D txNormal : register(t1);
 SamplerState samLinear : register(s0);
 
-cbuffer cbNeverChanges : register(b0)
+cbuffer cbCamera: register(b0)
 {
   matrix View;
-};
-
-cbuffer cbChangeOnResize : register(b1)
-{
   matrix Projection;
 };
 
-cbuffer cbChangesEveryFrame : register(b2)
+cbuffer cbChangesEveryFrame : register(b1)
 {
   matrix World;
   float4 vMeshColor;
@@ -29,7 +25,7 @@ cbuffer cbChangesEveryFrame : register(b2)
   float4 LightIntensity;
 };
 
-cbuffer cbBonesTransform : register (b3)
+cbuffer cbBonesTransform : register (b2)
 {
   matrix boneTransform[100];
 };

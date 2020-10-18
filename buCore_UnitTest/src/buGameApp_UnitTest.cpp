@@ -8,8 +8,6 @@ namespace buEngineSDK
                           0.0f, 0.2f, 0.0f, 0.0f,
                           0.0f, 0.0f, 0.2f, 0.0f,
                           0.0f, 0.0f, 0.0f, 0.2f);
-    m_view = buMatrix4x4::ZERO;
-    m_projection = buMatrix4x4::ZERO;
   }
 
   buGameApp_UnitTest::~buGameApp_UnitTest() {
@@ -30,10 +28,9 @@ namespace buEngineSDK
     // Create Pixel shader 
     pixelShader = graphMan.createPixelShader(shaderFileName);
   
-    // Create Never Changes
-    neverChanges = graphMan.createBuffer(sizeof(CBNeverChanges));
-    // Create Change On Resize
-    changeOnResize = graphMan.createBuffer(sizeof(CBChangeOnResize));
+    buCamera currCam("Cam", 1);
+    m_camera = currCam;
+    
     // Create Change Every Frame
     changeEveryFrame = graphMan.createBuffer(sizeof(CBChangesEveryFrame));
 
@@ -43,11 +40,11 @@ namespace buEngineSDK
     sampler = graphMan.createSampler();
 
     // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("Dragon_head_Low_Dragon_Head_BaseColor.png",
+    meshTexture = m_graphicsAPI->loadImageFromFile("a.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
 
-    normalTexture = m_graphicsAPI->loadImageFromFile("Dragon_head_Low_Dragon_Head_Normal.png",
+    normalTexture = m_graphicsAPI->loadImageFromFile("n.png",
                                                    m_screenWidth,
                                                    m_screenHeight);
   }
@@ -73,14 +70,13 @@ namespace buEngineSDK
     buVector3F At(m_at[0], m_at[1], m_at[2]);
     buVector3F Up(m_up[0], m_up[1], m_up[2]);
 
-    m_view.lookAtMatrixLH(Eye, At, Up);
-
-    // Initialize the projection matrix
-    m_projection.perspectiveMatrixfovLH(buDegrees(45).getRadians(),
+    m_camera.update(Eye, Up, At, 
+      buDegrees(45).getRadians(),
       static_cast<float>(m_screenWidth) /
       static_cast<float>(m_screenHeight),
       m_near,
       m_far);
+
 
     // Set View Direction
     buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
@@ -91,7 +87,7 @@ namespace buEngineSDK
     cb.LightColor = LightColor;
     buVector4F surfColor(m_surfColor[0], m_surfColor[1], m_surfColor[2], 0);
     cb.surfColor = surfColor;
-    buVector4F constants(m_constants[0], 0,0, 0);
+    buVector4F constants(m_constants[0], 0, 0, 0);
     cb.constants = constants;
     // Set Mesh transform
     buVector3F scale(m_Scale[0] * m_EngineScale, 
@@ -118,23 +114,7 @@ namespace buEngineSDK
 
   void 
   buGameApp_UnitTest::onRender() {
-    CBNeverChanges cbNeverChanges;
-    cbNeverChanges.mView = m_view;
-    m_graphicsAPI->updateSubresource(neverChanges,
-      0,
-      nullptr,
-      &cbNeverChanges,
-      0,
-      0);
-
-    CBChangeOnResize cbChangesOnResize;
-    cbChangesOnResize.mProjection = m_projection;
-    m_graphicsAPI->updateSubresource(changeOnResize,
-      0,
-      nullptr,
-      &cbChangesOnResize,
-      0,
-      0);
+    m_camera.render();
 
     cbBonesTranform cbBonestransform;
     auto currModel = m_resourceManager->getModel();
@@ -161,20 +141,17 @@ namespace buEngineSDK
     m_graphicsAPI->updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
     // Set Vertex Shader
     m_graphicsAPI->setVertexShader(vertexShader);
-    // Set never changes constant buffers
-    m_graphicsAPI->VSsetConstantBuffers(neverChanges, 0, 1);
-    // Set changes on resize constant buffersm_numVertices
-    m_graphicsAPI->VSsetConstantBuffers(changeOnResize, 1, 1);
+   
     // Set change every frame constant buffers
-    m_graphicsAPI->VSsetConstantBuffers(changeEveryFrame, 2, 1);
+    m_graphicsAPI->VSsetConstantBuffers(changeEveryFrame, 1, 1);
     // Set Bones Transform constant buffer
-    m_graphicsAPI->VSsetConstantBuffers(BonesTranform, 3, 1);
+    m_graphicsAPI->VSsetConstantBuffers(BonesTranform, 2, 1);
     // Set the input layout
     m_graphicsAPI->setInputLayout(inputLayout);
     // Set Pixel shader
     m_graphicsAPI->setPixelhader(pixelShader);
     // Set change every frame buffer.
-    m_graphicsAPI->PSsetConstantBuffers(changeEveryFrame, 2, 1);
+    m_graphicsAPI->PSsetConstantBuffers(changeEveryFrame, 1, 1);
     // Set samplers
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
 
