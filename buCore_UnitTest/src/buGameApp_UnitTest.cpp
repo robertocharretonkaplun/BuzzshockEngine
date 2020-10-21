@@ -39,11 +39,19 @@ namespace buEngineSDK
     sampler = graphMan.createSampler();
 
     // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("a.png",
+    meshTexture = m_graphicsAPI->loadImageFromFile("a.jpg",
                                                    m_screenWidth,
                                                    m_screenHeight);
 
-    normalTexture = m_graphicsAPI->loadImageFromFile("n.png",
+    normalTexture = m_graphicsAPI->loadImageFromFile("n.jpg",
+                                                   m_screenWidth,
+                                                   m_screenHeight);
+
+    specularTexture = m_graphicsAPI->loadImageFromFile("s.jpg",
+                                                   m_screenWidth,
+                                                   m_screenHeight);
+    
+    roughnessTexture = m_graphicsAPI->loadImageFromFile("r.jpg",
                                                    m_screenWidth,
                                                    m_screenHeight);
   }
@@ -98,7 +106,7 @@ namespace buEngineSDK
       m_angle += _deltaTime;
     }
     else {
-      m_angle = 0;
+      //m_angle = 0;
     }
 
     buVector3F position(m_position[0], m_position[1], m_position[2]);
@@ -161,6 +169,8 @@ namespace buEngineSDK
       // Set Mesh texture
       m_graphicsAPI->PSSetShaderResources(meshTexture, 0, 1);
       m_graphicsAPI->PSSetShaderResources(normalTexture, 1, 1);
+      m_graphicsAPI->PSSetShaderResources(specularTexture, 2, 1);
+      m_graphicsAPI->PSSetShaderResources(roughnessTexture, 3, 1);
       // Set primitive topology
       m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
       // Set vertex buffer

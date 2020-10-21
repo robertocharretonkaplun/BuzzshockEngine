@@ -246,6 +246,8 @@ namespace buEngineSDK {
 		 */
 		SPtr<buCoreTexture2D> meshTexture;
 		SPtr<buCoreTexture2D> normalTexture;
+		SPtr<buCoreTexture2D> specularTexture;
+		SPtr<buCoreTexture2D> roughnessTexture;
 
 		/**
 		 * @brief Member that creates a sampler object. 
