@@ -16,7 +16,9 @@ namespace buEngineSDK {
     // Set look at matrix
     m_cameraData.view.lookAtMatrixLH(_eye, _at, _up);
     // Set perspective matrix
-    m_cameraData.projection.perspectiveMatrixfovLH(_angle, _aspectRatio, _near, _far);
+    if (m_cameraType == CameraType::E::PROJECTION_TYPE) {
+      m_cameraData.projection.perspectiveMatrixfovLH(_angle, _aspectRatio, _near, _far);
+    }
   }
 
   void 

@@ -185,5 +185,8 @@
     <ClInclude Include="include\buCameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\buGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,33 +6,45 @@
 namespace buEngineSDK {
   class BU_CORE_EXPORT buCameraManager : public buModule<buCameraManager>
   {
-  public:
+  public: 
     buCameraManager() = default;
     ~buCameraManager() = default;
 
     /**
-   * @brief Instances of this object.
-   */
-  FORCEINLINE void 
-  setObject(buCameraManager* _api) {
-    buCameraManager::_instance() = _api;
-  }
+     * @brief Instances of this object.
+     */
+    FORCEINLINE void 
+    setObject(buCameraManager* _api) {
+      buCameraManager::_instance() = _api;
+    }
 
-  virtual void 
-  update() {};
+    void 
+    update(buVector3F _eye,
+					 buVector3F _up, 
+					 buVector3F _at,
+					 float _angle,
+					 float _aspectRatio, 
+					 float _near, 
+					 float _far);
   
-  virtual void
-  render() {};
+    void
+    render();
 
-  virtual void 
-  AddCamera(String _name) {};
+    void 
+    AddCamera(String _name);
   
-  virtual void
-  SetActiveCamera(uint32 _id) {};
+    void
+    SetActiveCamera(uint32 _id);
 
-  virtual void 
-  DeleteCamera(String _name) {};
+    buCamera & 
+    GetActiveCamera();
 
+    void 
+    DeleteCamera(uint32 _id);
+
+  private:
+    Vector<buCamera> m_cameras;
+    uint32 m_cameraCounter;
   };
   /**
    * @brief Export method for the class instance.
@@ -45,3 +57,4 @@ namespace buEngineSDK {
    */
   using fnCameraManagerProt = buCameraManager * (*)();
 }
+

@@ -103,6 +103,9 @@ namespace buEngineSDK {
       auto createAppOptions = reinterpret_cast<fnAppOptionsProt>(
         m_directXPlug.getProcedureByName("createAppOptions"));
 
+      auto createCameraManager = reinterpret_cast<fnCameraManagerProt>(
+        m_directXPlug.getProcedureByName("createCameraManager"));
+
       buCoreGraphicsAPI::startUp();
       buCoreGraphicsAPI* graphicAPI = createGraphicsAPI();
       g_graphicsAPI().setObject(graphicAPI);
@@ -115,6 +118,10 @@ namespace buEngineSDK {
       m_resourceManager = &g_resourceManager();
 
       /*AppOptions::startUp();
+      buCameraManager::startUp();
+      buCameraManager* cameraManager = createCameraManager();
+      g_CameraManager().setObject(cameraManager);
+      m_cameraManager = &g_CameraManager();
       AppOptions* appOptions = createAppOptions();
       g_AppOptions().setObject(appOptions);
       m_appOptions = &g_AppOptions();*/
@@ -180,7 +187,7 @@ namespace buEngineSDK {
   }
 
   void 
-  BaseApp::update(float _deltaTime = 0) {
+    BaseApp::update(float _deltaTime = 0) {
     onUpdate(_deltaTime);
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
@@ -229,7 +236,7 @@ namespace buEngineSDK {
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Settings")) {
-        
+
         if (ImGui::MenuItem("Show Average...")) {
           windowd = true;
         }
@@ -243,14 +250,14 @@ namespace buEngineSDK {
       }
       ImGui::EndMainMenuBar();
     }
-          
+
     if (windowd) {
       ImGui::Begin("App Average", &windowd);
       ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
         1000.0 / (ImGui::GetIO().Framerate), (ImGui::GetIO().Framerate));
       ImGui::End();
     }
-    
+
     if (m_showEngineScale) {
       ImGui::Begin("Engine Scale", &m_showEngineScale);
       ImGui::InputFloat("Unit scale", &m_EngineScale);
@@ -286,26 +293,43 @@ namespace buEngineSDK {
     ImGui::End();
 
     ImGui::Begin("Camera Inspector");
-    const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD" };
-    static const char* current_item = NULL;
+    //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD" };
+    //static const char* current_item = NULL;
 
-    if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
-    {
-      for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-      {
-        bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
-        if (ImGui::Selectable(items[n], is_selected) ){
-          
-        }
-          //current_item = items[n];
-          if (is_selected)
-            ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
-      }
-      ImGui::EndCombo();
-    }
+    //if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
+    //{
+    //  for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+    //  {
+    //    bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+    //    if (ImGui::Selectable(items[n], is_selected) ){
+    //      
+    //    }
+    //      //current_item = items[n];
+    //      if (is_selected)
+    //        ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+    //  }
+    //  ImGui::EndCombo();
+    //}
+    auto currCamera = m_cameraManager.GetActiveCamera();
+    String CameraName = currCamera.m_name + "               ";
+    ImGui::Checkbox(CameraName.c_str(), &currCamera.m_isCameraActive);
+    ImGui::SameLine();
+    ImGui::Checkbox("Static", &currCamera.m_isCameraActive);
+    ImGui::Separator();
+    bool transformSettings = true;
+    ImGui::Checkbox("Transform", &transformSettings);
+    ImGui::Separator();
     ImGui::SliderFloat3("Up", m_up, -100, 100);
     ImGui::SliderFloat3("At", m_at, -100, 100);
     ImGui::SliderFloat3("Eye", m_eye, -100, 100);
+    ImGui::Separator();
+    bool cameraSettings = true;
+    ImGui::Checkbox("Camera", &cameraSettings);
+    ImGui::Separator();
+    const char* items[] = { "Projection", "Orthographic"};
+    static int selectedItem = 0;
+    ImGui::Combo("Projection", &selectedItem, items, IM_ARRAYSIZE(items));
+    ImGui::ColorEdit4("Background", ClearColor);
     ImGui::SliderFloat("Near", &m_near,0, 300);
     ImGui::SliderFloat("Far", &m_far,0, 300);
     ImGui::End();
@@ -317,8 +341,9 @@ namespace buEngineSDK {
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
     ImGui::End();
     ImGui::Begin("Inspector");
+    ImGui::Separator();
     ImGui::Text("Tranform");
-    
+    ImGui::Separator();    
     ImGui::SliderFloat3("Translation", m_position, -100, 100);
     ImGui::SliderFloat3("Rotation", m_Rotation, 0, 1);
     ImGui::SliderFloat3("Scale", m_Scale, 1, 50);
@@ -334,7 +359,9 @@ namespace buEngineSDK {
 
     //ImGui::SameLine();
     ImGui::SliderFloat("Ang", &m_angle,-3,3);
+    ImGui::Separator();
     ImGui::Text("Mesh Renderer");
+    ImGui::Separator();
     for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
       ImGui::Text("Material ");
       if (ImGui::ImageButton(m_graphicsAPI->getShaderResource()[i], 
@@ -664,7 +691,7 @@ namespace buEngineSDK {
     */
     ImGui::GetStyle().FrameRounding = 4.0f;
     ImGui::GetStyle().GrabRounding = 4.0f;
-
+    ImGui::GetStyle().WindowRounding = 0.0f;
     ImVec4* colors = ImGui::GetStyle().Colors;
     colors[ImGuiCol_Text] = ImVec4(0.95f, 0.96f, 0.98f, 1.00f);
     colors[ImGuiCol_TextDisabled] = ImVec4(0.36f, 0.42f, 0.47f, 1.00f);

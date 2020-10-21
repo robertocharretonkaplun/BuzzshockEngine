@@ -7,4 +7,19 @@ namespace buEngineSDK {
 		buMatrix4x4 projection;
 
 	};
+
+}
+
+namespace CameraType {
+	enum E {
+		PROJECTION_TYPE,
+		ORTHOGRAPHIC_TYPE
+	};
+}
+
+namespace GameObjectType {
+	enum E {
+		DEFAULT_TYPE,
+		MESH_TYPE
+	};
 }

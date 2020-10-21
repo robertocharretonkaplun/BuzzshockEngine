@@ -27,10 +27,9 @@ namespace buEngineSDK
 
     // Create Pixel shader 
     pixelShader = graphMan.createPixelShader(shaderFileName);
-  
-    buCamera currCam("Cam", 1);
-    m_camera = currCam;
     
+    m_cameraManager.AddCamera("CameraTest");
+    m_cameraManager.SetActiveCamera(0);
     // Create Change Every Frame
     changeEveryFrame = graphMan.createBuffer(sizeof(CBChangesEveryFrame));
 
@@ -70,13 +69,12 @@ namespace buEngineSDK
     buVector3F At(m_at[0], m_at[1], m_at[2]);
     buVector3F Up(m_up[0], m_up[1], m_up[2]);
 
-    m_camera.update(Eye, Up, At, 
+    m_cameraManager.update(Eye, Up, At,
       buDegrees(45).getRadians(),
       static_cast<float>(m_screenWidth) /
       static_cast<float>(m_screenHeight),
       m_near,
       m_far);
-
 
     // Set View Direction
     buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
@@ -114,8 +112,9 @@ namespace buEngineSDK
 
   void 
   buGameApp_UnitTest::onRender() {
-    m_camera.render();
-
+   // m_camera.render();
+   // auto& cameraMan = g_CameraManager();
+    m_cameraManager.render();
     cbBonesTranform cbBonestransform;
     auto currModel = m_resourceManager->getModel();
 

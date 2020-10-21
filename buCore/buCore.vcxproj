@@ -238,6 +238,7 @@
     <ClInclude Include="include\buCoreTexture2D.h" />
     <ClInclude Include="include\buCoreVertexShader.h" />
     <ClInclude Include="include\buCoreViewport.h" />
+    <ClInclude Include="include\buGameObject.h" />
     <ClInclude Include="include\buGraphicsDebug.h" />
     <ClInclude Include="include\buImgui.h" />
     <ClInclude Include="include\buNode.h" />
