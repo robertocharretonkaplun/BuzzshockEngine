@@ -14,7 +14,7 @@
 #include <assimp\include\assimp\scene.h>
 #include <buNumLimits.h>
 #include <buMatrix3x3.h>
-
+#include <buCoreTexture2D.h>
 namespace buEngineSDK {
 	//template<typename V>
 	struct SimpleVertex {
@@ -99,6 +99,7 @@ namespace buEngineSDK {
 		 */
 		String TexName;
 		Vector<buCoreMesh> m_meshes;
+		Vector<SPtr<buCoreTexture2D>> m_textures;
 		Vector<SimpleVertex> m_vertices;
 		Vector<uint32> m_indices;
 

@@ -37,23 +37,6 @@ namespace buEngineSDK
     
     // Create sampler
     sampler = graphMan.createSampler();
-
-    // Load texture
-    meshTexture = m_graphicsAPI->loadImageFromFile("a.jpg",
-                                                   m_screenWidth,
-                                                   m_screenHeight);
-
-    normalTexture = m_graphicsAPI->loadImageFromFile("n.jpg",
-                                                   m_screenWidth,
-                                                   m_screenHeight);
-
-    specularTexture = m_graphicsAPI->loadImageFromFile("s.jpg",
-                                                   m_screenWidth,
-                                                   m_screenHeight);
-    
-    roughnessTexture = m_graphicsAPI->loadImageFromFile("r.jpg",
-                                                   m_screenWidth,
-                                                   m_screenHeight);
   }
 
   void 
@@ -104,24 +87,19 @@ namespace buEngineSDK
     m_World.rotateMatrix(rotation, m_angle);
     if (m_isRotating) {
       m_angle += _deltaTime;
-    }
-    else {
-      //m_angle = 0;
-    }
+    }   
 
     buVector3F position(m_position[0], m_position[1], m_position[2]);
     m_World.translateMatrix(position);
     //m_World.transpose();
-    m_meshColor.x = 1; //(buMath::sinf(_deltaTime * 1.0f) + 1.0f) * 0.5f;
-    m_meshColor.y = 1; //(buMath::cosf(_deltaTime * 3.0f) + 1.0f) * 0.5f;
-    m_meshColor.z = 1; //(buMath::sinf(_deltaTime * 5.0f) + 1.0f) * 0.5f;
+    m_meshColor.x = 1; 
+    m_meshColor.y = 1; 
+    m_meshColor.z = 1; 
   }
 
 
   void 
   buGameApp_UnitTest::onRender() {
-   // m_camera.render();
-   // auto& cameraMan = g_CameraManager();
     m_cameraManager.render();
     cbBonesTranform cbBonestransform;
     auto currModel = m_resourceManager->getModel();
@@ -140,15 +118,12 @@ namespace buEngineSDK
     }
     
     // Update variables that change once per frame
-    
-    //m_World.transpose();
     cb.mWorld = m_World;
     cb.vMeshColor = m_meshColor;
 
     m_graphicsAPI->updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
     // Set Vertex Shader
     m_graphicsAPI->setVertexShader(vertexShader);
-   
     // Set change every frame constant buffers
     m_graphicsAPI->VSsetConstantBuffers(changeEveryFrame, 1, 1);
     // Set Bones Transform constant buffer
@@ -167,10 +142,9 @@ namespace buEngineSDK
     for (uint32 i = 0; i < meshNum; ++i) {
       auto& currMesh = currModel->m_meshes[i];
       // Set Mesh texture
-      m_graphicsAPI->PSSetShaderResources(meshTexture, 0, 1);
-      m_graphicsAPI->PSSetShaderResources(normalTexture, 1, 1);
-      m_graphicsAPI->PSSetShaderResources(specularTexture, 2, 1);
-      m_graphicsAPI->PSSetShaderResources(roughnessTexture, 3, 1);
+      for (uint32 currTexture = 0; currTexture < currModel->m_textures.size() ; currTexture++) {
+        m_graphicsAPI->PSSetShaderResources(currModel->m_textures[currTexture], currTexture, 1);
+      }
       // Set primitive topology
       m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
       // Set vertex buffer

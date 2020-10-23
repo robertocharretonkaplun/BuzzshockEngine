@@ -520,14 +520,15 @@ namespace buEngineSDK {
 
     String texturePath;
     String folderPath = "Data/Textures/";
-    folderPath += _filepath;
-    FILE* f = stbi__fopen(folderPath.c_str(), "rb");
+   // folderPath += _filepath;
+    FILE* f = stbi__fopen(_filepath.c_str(), "rb");
     // If the texture path wasnt loaded correctly
     if (!f) {
       texturePath = "Data/Textures/DefaultTexture.png";
     }
     else {
-      texturePath = folderPath;
+      texturePath = _filepath;
+      //texturePath = folderPath;
     }
 
 

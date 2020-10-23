@@ -216,11 +216,33 @@ namespace buEngineSDK {
           ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
           if (GetOpenFileName(&ofn) == TRUE) {
-            Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
+            //Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
             m_resourceManager->loadMesh(ofn.lpstrFile);
             m_GONames.push_back(m_resourceManager->getModel()->TexName);
           }
         }
+        if (ImGui::MenuItem("Import textures...", "CTRL+T")) {
+          OPENFILENAME ofn = { 0 };
+          TCHAR szFile[260] = { 0 };
+          // Initialize remaining fields of OPENFILENAME structure
+          ofn.lStructSize = sizeof(ofn);
+          ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
+          ofn.lpstrFile = szFile;
+          ofn.nMaxFile = sizeof(szFile);
+          ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
+          ofn.nFilterIndex = 1;
+          ofn.lpstrFileTitle = nullptr;
+          ofn.nMaxFileTitle = 0;
+          ofn.lpstrInitialDir = nullptr;
+          ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+          if (GetOpenFileName(&ofn) == TRUE) {
+            SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
+              ofn.lpstrFile, m_screenWidth, m_screenHeight);
+            m_resourceManager->getModel()->m_textures.push_back(currTex);
+          }
+        }
+
         ImGui::Separator();
 
         if (ImGui::MenuItem("Exit", "CTRL+F4")) {
@@ -335,13 +357,15 @@ namespace buEngineSDK {
     ImGui::End();
 
     ImGui::Begin("Shaders");
-    ImGui::SliderFloat3("LightPos", m_lightPos, -1000, 1000);
+    ImGui::SliderFloat3("LightPos", m_lightPos, -5000, 5000);
     ImGui::ColorEdit3("LightColor", m_LightColor);
     ImGui::ColorEdit3("SurfColor", m_surfColor);
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
     ImGui::End();
     ImGui::Begin("Inspector");
     ImGui::Separator();
+    ImGui::Text("Game Object");
+    ImGui::Separator();    
     ImGui::Text("Tranform");
     ImGui::Separator();    
     ImGui::SliderFloat3("Translation", m_position, -100, 100);
@@ -359,30 +383,33 @@ namespace buEngineSDK {
 
     //ImGui::SameLine();
     ImGui::SliderFloat("Ang", &m_angle,-3,3);
-    ImGui::Separator();
-    ImGui::Text("Mesh Renderer");
-    ImGui::Separator();
-    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
-      ImGui::Text("Material ");
-      if (ImGui::ImageButton(m_graphicsAPI->getShaderResource()[i], 
-                             ImVec2(64, 64))) {
-        OPENFILENAME ofn = { 0 };
-        TCHAR szFile[260] = { 0 };
-        // Initialize remaining fields of OPENFILENAME structure
-        ofn.lStructSize = sizeof(ofn);
-        ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-        ofn.lpstrFile = szFile;
-        ofn.nMaxFile = sizeof(szFile);
-        ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-        ofn.nFilterIndex = 1;
-        ofn.lpstrFileTitle = nullptr;
-        ofn.nMaxFileTitle = 0;
-        ofn.lpstrInitialDir = nullptr;
-        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    if (ImGui::Button("Add Component Texture")) {
+      OPENFILENAME ofn = { 0 };
+          TCHAR szFile[260] = { 0 };
+          // Initialize remaining fields of OPENFILENAME structure
+          ofn.lStructSize = sizeof(ofn);
+          ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
+          ofn.lpstrFile = szFile;
+          ofn.nMaxFile = sizeof(szFile);
+          ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
+          ofn.nFilterIndex = 1;
+          ofn.lpstrFileTitle = nullptr;
+          ofn.nMaxFileTitle = 0;
+          ofn.lpstrInitialDir = nullptr;
+          ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-        if (GetOpenFileName(&ofn) == TRUE) {
-        }
-      }
+          if (GetOpenFileName(&ofn) == TRUE) {
+            SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
+              ofn.lpstrFile, m_screenWidth, m_screenHeight);
+            m_resourceManager->getModel()->m_textures.push_back(currTex);
+          }
+    }
+    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
+      ImGui::Separator();
+      ImGui::Text("Texture");
+      ImGui::Separator();
+      ImGui::Image(m_graphicsAPI->getShaderResource()[i],
+        ImVec2(64, 64));
     }
     ImGui::End();
 
@@ -411,8 +438,8 @@ namespace buEngineSDK {
     ImGui::End();
 
     ImGui::Begin("Game");
-    ImGui::Image(m_graphicsAPI->getShaderResource()[0],
-      ImVec2(800, 450));
+    //ImGui::Image(m_graphicsAPI->getShaderResource()[0],
+    //  ImVec2(800, 450));
     ImGui::End();
     
   }

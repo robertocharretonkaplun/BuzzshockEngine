@@ -13,6 +13,7 @@
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
+#include <buCoreTexture2D.h>
 #include "imgui\imGuiDocking\imgui.h"
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"

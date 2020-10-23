@@ -43,6 +43,7 @@ namespace buEngineSDK {
   void 
   init(String _filepath, int32 width, int32 height, uint32 format) override;
  public:
+   String m_name;
   /*
    * @brief 
    */
