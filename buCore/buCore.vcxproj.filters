@@ -75,6 +75,9 @@
     <ClCompile Include="src\buCameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\buTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buCoreGraphicsAPI.h">
@@ -186,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

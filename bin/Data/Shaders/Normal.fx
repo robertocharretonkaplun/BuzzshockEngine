@@ -17,7 +17,6 @@ cbuffer cbCamera: register(b0) {
 
 cbuffer cbChangesEveryFrame : register(b1) {
   matrix World;
-  float4 vMeshColor;
   float4 viewPosition;
   float3 LightPos;
   float3 LightColor;

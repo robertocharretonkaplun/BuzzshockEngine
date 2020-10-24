@@ -21,6 +21,7 @@
 #include <buDegrees.h>
 #include <buGraphicsDebug.h>
 #include <buCamera.h>
+#include <buTransform.h>
 
 namespace Format {
 	enum E {
@@ -167,15 +168,7 @@ namespace BindFlag {
 
 namespace buEngineSDK {
 
-	struct CBChangesEveryFrame {
-		buMatrix4x4 mWorld = buMatrix4x4::ZERO;
-		buVector4F vMeshColor;
-		buVector4F viewDirection;
-		buVector4F LightPos;
-		buVector4F LightColor;
-		buVector4F surfColor;
-    buVector4F constants;
-	};
+	
 
 	struct cbBonesTranform
 	{
@@ -252,20 +245,6 @@ namespace buEngineSDK {
 		SPtr<buCoreBuffer> changeEveryFrame;
 
 		SPtr<buCoreBuffer> BonesTranform;
-
-		
-		/**
-		 * @brief Member that sets the world matrix
-		 */
-		buMatrix4x4 m_World = buMatrix4x4(0.2f, 0.0f, 0.0f, 0.0f,
-                          0.0f, 0.2f, 0.0f, 0.0f,
-                          0.0f, 0.0f, 0.2f, 0.0f,
-                          0.0f, 0.0f, 0.0f, 0.2f);
-		
-		/**
-		 * @brief Member that sets the color of the mesh.
-		 */
-		buVector4F m_meshColor = buVector4F(0.7f, 0.7f, 0.7f, 1.0f);
 		
 		/**
 		 * @brief Member that sets the clear color 
@@ -279,5 +258,7 @@ namespace buEngineSDK {
 		buGraphicsDebug m_lineDebugger;
 
     CBChangesEveryFrame cb;
+
+    buTransform m_meshTransform;
 	};
 }

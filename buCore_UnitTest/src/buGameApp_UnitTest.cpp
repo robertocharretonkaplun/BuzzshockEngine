@@ -4,10 +4,6 @@
 namespace buEngineSDK
 {
   buGameApp_UnitTest::buGameApp_UnitTest() {
-    m_World = buMatrix4x4(0.2f, 0.0f, 0.0f, 0.0f,
-                          0.0f, 0.2f, 0.0f, 0.0f,
-                          0.0f, 0.0f, 0.2f, 0.0f,
-                          0.0f, 0.0f, 0.0f, 0.2f);
   }
 
   buGameApp_UnitTest::~buGameApp_UnitTest() {
@@ -70,11 +66,11 @@ namespace buEngineSDK
     // Set View Direction
     buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
     cb.viewDirection = viewDir;
-    buVector4F lightPos(m_lightPos[0], m_lightPos[1], m_lightPos[2], 0);
+    buVector4F lightPos(m_lightPos, 0);
     cb.LightPos = lightPos;
-    buVector4F LightColor(m_LightColor[0], m_LightColor[1], m_LightColor[2], 0);
+    buVector4F LightColor(m_LightColor, 0);
     cb.LightColor = LightColor;
-    buVector4F surfColor(m_surfColor[0], m_surfColor[1], m_surfColor[2], 0);
+    buVector4F surfColor(m_surfColor, 0);
     cb.surfColor = surfColor;
     buVector4F constants(m_constants[0], 0, 0, 0);
     cb.constants = constants;
@@ -82,19 +78,13 @@ namespace buEngineSDK
     buVector3F scale(m_Scale[0] * m_EngineScale, 
                      m_Scale[1] * m_EngineScale, 
                      m_Scale[2] * m_EngineScale);
-    m_World.scaleMatrix(scale);
     buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
-    m_World.rotateMatrix(rotation, m_angle);
     if (m_isRotating) {
       m_angle += _deltaTime;
     }   
 
     buVector3F position(m_position[0], m_position[1], m_position[2]);
-    m_World.translateMatrix(position);
-    //m_World.transpose();
-    m_meshColor.x = 1; 
-    m_meshColor.y = 1; 
-    m_meshColor.z = 1; 
+    m_meshTransform.update(position, rotation, scale, m_angle);
   }
 
 
@@ -118,8 +108,7 @@ namespace buEngineSDK
     }
     
     // Update variables that change once per frame
-    cb.mWorld = m_World;
-    cb.vMeshColor = m_meshColor;
+    cb.mWorld = m_meshTransform.m_world;
 
     m_graphicsAPI->updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
     // Set Vertex Shader

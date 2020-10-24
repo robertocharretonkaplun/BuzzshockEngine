@@ -47,6 +47,13 @@ namespace buEngineSDK {
   buVector4F(const buVector4F& _v);
 
   /**
+   * @brief 
+   */
+  buVector4F(float _arr[4]);
+
+  buVector4F(float _arr[3],  float _const);
+
+  /**
    * @brief Constructor to equal a vector
    * @param
    * @return
