@@ -38,7 +38,7 @@ namespace buEngineSDK {
                       int32 height,
                       uint32 format) {
     if ("" != _filepath) {
-
+      m_name = _filepath;
       m_descriptor.Width = (UINT)width;
       m_descriptor.Height = (UINT)height;
       m_descriptor.MipLevels = 1;

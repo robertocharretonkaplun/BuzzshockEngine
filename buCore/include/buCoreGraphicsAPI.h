@@ -115,23 +115,17 @@ namespace buEngineSDK {
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreViewport>
-  createViewport(float /*width*/,
-                 float /*height*/,
-                 float /*minDepth*/,
-                 float /*maxDepth*/,
-                 float /*topLeftX*/, 
-                 float /*topLeftY*/) { return nullptr; }
+  createViewport(float /*width*/, float /*height*/) { return nullptr; }
 
   /**
    * @brief Virtual method that creates a temporal reference to a texture2D object.
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreTexture2D>
-  createTexture2D(int32 /*width*/,
-                  int32 /*height*/,
-                  uint32 /*format*/, 
-                  uint32 /*bindflags*/,
-                  uint32 /*miplevels*/) { return nullptr; };
+  createTexture2D(int32 /*width*/, int32 /*height*/) { return nullptr; };
+  
+  virtual SPtr<buCoreTexture2D>
+  createTexture2D(int32 /*width*/, int32 /*height*/, uint32, uint32, uint32) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a swap chain object.
@@ -145,14 +139,14 @@ namespace buEngineSDK {
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreVertexShader>
-  createVertexShader() { return nullptr; };
+  createVertexShader(WString _fileName) { return nullptr; };
 
   /** 
     * @brief Virtual method that creates a temporal reference to a pixel shader object.
     * @return A smart pointer to the object.
     */
   virtual SPtr<buCorePixelShader>
-  createPixelShader() { return nullptr; };
+  createPixelShader(WString _fileName) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a
@@ -168,7 +162,8 @@ namespace buEngineSDK {
    * @return A smart pointer object.
    */
   virtual SPtr<buCoreInputLayout>
-  createInputLayout() { return nullptr; };
+  createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                    Vector<String> _semanticNames) { return nullptr; };
 
   /** 
     * @brief Virtual method that creates a temporal reference to a buffer object.
@@ -179,6 +174,11 @@ namespace buEngineSDK {
                 uint32 /*bindFlags*/,
                 uint32 /*offset*/,
                 void* /*bufferData*/ ) { return nullptr; };
+   /**
+    * @brief Virtual method that creates a temporal reference to a const buffer object. 
+    */
+   virtual SPtr<buCoreBuffer>
+   createBuffer(uint32 /*byteWidth*/) { return nullptr; };
 
    /** 
     * @brief Virtual method that creates a temporal reference to a depth stencil

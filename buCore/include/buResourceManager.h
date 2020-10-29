@@ -11,7 +11,7 @@
 #include <buModule.h>
 #include <buCoreTexture2D.h>
 #include <buCoreModel.h>
-
+#include <buGameObject.h>
 namespace buEngineSDK {
 
   class BU_CORE_EXPORT buResourceManager : public buModule<buResourceManager>
@@ -42,6 +42,9 @@ namespace buEngineSDK {
 
     virtual buCoreModel*
     getModel() {return nullptr;};
+
+    virtual Vector<buGameObject>
+    getGameObjects() { return Vector<buGameObject>(); }
   };
 
   /**

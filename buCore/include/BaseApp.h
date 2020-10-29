@@ -9,13 +9,14 @@
 #pragma once
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
+#include <buCameraManager.h>
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
-#include "imgui\ImGuiDirectX\imgui.h"
-#include "imgui\ImGuiDirectX\imgui_impl_dx11.h"
-#include "imgui\ImGuiDirectX\imgui_impl_win32.h"
-#include "buNumLimits.h"
+#include <buCoreTexture2D.h>
+#include "imgui\imGuiDocking\imgui.h"
+#include "imgui\imGuiDocking\imgui_impl_dx11.h"
+#include "imgui\imGuiDocking\imgui_impl_win32.h"
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
 																						  WPARAM wParam,
@@ -155,6 +156,7 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		bool windowd = false;
+		bool m_showConsole = false;
 		bool m_showEngineScale = false;
 		bool m_showAnimator = false;
 		bool m_isRotating = false;
@@ -170,6 +172,8 @@ namespace buEngineSDK {
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
+	
+		buCameraManager m_cameraManager ;
 		/**
 		 * @brief 
 		 */
@@ -180,10 +184,27 @@ namespace buEngineSDK {
 		SPtr<buCoreDepthStencilView> depthStencilView;
 
 		/**
+		 * @brief Member that will be used as a depth stencil texture.
+		 */
+		SPtr<buCoreTexture2D> depthStencil;
+		/*
+		 * @brief Member that will be used as a back buffer texture.
+		 */
+		SPtr<buCoreTexture2D> backBuffer;
+		/**
 		 * @brief Member that creates a render target view object.
 		 */
 		SPtr<buCoreRenderTargetView> renderTargetView;
 
+		/**
+		 * @brief Member that creates a viewport object.
+		 */
+		SPtr<buCoreViewport> viewport;
+
+		/*
+		* @brief 
+		*/
+		float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
 		/**
 		 * @brief 
 		 */
@@ -209,7 +230,11 @@ namespace buEngineSDK {
 		float m_up[3] = { 0.0f, 1.0f, 0.0f };
 		float m_at[3] = { 0.0f, 60.0f, 0.0f };
 		float m_eye[3] = { 0.0f, 60.0f, -60.0f };
-		Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
+		//Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
+		float m_lightPos[3] = { 0.0f, -1000.0f, 0.0f };
+		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
+		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
+		float m_constants[4] = { 2.0f, 0,0,0 };
 		/**
 		 * @brief 
 		 */
@@ -218,5 +243,10 @@ namespace buEngineSDK {
 
 		float dealtaTime = 0;
 		float oldTime = 0;
+
+		bool m_renderObjects = true;
+		bool m_selectedObject = false;
+		uint32 val = 0;
+		uint32 m_currCamera = 0;
 	};
 }

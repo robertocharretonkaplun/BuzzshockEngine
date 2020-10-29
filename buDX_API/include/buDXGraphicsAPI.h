@@ -33,13 +33,6 @@ namespace buEngineSDK {
     buVector2F Tex;
   };
 
-  struct CBNeverChanges {
-    buMatrix4x4 mView;
-  };
-
-  struct CBChangeOnResize {
-    buMatrix4x4 mProjection;
-  };
 
   struct CBChangesEveryFrame {
     buMatrix4x4 mWorld;
@@ -120,8 +113,7 @@ namespace buEngineSDK {
    * @bug
    */
    SPtr<buCoreViewport>
-   createViewport(float width, float height, float minDepth,
-                  float maxDepth, float topLeftX, float topLeftY) override;
+   createViewport(float width, float height) override;
    
    /** 
    * @brief 
@@ -131,10 +123,14 @@ namespace buEngineSDK {
    */
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
+                   int32 height ) override;
+   
+   SPtr<buCoreTexture2D> 
+   createTexture2D(int32 width, 
                    int32 height,
-                   uint32 format,
-                   uint32 bindflags,
-                   uint32 miplevels) override;
+                   uint32 format, 
+                   uint32 usage, 
+                   uint32 bindflags) override;
 
    /** 
     * @brief 
@@ -161,7 +157,7 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCoreVertexShader>
-   createVertexShader() override;
+   createVertexShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -170,7 +166,7 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCorePixelShader>
-   createPixelShader() override;
+   createPixelShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -179,7 +175,8 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCoreInputLayout>
-   createInputLayout() override;
+   createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                     Vector<String> _semanticNames) override;
 
    /** 
     * @brief 
@@ -192,6 +189,9 @@ namespace buEngineSDK {
                 uint32 bindFlags,
                 uint32 offset,
                 void* bufferData) override;
+
+   SPtr<buCoreBuffer>
+   createBuffer(uint32 byteWidth) override;
 
    /** 
     * @brief 

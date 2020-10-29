@@ -27,6 +27,7 @@ namespace buEngineSDK {
 
     m_model.m_meshes.reserve(Model->mNumMeshes);
 
+    buGameObject currGameobject;
     SkeletalMesh* skeleton = new SkeletalMesh;
     int32 highVertexNum = 0;
     for (uint32 i = 0; i < Model->mNumMeshes; ++i) {
@@ -73,6 +74,13 @@ namespace buEngineSDK {
           tmpvertex.Nor.x = currNormals.x;
           tmpvertex.Nor.y = currNormals.y;
           tmpvertex.Nor.z = currNormals.z;
+        }
+
+        if (currMesh->HasTangentsAndBitangents()) {
+          auto currTangents = currMesh->mTangents[j];
+          tmpvertex.Tan.x = currTangents.x;
+          tmpvertex.Tan.y = currTangents.y;
+          tmpvertex.Tan.z = currTangents.z;
         }
       }
 
@@ -143,20 +151,34 @@ namespace buEngineSDK {
 
     auto& graphMan = g_graphicsAPI();
 
-    m_model.m_vertexBuffer = graphMan.createBuffer(sizeof(SimpleVertex) * m_model.m_vertices.size(),
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
       D3D11_BIND_VERTEX_BUFFER,
       sizeof(SimpleVertex),
       m_model.m_vertices.data());
 
-    m_model.m_indexBuffer = graphMan.createBuffer(sizeof(uint32) * m_model.m_indices.size(),
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());
+    // Store gameobject
+    currGameobject.m_name = _filepath;
+    currGameobject.m_type = GameObjectType::MESH_TYPE;
+    currGameobject.m_model = m_model;
+    currGameobject.m_id = m_goCounter;
+    m_gameobjects.push_back(currGameobject);
+    m_goCounter++;
   }
 
   buCoreModel*
     buDXResourceManager::getModel() {
     return &m_model;
+  }
+
+  Vector<buGameObject> 
+  buDXResourceManager::getGameObjects() {
+    return m_gameobjects;
   }
 
 }
