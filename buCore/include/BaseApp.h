@@ -156,6 +156,7 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		bool windowd = false;
+		bool m_showConsole = false;
 		bool m_showEngineScale = false;
 		bool m_showAnimator = false;
 		bool m_isRotating = false;
@@ -242,5 +243,10 @@ namespace buEngineSDK {
 
 		float dealtaTime = 0;
 		float oldTime = 0;
+
+		bool m_renderObjects = true;
+		bool m_selectedObject = false;
+		uint32 val = 0;
+		uint32 m_currCamera = 0;
 	};
 }

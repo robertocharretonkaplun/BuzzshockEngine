@@ -115,6 +115,8 @@ namespace buEngineSDK {
         break;
       }
     }
+
+   // m_swapchain->SetFullscreenState(true, nullptr);
     return static_cast<int>(hr);
   }
 
@@ -167,6 +169,36 @@ namespace buEngineSDK {
     return ptexture2D;
   }
 
+  SPtr<buCoreTexture2D> buDXGraphicsAPI::createTexture2D(int32 width,
+                                                         int32 height, 
+                                                         uint32 format,
+                                                         uint32 usage, 
+                                                         uint32 bindflags) {
+    auto ptexture2D = std::make_shared<buDXTexture2D>();
+    auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
+
+
+    texture->init("",
+      format,
+      usage,
+      width,
+      height,
+      1,
+      1,
+      1,
+      0,
+      bindflags,
+      0,
+      0);
+
+
+    m_device->CreateTexture2D(&texture->m_descriptor,
+      nullptr,
+      &texture->m_texture);
+
+    return ptexture2D;
+  }
+
   SPtr<buCoreSwapchain> 
   buDXGraphicsAPI::createSwapchain() {
     auto swapchain = std::make_shared<buDXSwapchain>();
@@ -185,7 +217,7 @@ namespace buEngineSDK {
     auto tmpVertexShader = reinterpret_cast<buDXVertexShader*>(vertexShader.get());
 
     tmpVertexShader->init(_fileName);
-
+    
     HRESULT hr = m_device->CreateVertexShader(
       tmpVertexShader->m_compileVertexShader->GetBufferPointer(),
       tmpVertexShader->m_compileVertexShader->GetBufferSize(),

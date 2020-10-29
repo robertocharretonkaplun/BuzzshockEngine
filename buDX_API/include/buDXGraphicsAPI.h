@@ -124,6 +124,13 @@ namespace buEngineSDK {
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
                    int32 height ) override;
+   
+   SPtr<buCoreTexture2D> 
+   createTexture2D(int32 width, 
+                   int32 height,
+                   uint32 format, 
+                   uint32 usage, 
+                   uint32 bindflags) override;
 
    /** 
     * @brief 

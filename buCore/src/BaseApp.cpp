@@ -6,8 +6,8 @@ namespace buEngineSDK {
   BaseApp::run() {
     // Create Window
     m_windowName = "Buzzshock Engine";
-    m_screenWidth = 1350;
-    m_screenHeight = 700;
+    m_screenWidth = 1940;
+    m_screenHeight = 1040;
     createWindow();
     // Create systems
     initSystems();
@@ -155,7 +155,7 @@ namespace buEngineSDK {
     // Create window
     //m_instance = hInstance;
     RECT rc = { 0, 0, m_screenWidth, m_screenHeight };
-    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+    AdjustWindowRect(&rc, WS_MAXIMIZEBOX, FALSE);
     
     HWND hWd;
     hWd = CreateWindow("TutorialWindowClass",
@@ -265,8 +265,9 @@ namespace buEngineSDK {
         if (ImGui::MenuItem("Engine Scale...")) {
           m_showEngineScale = true;
         }
-        if (ImGui::MenuItem("Clear Console...")) {
-          m_logs.clear();
+        if (ImGui::MenuItem("Show Console...")) {
+          m_showConsole = true;
+          //m_logs.clear();
         }
         ImGui::EndMenu();
       }
@@ -302,41 +303,30 @@ namespace buEngineSDK {
       ImGui::End();
     }
 
+    auto GameObjects = m_resourceManager->getGameObjects();
+    static char str0[128] = "Game Object";
+    if (GameObjects.size() >= 1) {
+      auto &currGameObject = GameObjects[val];
+      currGameObject.m_name = str0;
+      m_selectedObject = true;
+    }
+
+    // Container for the object herarchy
     ImGui::Begin("World Outliner");
-    for (int i = 0; i < m_GONames.size(); ++i) {
-      ImGui::AlignTextToFramePadding();
-      bool treeopen = ImGui::TreeNodeEx(m_GONames[i].c_str(), ImGuiTreeNodeFlags_AllowItemOverlap);
+    for (uint32 i = 0; i < GameObjects.size(); i++) {
+      ImGui::Checkbox(" ", &m_renderObjects);
       ImGui::SameLine();
-      if (ImGui::Button("+")) ImGui::OpenPopup("ElementList");
-      if (treeopen) {
-        ImGui::TreePop();
-      }
+      ImGui::Text(GameObjects[i].m_name.c_str());
+      ImGui::Separator();
     }
     ImGui::End();
-
+    // Container for the camera inpector
     ImGui::Begin("Camera Inspector");
-    //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD" };
-    //static const char* current_item = NULL;
-
-    //if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
-    //{
-    //  for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-    //  {
-    //    bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
-    //    if (ImGui::Selectable(items[n], is_selected) ){
-    //      
-    //    }
-    //      //current_item = items[n];
-    //      if (is_selected)
-    //        ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
-    //  }
-    //  ImGui::EndCombo();
-    //}
     auto currCamera = m_cameraManager.GetActiveCamera();
     String CameraName = currCamera.m_name + "               ";
     ImGui::Checkbox(CameraName.c_str(), &currCamera.m_isCameraActive);
     ImGui::SameLine();
-    ImGui::Checkbox("Static", &currCamera.m_isCameraActive);
+    ImGui::Checkbox("Static", &currCamera.m_static);
     ImGui::Separator();
     bool transformSettings = true;
     ImGui::Checkbox("Transform", &transformSettings);
@@ -356,15 +346,62 @@ namespace buEngineSDK {
     ImGui::SliderFloat("Far", &m_far,0, 300);
     ImGui::End();
 
+    // Container for the camera manager
+    auto Cameras = m_cameraManager.GetCameras();
+    static char cameraInput[128] = "Camera Object";
+    ImGui::Begin("Camera Manager");
+    ImGui::Text("Set Active Camera");
+    ImGui::Separator();
+    ImGui::InputInt("Curr Cam", &m_currCamera);
+    if (Cameras.size() >= 1) {
+       m_cameraManager.SetActiveCamera(m_currCamera);
+    }
+    ImGui::Separator();
+    ImGui::Text("Create Camera");
+    ImGui::Separator();
+    ImGui::InputText("->", cameraInput, IM_ARRAYSIZE(cameraInput));
+    ImGui::SameLine();
+    if (ImGui::Button("Add cam")) {
+      m_cameraManager.AddCamera(cameraInput);
+
+    }
+    ImGui::Separator();
+    ImGui::Text("Camera Herarchy");
+    ImGui::Separator();
+    for (uint32 i = 0; i < Cameras.size(); i++) {
+      bool m_activeCamera = false;
+      if (Cameras[i].m_isCameraActive) {
+        m_activeCamera = true;
+      }
+      ImGui::Checkbox(" ", &m_activeCamera);
+      ImGui::SameLine();
+      ImGui::Text(Cameras[i].m_name.c_str());
+      ImGui::SameLine();
+      ImGui::Checkbox("Static", &currCamera.m_static);
+      ImGui::Separator();
+    }
+    ImGui::End();
+
+    // Container for shader attributes
     ImGui::Begin("Shaders");
     ImGui::SliderFloat3("LightPos", m_lightPos, -5000, 5000);
     ImGui::ColorEdit3("LightColor", m_LightColor);
     ImGui::ColorEdit3("SurfColor", m_surfColor);
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
     ImGui::End();
+
+    // Inspector for multiple gameobjects
     ImGui::Begin("Inspector");
-    ImGui::Separator();
-    ImGui::Text("Game Object");
+    ImGui::Checkbox(" ", &m_renderObjects);
+    ImGui::SameLine();
+    ImGui::InputText("-", str0, IM_ARRAYSIZE(str0));
+    ImGui::Separator();    
+    
+    ImGui::Text("Active GO");
+    ImGui::Checkbox(" ", &m_selectedObject);
+    ImGui::SameLine();
+    ImGui::InputInt("GO", &val);
+    
     ImGui::Separator();    
     ImGui::Text("Tranform");
     ImGui::Separator();    
@@ -379,10 +416,23 @@ namespace buEngineSDK {
         m_isRotating = true;
       }
     }
-
-
-    //ImGui::SameLine();
     ImGui::SliderFloat("Ang", &m_angle,-3,3);
+
+    // Create texture componens when they are loaded.
+    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
+      ImGui::Separator();
+      ImGui::Text("Texture");
+      ImGui::Separator();
+      ImGui::Image(m_graphicsAPI->getShaderResource()[i], ImVec2(64, 64));
+    }
+    
+    // Button to add a texture component to the scene
+    ImGui::Separator();
+    const float ItemSpacing = ImGui::GetStyle().ItemSpacing.x;
+
+    static float HostButtonWidth = 220.0f; //The 100.0f is just a guess size for the first frame.
+    float pos = HostButtonWidth + ItemSpacing;
+    ImGui::SameLine(ImGui::GetWindowWidth() - pos);  
     if (ImGui::Button("Add Component Texture")) {
       OPENFILENAME ofn = { 0 };
           TCHAR szFile[260] = { 0 };
@@ -404,38 +454,33 @@ namespace buEngineSDK {
             m_resourceManager->getModel()->m_textures.push_back(currTex);
           }
     }
-    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
-      ImGui::Separator();
-      ImGui::Text("Texture");
-      ImGui::Separator();
-      ImGui::Image(m_graphicsAPI->getShaderResource()[i],
-        ImVec2(64, 64));
-    }
+    
     ImGui::End();
-
-    ImGui::Begin("Console", nullptr, ImGuiWindowFlags_MenuBar);
-    if (ImGui::BeginMenuBar()) {
-      if (ImGui::BeginMenu("Clear")) {
-        m_logs.clear();
-        ImGui::EndMenu();
+    if (m_showConsole) {
+      ImGui::Begin("Console", &m_showConsole, ImGuiWindowFlags_MenuBar);
+      if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("Clear")) {
+          m_logs.clear();
+          ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
       }
-      ImGui::EndMenuBar();
+      for (int i = 0; i < m_logs.size(); ++i) {
+        if (ImGui::Button("+")) {
+          ImGui::OpenPopup("ElementList"); 
+        }
+        if (ImGui::IsItemHovered()) {
+          ImGui::SetTooltip("More Info...");
+        }
+          /*if (ImGui::BeginPopup("ElementList")) {
+          ImGui::MenuItem("Possible error in []");
+          ImGui::EndPopup();
+        }*/
+        ImGui::SameLine();
+        ImGui::Text(m_logs[i].c_str());
+      }
+      ImGui::End();
     }
-    for (int i = 0; i < m_logs.size(); ++i) {
-      if (ImGui::Button("+")) {
-        ImGui::OpenPopup("ElementList"); 
-      }
-      if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("More Info...");
-      }
-        /*if (ImGui::BeginPopup("ElementList")) {
-        ImGui::MenuItem("Possible error in []");
-        ImGui::EndPopup();
-      }*/
-      ImGui::SameLine();
-      ImGui::Text(m_logs[i].c_str());
-    }
-    ImGui::End();
 
     ImGui::Begin("Game");
     //ImGui::Image(m_graphicsAPI->getShaderResource()[0],

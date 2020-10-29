@@ -42,6 +42,10 @@ namespace buEngineSDK {
     void 
     DeleteCamera(uint32 _id);
 
+    Vector<buCamera> 
+    GetCameras() {
+      return m_cameras;
+    }
   private:
     Vector<buCamera> m_cameras;
     uint32 m_cameraCounter;

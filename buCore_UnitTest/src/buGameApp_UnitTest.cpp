@@ -33,6 +33,8 @@ namespace buEngineSDK
     
     // Create sampler
     sampler = graphMan.createSampler();
+
+    m_cubeMap = graphMan.loadImageFromFile("Data/Textures/unnamed.jpg", m_screenWidth, m_screenHeight);
   }
 
   void 
@@ -67,7 +69,7 @@ namespace buEngineSDK
     buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
     cb.viewDirection = viewDir;
     buVector4F lightPos(m_lightPos, 0);
-    cb.LightPos = lightPos;
+    cb.LightPos = lightPos; 
     buVector4F LightColor(m_LightColor, 0);
     cb.LightColor = LightColor;
     buVector4F surfColor(m_surfColor, 0);
@@ -84,6 +86,7 @@ namespace buEngineSDK
     }   
 
     buVector3F position(m_position[0], m_position[1], m_position[2]);
+    
     m_meshTransform.update(position, rotation, scale, m_angle);
   }
 
@@ -94,8 +97,7 @@ namespace buEngineSDK
     cbBonesTranform cbBonestransform;
     auto currModel = m_resourceManager->getModel();
 
-    if (-1 < currModel->m_currAnimation)
-    {
+    if (-1 < currModel->m_currAnimation) {
       for (uint32 i = 0; i < currModel->m_bonesTransforms.size(); ++i) {
         cbBonestransform.boneTransform[i] = currModel->m_bonesTransforms[i];
       }
@@ -108,6 +110,9 @@ namespace buEngineSDK
     }
     
     // Update variables that change once per frame
+    auto goNum = m_resourceManager->getGameObjects().size();
+    auto gameobjects = m_resourceManager->getGameObjects();
+    
     cb.mWorld = m_meshTransform.m_world;
 
     m_graphicsAPI->updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
@@ -127,23 +132,34 @@ namespace buEngineSDK
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
 
     auto meshNum = currModel->m_meshes.size();
+            m_graphicsAPI->PSSetShaderResources(m_cubeMap, 4, 1);
+    // Render the go
+    for (uint32 currGO = 0; currGO < goNum; currGO++) {
+      auto &currGameObject = gameobjects[currGO];
+      gameobjects[val].m_isActive = m_renderObjects;
+      gameobjects[val].m_isSelected = m_selectedObject;
+      // Render if the go is active
+      if (currGameObject.m_isActive) {
+        for (uint32 i = 0; i < meshNum; ++i) {
+          auto& currMesh = currModel->m_meshes[i];
+          // Set Mesh texture
+          for (uint32 j = 0; j < currModel->m_textures.size() ; j++) {
+            auto& currTexture = currModel->m_textures[j];
+            m_graphicsAPI->PSSetShaderResources(currTexture, j, 1);
+          }
+          // Set primitive topology
+          m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
+          // Set vertex buffer
+          m_graphicsAPI->setVertexBuffers(currModel->m_vertexBuffer);
+          // Set Index buffer
+          m_graphicsAPI->setIndexBuffer(currModel->m_indexBuffer, 
+                                        Format::E::BU_FORMAT_R32_UINT,
+                                        0);
+          // Draw
+          m_graphicsAPI->drawIndexed(currMesh.m_numIndices, currMesh.m_baseIndex, 0);
+        }
 
-    for (uint32 i = 0; i < meshNum; ++i) {
-      auto& currMesh = currModel->m_meshes[i];
-      // Set Mesh texture
-      for (uint32 currTexture = 0; currTexture < currModel->m_textures.size() ; currTexture++) {
-        m_graphicsAPI->PSSetShaderResources(currModel->m_textures[currTexture], currTexture, 1);
       }
-      // Set primitive topology
-      m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
-      // Set vertex buffer
-      m_graphicsAPI->setVertexBuffers(currModel->m_vertexBuffer);
-      // Set Index buffer
-      m_graphicsAPI->setIndexBuffer(currModel->m_indexBuffer, 
-                                    Format::E::BU_FORMAT_R32_UINT,
-                                    0);
-      // Draw
-      m_graphicsAPI->drawIndexed(currMesh.m_numIndices, currMesh.m_baseIndex, 0);
     }
   }
 }

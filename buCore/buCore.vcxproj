@@ -205,6 +205,7 @@
     <ClCompile Include="src\buCoreModel.cpp" />
     <ClCompile Include="src\buCoreModelLoader.cpp" />
     <ClCompile Include="src\buCoreTexture2D.cpp" />
+    <ClCompile Include="src\buGameObject.cpp" />
     <ClCompile Include="src\buGraphicsDebug.cpp" />
     <ClCompile Include="src\buImgui.cpp" />
     <ClCompile Include="src\buTransform.cpp" />

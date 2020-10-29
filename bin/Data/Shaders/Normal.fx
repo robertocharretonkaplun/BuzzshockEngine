@@ -8,6 +8,7 @@ Texture2D txDiffuse : register(t0);
 Texture2D txNormal : register(t1);
 Texture2D txSpecular : register(t2);
 Texture2D txRoughness : register(t3);
+Texture2D txCubeMap : register(t4);
 SamplerState samLinear : register(s0);
 
 cbuffer cbCamera: register(b0) {
@@ -146,6 +147,9 @@ float4 PS(PS_INPUT input) : SV_Target {
   
   // Get Roughness Tex Value
   float4 RoughnessTex = txRoughness.Sample(samLinear, input.Tex.xy);
+  
+  // Get cube map Tex Value
+  float4 CubeMapTex = txCubeMap.Sample(samLinear, input.Nor);
 
   float metallic = SpecularTex.r;
   float roughness = RoughnessTex.r;
@@ -164,6 +168,11 @@ float4 PS(PS_INPUT input) : SV_Target {
   // Computes the view Direction
   float3 viewDir = normalize(viewPosition.xyz - input.Pos);
   
+  // Computes the reflect 
+  //float3 reflejo = reflect(viewDir, input.Nor);
+  //float4 cube = texCUBElod(CubeMapTex, reflejo);
+  return float4(CubeMapTex);
+
   // Computes the lambert of the diffuse incidence (NdL)
   float NdL = Lambert_Diffuse(normal, LightDir);
   

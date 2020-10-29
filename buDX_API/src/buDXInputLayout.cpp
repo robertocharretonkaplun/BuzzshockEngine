@@ -11,6 +11,7 @@ namespace buEngineSDK {
 
   void 
   buDXInputLayout::init(Vector<String> _semanticNames) {
+    // Enum para seleccionar la cantidad de elementos en el inputlayout
 
   //  for (int32 element = 0; element < _semanticNames.size(); element++) {
   //    D3D11_INPUT_ELEMENT_DESC layout;

@@ -16,7 +16,7 @@
 #include <buCoreMesh.h>
 #include <buDXBuffer.h>
 #include <buMatrix4x4.h>
-
+#include <buGameObject.h>
 namespace buEngineSDK {
   
   class buDXResourceManager : public buResourceManager
@@ -37,15 +37,20 @@ namespace buEngineSDK {
      */
     void
     loadMesh(String _filepath) override;
+    
     buCoreModel*
     getModel() override;
+
+    Vector<buGameObject>
+    getGameObjects() override;
 
   public:
     
     Vector<String> textNames;
 
     buCoreModel m_model;
-    
+    Vector<buGameObject> m_gameobjects;
+    uint32 m_goCounter = 0;
   };
 
   /**

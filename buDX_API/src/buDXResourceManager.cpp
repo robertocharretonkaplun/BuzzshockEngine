@@ -27,6 +27,7 @@ namespace buEngineSDK {
 
     m_model.m_meshes.reserve(Model->mNumMeshes);
 
+    buGameObject currGameobject;
     SkeletalMesh* skeleton = new SkeletalMesh;
     int32 highVertexNum = 0;
     for (uint32 i = 0; i < Model->mNumMeshes; ++i) {
@@ -161,11 +162,23 @@ namespace buEngineSDK {
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());
+    // Store gameobject
+    currGameobject.m_name = _filepath;
+    currGameobject.m_type = GameObjectType::MESH_TYPE;
+    currGameobject.m_model = m_model;
+    currGameobject.m_id = m_goCounter;
+    m_gameobjects.push_back(currGameobject);
+    m_goCounter++;
   }
 
   buCoreModel*
     buDXResourceManager::getModel() {
     return &m_model;
+  }
+
+  Vector<buGameObject> 
+  buDXResourceManager::getGameObjects() {
+    return m_gameobjects;
   }
 
 }

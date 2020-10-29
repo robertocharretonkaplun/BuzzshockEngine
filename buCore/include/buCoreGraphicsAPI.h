@@ -123,6 +123,9 @@ namespace buEngineSDK {
    */
   virtual SPtr<buCoreTexture2D>
   createTexture2D(int32 /*width*/, int32 /*height*/) { return nullptr; };
+  
+  virtual SPtr<buCoreTexture2D>
+  createTexture2D(int32 /*width*/, int32 /*height*/, uint32, uint32, uint32) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a swap chain object.

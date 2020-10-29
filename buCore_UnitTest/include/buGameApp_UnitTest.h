@@ -238,6 +238,7 @@ namespace buEngineSDK {
 		 * @brief Member that creates a sampler object. 
 		 */
 		SPtr<buCoreSampler> sampler;
+		SPtr<buCoreTexture2D> m_cubeMap;
 
 		/**
 	 	 * @brief Member that creates a changes every frame object. 
