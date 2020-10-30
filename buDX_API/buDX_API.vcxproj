@@ -100,7 +100,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(DEVLIBS)directxtex/DDSTextureLoader/;$(SolutionDir)dependencies/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(DEVLIBS)directxtex/DDSTextureLoader/;$(SolutionDir)dependencies/;$(SolutionDir)buDX_API/externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -144,7 +144,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(DEVLIBS)directxtex/DDSTextureLoader/;$(SolutionDir)dependencies/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(DEVLIBS)directxtex/DDSTextureLoader/;$(SolutionDir)dependencies/;$(SolutionDir)buDX_API/externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -181,6 +181,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="externals\DDSTextureLoader11.cpp" />
     <ClCompile Include="include\buDXDepthStencilView.cpp" />
     <ClCompile Include="include\buDXModelLoader.cpp" />
     <ClCompile Include="include\buDXSampler.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="src\buDXViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="externals\DDSTextureLoader11.h" />
     <ClInclude Include="include\buDXBuffer.h" />
     <ClInclude Include="include\buDXDepthStencilView.h" />
     <ClInclude Include="include\buDXDevice.h" />

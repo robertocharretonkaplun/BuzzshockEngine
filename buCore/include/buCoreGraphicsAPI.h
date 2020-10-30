@@ -208,6 +208,12 @@ namespace buEngineSDK {
    virtual SPtr<buCoreTexture2D>
    loadImageFromFile(String /*_filepath*/, 
                      int32 /*width*/,
+                     int32 /*height*/, 
+                     TextureType::E textureType) { return nullptr; };
+   
+   virtual SPtr<buCoreTexture2D>
+   loadDDSFromFile(WString /*_filepath*/, 
+                     int32 /*width*/,
                      int32 /*height*/) { return nullptr; };
    
    virtual SPtr<buCoreModelLoader>
@@ -274,6 +280,8 @@ namespace buEngineSDK {
                           WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/)
                           {return false;}
 
+   virtual SPtr<buCoreRenderTargetView>
+   createRenderTarget(WeakSPtr<buCoreTexture2D> _texture) { return nullptr; }
    /**
     * @brief Virtual method that creates the vertex shader.
     */

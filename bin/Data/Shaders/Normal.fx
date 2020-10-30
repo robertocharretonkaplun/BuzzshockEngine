@@ -8,7 +8,7 @@ Texture2D txDiffuse : register(t0);
 Texture2D txNormal : register(t1);
 Texture2D txSpecular : register(t2);
 Texture2D txRoughness : register(t3);
-Texture2D txCubeMap : register(t4);
+TextureCube txCubeMap : register(t4);
 SamplerState samLinear : register(s0);
 
 cbuffer cbCamera: register(b0) {
@@ -136,6 +136,9 @@ float4 PS(PS_INPUT input) : SV_Target {
   LightDir = LightDir / distance;
   distance = distance + distance;
 
+  // AO positions (N, S, E, W)
+  const float2 vec[4] = { float2(1,0), float2(-1,0) , float2(0,1) , float2(0,-1) };
+  //float4 AOPos = getPosition();
   // Get Diffuse Tex Value
   float4 DiffuseTex = txDiffuse.Sample(samLinear, input.Tex.xy);
 
@@ -148,8 +151,6 @@ float4 PS(PS_INPUT input) : SV_Target {
   // Get Roughness Tex Value
   float4 RoughnessTex = txRoughness.Sample(samLinear, input.Tex.xy);
   
-  // Get cube map Tex Value
-  float4 CubeMapTex = txCubeMap.Sample(samLinear, input.Nor);
 
   float metallic = SpecularTex.r;
   float roughness = RoughnessTex.r;
@@ -169,9 +170,11 @@ float4 PS(PS_INPUT input) : SV_Target {
   float3 viewDir = normalize(viewPosition.xyz - input.Pos);
   
   // Computes the reflect 
-  //float3 reflejo = reflect(viewDir, input.Nor);
-  //float4 cube = texCUBElod(CubeMapTex, reflejo);
-  return float4(CubeMapTex);
+  float3 reflejo = reflect(viewDir,  input.Nor);
+  // Get cube map Tex Value
+  float4 CubeMapTex = txCubeMap.Sample(samLinear, reflejo);
+  //float4 CubeMapTex2 = txDiffuse.Sample(samLinear, normal) ;
+ //return float4(CubeMapTex);
 
   // Computes the lambert of the diffuse incidence (NdL)
   float NdL = Lambert_Diffuse(normal, LightDir);
@@ -203,7 +206,7 @@ float4 PS(PS_INPUT input) : SV_Target {
   //float3 finalDiffuse = surfColor * NdL * LightColor * DiffuseTex.xyz * LightIntensity[0] ;
   // Absorsion factor
   float3 kD = lerp(float3(1, 1, 1), float3(0, 0, 0), metallic);
-  float3 DiffuseBRDF = DiffuseTex.xyz * kD * LightColor * surfColor * LightIntensity[0];
+  float3 DiffuseBRDF = DiffuseTex.xyz* CubeMapTex.xyz * kD * LightColor * surfColor * LightIntensity[0];
 
 
  return float4(pow((DiffuseBRDF + specularBRDF) * NdL, 1.0f / 2.2f), DiffuseTex.w);

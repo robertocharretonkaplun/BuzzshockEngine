@@ -422,6 +422,29 @@ namespace buEngineSDK {
       &tmpDSV->m_depthStencilView));
   }
 
+  SPtr<buCoreRenderTargetView> buDXGraphicsAPI::createRenderTarget(WeakSPtr<buCoreTexture2D> _texture)
+  {
+    auto pRenderTargetView = std::make_shared<buDXRenderTargetView>();
+    auto renderTargetView = reinterpret_cast<buDXRenderTargetView*>(pRenderTargetView.get());
+
+    auto textureObj = _texture.lock();
+    auto texture = reinterpret_cast<buDXTexture2D*>(textureObj.get());
+
+    D3D11_RENDER_TARGET_VIEW_DESC d;
+    ZeroMemory(&d, sizeof(d));
+
+    d.Format = texture->m_descriptor.Format;
+    d.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+    d.Texture2DArray.ArraySize = 1;
+    d.Texture2DArray.FirstArraySlice = 0;
+
+    static_cast<int>(m_device->CreateRenderTargetView(texture->m_texture,
+      &d,
+      &renderTargetView->m_renderTargetView));
+
+    return pRenderTargetView;
+  }
+
   bool 
   buDXGraphicsAPI::createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture,
     WeakSPtr<buCoreRenderTargetView> _renderTargetView) {
@@ -544,7 +567,8 @@ namespace buEngineSDK {
   SPtr<buCoreTexture2D>
   buDXGraphicsAPI::loadImageFromFile(String _filepath, 
                                      int32 width, 
-                                     int32 height) {
+                                     int32 height,
+                                     TextureType::E textureType) {
 
     auto ptexture2D = std::make_shared<buDXTexture2D>();
 
@@ -569,7 +593,7 @@ namespace buEngineSDK {
     if (texture->image == nullptr) {
       return nullptr;
     }
-    texture->init(_filepath, width, height, DXGI_FORMAT_R8G8B8A8_UNORM);
+    texture->init(_filepath, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, textureType);
 
     D3D11_SUBRESOURCE_DATA subResource;
     subResource.pSysMem = texture->image;
@@ -583,19 +607,47 @@ namespace buEngineSDK {
     CD3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
     shaderResourceViewDesc.Format = texture->m_descriptor.Format;
     shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    
     shaderResourceViewDesc.Texture2D.MipLevels = texture->m_descriptor.MipLevels;
     shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+
+
 
     m_device->CreateShaderResourceView(texture->m_texture,
       &shaderResourceViewDesc,
       &texture->m_shaderSubresource);
     
+
+
     stbi_image_free(texture->image);
     m_ShaderResources.push_back(texture->m_shaderSubresource);
     return ptexture2D;
   }
 
-  SPtr<buCoreModelLoader> 
+  SPtr<buCoreTexture2D> buDXGraphicsAPI::loadDDSFromFile(WString _filepath,
+    int32 width, int32 height) {
+    auto ptexture2D = std::make_shared<buDXTexture2D>();
+
+    auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
+    
+    DirectX::CreateDDSTextureFromFileEx(m_device,
+      _filepath.c_str(),
+      0,
+      D3D11_USAGE_DEFAULT,
+      D3D11_BIND_SHADER_RESOURCE,
+      0,
+      D3D11_RESOURCE_MISC_TEXTURECUBE,
+      false,
+      (ID3D11Resource**)&texture->m_texture,
+      &texture->m_shaderSubresource);
+
+   
+    m_ShaderResources.push_back(texture->m_shaderSubresource);
+    return ptexture2D;
+  
+  }
+
+  SPtr<buCoreModelLoader>
   buDXGraphicsAPI::loadMesh(String _filepath) {
     /*auto meshloader = std::make_shared<buCoreModelLoader>();
     auto loader = reinterpret_cast<buCoreModelLoader*>(meshloader.get());

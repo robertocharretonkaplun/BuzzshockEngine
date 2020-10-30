@@ -238,7 +238,7 @@ namespace buEngineSDK {
 
           if (GetOpenFileName(&ofn) == TRUE) {
             SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
-              ofn.lpstrFile, m_screenWidth, m_screenHeight);
+              ofn.lpstrFile, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
             m_resourceManager->getModel()->m_textures.push_back(currTex);
           }
         }
@@ -388,6 +388,9 @@ namespace buEngineSDK {
     ImGui::ColorEdit3("LightColor", m_LightColor);
     ImGui::ColorEdit3("SurfColor", m_surfColor);
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
+    ImGui::Text("Cube Map Tex");
+    ImGui::Separator();
+    ImGui::Image(m_graphicsAPI->getShaderResource()[0], ImVec2(64, 64));
     ImGui::End();
 
     // Inspector for multiple gameobjects
@@ -419,7 +422,7 @@ namespace buEngineSDK {
     ImGui::SliderFloat("Ang", &m_angle,-3,3);
 
     // Create texture componens when they are loaded.
-    for (uint32 i = 0; i < m_graphicsAPI->getShaderResource().size(); ++i) {
+    for (uint32 i = 1; i < m_graphicsAPI->getShaderResource().size(); ++i) {
       ImGui::Separator();
       ImGui::Text("Texture");
       ImGui::Separator();
@@ -450,9 +453,34 @@ namespace buEngineSDK {
 
           if (GetOpenFileName(&ofn) == TRUE) {
             SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
-              ofn.lpstrFile, m_screenWidth, m_screenHeight);
+              ofn.lpstrFile, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
             m_resourceManager->getModel()->m_textures.push_back(currTex);
           }
+    }
+    ImGui::Separator();
+    const float ItemSpacing1 = ImGui::GetStyle().ItemSpacing.x;
+
+    static float HostButtonWidth1 = 215.0f; //The 100.0f is just a guess size for the first frame.
+    float pos1 = HostButtonWidth1 + ItemSpacing1;
+    ImGui::SameLine(ImGui::GetWindowWidth() - pos1);
+    if (ImGui::Button("Add Component Model")) {
+      OPENFILENAME ofn = { 0 };
+      TCHAR szFile[260] = { 0 };
+      // Initialize remaining fields of OPENFILENAME structure
+      ofn.lStructSize = sizeof(ofn);
+      ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
+      ofn.lpstrFile = szFile;
+      ofn.nMaxFile = sizeof(szFile);
+      ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
+      ofn.nFilterIndex = 1;
+      ofn.lpstrFileTitle = nullptr;
+      ofn.nMaxFileTitle = 0;
+      ofn.lpstrInitialDir = nullptr;
+      ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+      if (GetOpenFileName(&ofn) == TRUE) {
+        m_resourceManager->loadMesh(ofn.lpstrFile);
+      }
     }
     
     ImGui::End();

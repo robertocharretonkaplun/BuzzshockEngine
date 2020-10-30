@@ -34,7 +34,8 @@ namespace buEngineSDK
     // Create sampler
     sampler = graphMan.createSampler();
 
-    m_cubeMap = graphMan.loadImageFromFile("Data/Textures/unnamed.jpg", m_screenWidth, m_screenHeight);
+    m_cubeMap = graphMan.loadDDSFromFile(L"Data/Textures/galileo_cross.dds", m_screenWidth, m_screenHeight);
+
   }
 
   void 
@@ -132,7 +133,6 @@ namespace buEngineSDK
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
 
     auto meshNum = currModel->m_meshes.size();
-            m_graphicsAPI->PSSetShaderResources(m_cubeMap, 4, 1);
     // Render the go
     for (uint32 currGO = 0; currGO < goNum; currGO++) {
       auto &currGameObject = gameobjects[currGO];
@@ -147,6 +147,7 @@ namespace buEngineSDK
             auto& currTexture = currModel->m_textures[j];
             m_graphicsAPI->PSSetShaderResources(currTexture, j, 1);
           }
+           m_graphicsAPI->PSSetShaderResources(m_cubeMap, 4, 1);
           // Set primitive topology
           m_graphicsAPI->setPrimitiveTopology(currMesh.m_topology);
           // Set vertex buffer

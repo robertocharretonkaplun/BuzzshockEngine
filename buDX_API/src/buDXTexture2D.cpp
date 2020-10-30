@@ -36,18 +36,30 @@ namespace buEngineSDK {
   buDXTexture2D::init(String _filepath, 
                       int32 width, 
                       int32 height,
-                      uint32 format) {
+                      uint32 format,
+                      TextureType::E textureType) {
     if ("" != _filepath) {
       m_name = _filepath;
       m_descriptor.Width = (UINT)width;
       m_descriptor.Height = (UINT)height;
       m_descriptor.MipLevels = 1;
-      m_descriptor.ArraySize = 1;
       m_descriptor.Format = (DXGI_FORMAT)format;
       m_descriptor.SampleDesc.Count = 1;
       m_descriptor.Usage = D3D11_USAGE_DEFAULT;
       m_descriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
       m_descriptor.CPUAccessFlags = 0;
+      // Define what type of texture is loaded
+      switch (textureType) {
+      case TextureType::DEFAULT:
+        m_descriptor.ArraySize = 1;
+        break;
+      case TextureType::CUBEMAP:
+        m_descriptor.ArraySize = 6;
+        m_descriptor.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE | D3D11_RESOURCE_MISC_GENERATE_MIPS;
+        break;
+      default:
+        break;
+      }
     }
   }
 }

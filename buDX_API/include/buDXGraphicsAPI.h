@@ -23,8 +23,10 @@
 #include "buDXBuffer.h"
 #include "buDXDepthStencilView.h"
 #include "buDXSampler.h"
+#include "DDSTextureLoader11.h"
 //#include "buDXImgui.h"
 // Assimp
+//using namespace DirectX;
 
 
 namespace buEngineSDK {
@@ -267,6 +269,8 @@ namespace buEngineSDK {
                           WeakSPtr<buCoreDepthStencilView> _depthStencilView) 
                           override;
 
+   SPtr<buCoreRenderTargetView>createRenderTarget(WeakSPtr<buCoreTexture2D> _texture) override;
+
    /**
     * @brief Method that creates the render target view.
     */
@@ -319,7 +323,13 @@ namespace buEngineSDK {
     * @brief Method in charge of loading a texture from file
     */
    SPtr<buCoreTexture2D>
-   loadImageFromFile(String _filepath, int32 width, int32 height) override;
+   loadImageFromFile(String _filepath, int32 width, int32 height, TextureType::E textureType) override;
+   
+   /**
+    * @brief Method in charge of loading a texture from file
+    */
+   SPtr<buCoreTexture2D>
+   loadDDSFromFile(WString _filepath, int32 width, int32 height) override;
 
    SPtr<buCoreModelLoader>
    loadMesh(String _filepath) override;
@@ -471,6 +481,7 @@ namespace buEngineSDK {
    uint32 m_height = 0;
    
    Vector<void*> m_ShaderResources;
+   
 };
  
  /** 
