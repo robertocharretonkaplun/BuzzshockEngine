@@ -9,11 +9,13 @@
 #pragma once
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
+#include <sysAudioAPI.h>
 #include <buCameraManager.h>
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
 #include <buCoreTexture2D.h>
+
 #include "imgui\imGuiDocking\imgui.h"
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -133,11 +135,7 @@ namespace buEngineSDK {
 		 * @brief Member in charge of getting the dll of directX.
 		 */
     buPluggin m_directXPlug;
-
-		/**
-		 * @brief Member in charge of getting the dll of a external texture lib. 
-		 */
-    buPluggin m_devILPlug;
+    buPluggin m_audioPlug;
 
 		/**
 		* @brief Member that sets the window reference.
@@ -172,6 +170,7 @@ namespace buEngineSDK {
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
+		sysAudioAPI* m_sysAudioAPI = nullptr;
 	
 		buCameraManager m_cameraManager ;
 		/**
@@ -239,13 +238,14 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		Vector<String> m_logs;
-		Vector<String> m_GONames;
+		Vector<String> m_list;
 
 		float dealtaTime = 0;
 		float oldTime = 0;
 
 		bool m_renderObjects = true;
 		bool m_selectedObject = false;
+		bool m_isCubeLoaded = false;
 		uint32 val = 0;
 		uint32 m_currCamera = 0;
 	};

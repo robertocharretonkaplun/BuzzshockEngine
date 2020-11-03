@@ -131,7 +131,7 @@ namespace buEngineSDK
     m_graphicsAPI->PSsetConstantBuffers(changeEveryFrame, 1, 1);
     // Set samplers
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
-
+//m_audioTest.update();
     auto meshNum = currModel->m_meshes.size();
     // Render the go
     for (uint32 currGO = 0; currGO < goNum; currGO++) {

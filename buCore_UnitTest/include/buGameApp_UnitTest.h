@@ -23,6 +23,7 @@
 #include <buCamera.h>
 #include <buTransform.h>
 #include <buCommons.h>
+#include <BuAudio.h>
 
 namespace buEngineSDK {
 
@@ -108,5 +109,7 @@ namespace buEngineSDK {
     CBChangesEveryFrame cb;
 
     buTransform m_meshTransform;
+
+		buAudio m_audioTest;
 	};
 }

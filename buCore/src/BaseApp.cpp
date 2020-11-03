@@ -106,6 +106,7 @@ namespace buEngineSDK {
       auto createCameraManager = reinterpret_cast<fnCameraManagerProt>(
         m_directXPlug.getProcedureByName("createCameraManager"));
 
+
       buCoreGraphicsAPI::startUp();
       buCoreGraphicsAPI* graphicAPI = createGraphicsAPI();
       g_graphicsAPI().setObject(graphicAPI);
@@ -117,6 +118,7 @@ namespace buEngineSDK {
       g_resourceManager().setObject(resourceManager);
       m_resourceManager = &g_resourceManager();
 
+      
       /*AppOptions::startUp();
       buCameraManager::startUp();
       buCameraManager* cameraManager = createCameraManager();
@@ -126,7 +128,15 @@ namespace buEngineSDK {
       g_AppOptions().setObject(appOptions);
       m_appOptions = &g_AppOptions();*/
     }
-    
+    if (m_audioPlug.loadPluggin("sysAudio_OpenALd.dll")) {
+      auto createAudioAPI = reinterpret_cast<fnAudioAPIProt>(
+        m_audioPlug.getProcedureByName("createAudioAPI"));
+
+      sysAudioAPI::startUp();
+      sysAudioAPI* audioAPI = createAudioAPI();
+      g_audioAPI().setObject(audioAPI);
+      m_sysAudioAPI = &g_audioAPI();
+    }
 
   }
 
@@ -218,7 +228,7 @@ namespace buEngineSDK {
           if (GetOpenFileName(&ofn) == TRUE) {
             //Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
             m_resourceManager->loadMesh(ofn.lpstrFile);
-            m_GONames.push_back(m_resourceManager->getModel()->TexName);
+            //m_GONames.push_back(m_resourceManager->getModel()->TexName);
           }
         }
         if (ImGui::MenuItem("Import textures...", "CTRL+T")) {
@@ -390,7 +400,7 @@ namespace buEngineSDK {
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
     ImGui::Text("Cube Map Tex");
     ImGui::Separator();
-    ImGui::Image(m_graphicsAPI->getShaderResource()[0], ImVec2(64, 64));
+    //ImGui::Image(m_graphicsAPI->getShaderResource()[0], ImVec2(256, 256));
     ImGui::End();
 
     // Inspector for multiple gameobjects
