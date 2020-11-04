@@ -19,9 +19,9 @@ cbuffer cbCamera: register(b0) {
 cbuffer cbChangesEveryFrame : register(b1) {
   matrix World;
   float4 viewPosition;
-  float3 LightPos;
-  float3 LightColor;
-  float3 surfColor;
+  float4 LightPos;
+  float4 LightColor;
+  float4 surfColor;
   float4 LightIntensity;
 };
 
@@ -42,10 +42,11 @@ struct VS_INPUT {
 
 struct PS_INPUT {
   float4 Pos : SV_POSITION;
-  float2 Tex : TEXCOORD0;
+  float3 PosW : TEXCOORD0;
+  float2 Tex : TEXCOORD1;
   float3 Nor : NORMAL0;
-  float2 TexCoord : TEXCOORD1;
-  float3x3 TBN : TEXCOORD2;
+  float2 TexCoord : TEXCOORD2;
+  float3x3 TBN : TEXCOORD3;
 };
 
 matrix Identity = {
@@ -111,6 +112,7 @@ PS_INPUT VS(VS_INPUT input) {
   float4 position = mul(input.Pos, boneTrans);
 
   output.Pos = mul(input.Pos, World);
+  output.PosW = output.Pos.xyz;
   output.Pos = mul(output.Pos, View);
   output.Pos = mul(output.Pos, Projection);
   output.Tex = input.Tex;
@@ -131,7 +133,7 @@ PS_INPUT VS(VS_INPUT input) {
 float4 PS(PS_INPUT input) : SV_Target {
   // Position of light
   // Computes the light direction of the light to this pixel
-  float3 LightDir = LightPos - input.Pos;
+  float3 LightDir = LightPos - input.PosW;
   float distance = length(LightPos);
   LightDir = LightDir / distance;
   distance = distance + distance;
@@ -167,7 +169,7 @@ float4 PS(PS_INPUT input) : SV_Target {
   normal = normalize(mul(normal, input.TBN));
 
   // Computes the view Direction
-  float3 viewDir = normalize(viewPosition.xyz - input.Pos);
+  float3 viewDir = normalize(viewPosition.xyz - input.PosW);
   
   // Computes the reflect 
   float3 reflejo = reflect(viewDir,  input.Nor);
@@ -206,8 +208,8 @@ float4 PS(PS_INPUT input) : SV_Target {
   //float3 finalDiffuse = surfColor * NdL * LightColor * DiffuseTex.xyz * LightIntensity[0] ;
   // Absorsion factor
   float3 kD = lerp(float3(1, 1, 1), float3(0, 0, 0), metallic);
-  float3 DiffuseBRDF = DiffuseTex.xyz* CubeMapTex.xyz * kD * LightColor * surfColor * LightIntensity[0];
+  float3 DiffuseBRDF = DiffuseTex.xyz * kD * LightColor.xyz * surfColor.xyz * LightIntensity[0];
 
 
- return float4(pow((DiffuseBRDF + specularBRDF) * NdL, 1.0f / 2.2f), DiffuseTex.w);
+ return float4(pow((DiffuseBRDF + specularBRDF /*+ CubeMapTex.xyz*/) * NdL, 1.0f / 2.2f), DiffuseTex.w);
 }

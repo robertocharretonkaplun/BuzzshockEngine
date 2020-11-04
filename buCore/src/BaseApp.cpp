@@ -75,6 +75,7 @@ namespace buEngineSDK {
           //dealtaTime = 1.0f / ( clock() - oldTime );
         // Update game logic
         update(dealtaTime);
+        
         // Render frame
         render();
         auto stop = timer.now();
@@ -352,7 +353,7 @@ namespace buEngineSDK {
     static int selectedItem = 0;
     ImGui::Combo("Projection", &selectedItem, items, IM_ARRAYSIZE(items));
     ImGui::ColorEdit4("Background", ClearColor);
-    ImGui::SliderFloat("Near", &m_near,0, 300);
+    ImGui::SliderFloat("Near", &m_near,3, 5);
     ImGui::SliderFloat("Far", &m_far,0, 300);
     ImGui::End();
 
@@ -401,6 +402,16 @@ namespace buEngineSDK {
     ImGui::Text("Cube Map Tex");
     ImGui::Separator();
     //ImGui::Image(m_graphicsAPI->getShaderResource()[0], ImVec2(256, 256));
+    ImGui::End();
+
+    // Container for shader attributes
+    ImGui::Begin("Audio Resource");
+    if (ImGui::Button("Play")) {
+      m_audioState = 1;
+    }
+    if (ImGui::Button("Pause")) {
+      m_audioState = 0;
+    }
     ImGui::End();
 
     // Inspector for multiple gameobjects

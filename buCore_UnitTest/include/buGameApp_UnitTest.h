@@ -23,7 +23,6 @@
 #include <buCamera.h>
 #include <buTransform.h>
 #include <buCommons.h>
-#include <BuAudio.h>
 
 namespace buEngineSDK {
 
@@ -96,12 +95,6 @@ namespace buEngineSDK {
 		SPtr<buCoreBuffer> BonesTranform;
 		
 		/**
-		 * @brief Member that sets the clear color 
-		 */
-		//float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
-		
-    //buCamera m_camera;
-		/**
 		 * @brief 
 		 */
 		buGraphicsDebug m_lineDebugger;
@@ -110,6 +103,5 @@ namespace buEngineSDK {
 
     buTransform m_meshTransform;
 
-		buAudio m_audioTest;
 	};
 }

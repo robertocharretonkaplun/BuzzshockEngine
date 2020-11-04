@@ -24,9 +24,29 @@ namespace buEngineSDK {
 			sysAudioAPI::_instance() = _api;
 		}
 
-		virtual SPtr<AudioResource>
-		createNewAudio() { return nullptr; }
+		virtual void
+		update() {}
 
+		virtual void
+		render() {}
+
+		virtual void 
+		destroy() {}
+
+		virtual void
+		createNewAudioResource(String filename, AudioType::E audioType) { }
+
+		virtual void
+		updateAudioResource(uint32 _startSlot) {}
+		
+		virtual void
+		setAudioResource(uint32 _startSlot) {}
+
+		virtual void
+		destroyAudioResource(uint32 _startSlot) { }
+		
+		virtual void
+		playAudioResource(uint32 _startSlot, uint32 sourceState) { }
 	};
 	/**
  * @brief Export method for the class instance.

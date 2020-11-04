@@ -26,7 +26,7 @@ namespace buEngineSDK {
 		~AudioResource_OAL();
 
 		void 
-		init() override;
+		init(String filename, AudioType::E audioType) override;
 
 		void
 		update() override;
@@ -36,6 +36,9 @@ namespace buEngineSDK {
 
 		void 
 		destroy() override;
+
+		void
+		playAudio(uint32 sourceState) override;
 	private:
 		ALCdevice* device;
 		ALCcontext* context;
@@ -47,5 +50,7 @@ namespace buEngineSDK {
 		Vector<uint8_t> stereoPCMDataBytes;
 		ALuint stereoSoundBuffer;
 		ALuint stereoSource;
+		AudioType::E m_audioType;
+		bool m_playAudio = false;
 	};
 }

@@ -9,10 +9,31 @@ namespace buEngineSDK {
 		sysAudio_OpenAL() = default;
 		~sysAudio_OpenAL() = default;
 
-		SPtr<AudioResource>
-		createNewAudio() override;
-	private:
+		void
+		createNewAudioResource(String filename, AudioType::E audioType) override;
 
+		void
+		update() override;
+
+		void
+		render() override;
+
+		void 
+		destroy() override;
+
+		void
+		updateAudioResource(uint32 _startSlot) override;
+
+		void
+		setAudioResource(uint32 _startSlot) override;
+
+		void
+		destroyAudioResource(uint32 _startSlot) override;
+
+		void
+		playAudioResource(uint32 _startSlot, uint32 sourceState) override;
+	private:
+		Vector<AudioResource_OAL*> m_audioResources;
 	};
 	/**
 	* @brief Plugging exportation data method.

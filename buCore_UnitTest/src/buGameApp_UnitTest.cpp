@@ -36,15 +36,19 @@ namespace buEngineSDK
 
     m_cubeMap = graphMan.loadDDSFromFile(L"Data/Textures/galileo_cross.dds", m_screenWidth, m_screenHeight);
 
+    m_sysAudioAPI->createNewAudioResource("TestSound_Mono", AudioType::E::MONO);
   }
 
   void 
   buGameApp_UnitTest::onDestroy() {
     m_graphicsAPI->cleanUp();
+    //m_sysAudioAPI.de;
     // Shutdown module
     buCoreGraphicsAPI::shutDown();
+    sysAudioAPI::shutDown();
     //delete graphicAPI;
     m_directXPlug.destroy();
+    m_audioPlug.destroy();
   }
 
   void 
@@ -89,6 +93,8 @@ namespace buEngineSDK
     buVector3F position(m_position[0], m_position[1], m_position[2]);
     
     m_meshTransform.update(position, rotation, scale, m_angle);
+   
+    //m_sysAudioAPI->playAudioResource(0, m_audioState);
   }
 
 

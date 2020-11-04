@@ -220,7 +220,7 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		float m_angle = 0.0f;
-		float m_near = 0.1f;
+		float m_near = 3.0f;
 		float m_EngineScale = 1.0f;
 		float m_far = 100.0f;
 		/**
@@ -246,6 +246,7 @@ namespace buEngineSDK {
 		bool m_renderObjects = true;
 		bool m_selectedObject = false;
 		bool m_isCubeLoaded = false;
+		uint32 m_audioState;
 		uint32 val = 0;
 		uint32 m_currCamera = 0;
 	};

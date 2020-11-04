@@ -69,9 +69,6 @@
     <ClCompile Include="src\buGraphicsDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\buCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\buCameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,7 +78,7 @@
     <ClCompile Include="src\buGameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\buAudio.cpp">
+    <ClCompile Include="src\buCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,9 +195,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buTransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BuAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -197,7 +197,6 @@
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
     <ClCompile Include="include\buResourceManager.cpp" />
     <ClCompile Include="src\BaseApp.cpp" />
-    <ClCompile Include="src\buAudio.cpp" />
     <ClCompile Include="src\buCamera.cpp" />
     <ClCompile Include="src\buCameraManager.cpp" />
     <ClCompile Include="src\buCoreConfig.cpp" />
@@ -223,7 +222,6 @@
     <ClInclude Include="include\BaseApp.h" />
     <ClInclude Include="include\BSPNodeTree.h" />
     <ClInclude Include="include\buAnimation.h" />
-    <ClInclude Include="include\BuAudio.h" />
     <ClInclude Include="include\buCamera.h" />
     <ClInclude Include="include\buCameraManager.h" />
     <ClInclude Include="include\buCommons.h" />

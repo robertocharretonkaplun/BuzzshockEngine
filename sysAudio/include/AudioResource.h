@@ -1,6 +1,13 @@
 #pragma once
 #include "PrerequisitesAudio.h"
 
+namespace AudioType {
+	enum E {
+		MONO = 0,
+		STEREO = 1,
+	};
+}
+
 namespace buEngineSDK {
 	class AudioResource
 	{
@@ -9,7 +16,7 @@ namespace buEngineSDK {
 		~AudioResource() = default;
 
 		virtual void 
-		init() {}
+		init(String filename, AudioType::E audioType) {}
 
 		virtual void
 		update() {}
@@ -19,5 +26,8 @@ namespace buEngineSDK {
 
 		virtual void 
 		destroy() {}
+
+		virtual void
+		playAudio(uint32 sourceState) {}
 	};
 }
