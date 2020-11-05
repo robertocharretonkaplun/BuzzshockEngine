@@ -176,7 +176,7 @@ float4 PS(PS_INPUT input) : SV_Target {
   // Get cube map Tex Value
   float4 CubeMapTex = txCubeMap.Sample(samLinear, reflejo);
   //float4 CubeMapTex2 = txDiffuse.Sample(samLinear, normal) ;
- //return float4(CubeMapTex);
+  //return float4(CubeMapTex);
 
   // Computes the lambert of the diffuse incidence (NdL)
   float NdL = Lambert_Diffuse(normal, LightDir);

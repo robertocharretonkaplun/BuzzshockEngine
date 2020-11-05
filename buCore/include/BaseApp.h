@@ -15,7 +15,7 @@
 #include <buCoreConfig.h>
 #include <buPluggin.h>
 #include <buCoreTexture2D.h>
-
+#include <SaveSystem.h>
 #include "imgui\imGuiDocking\imgui.h"
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -249,5 +249,7 @@ namespace buEngineSDK {
 		uint32 m_audioState;
 		uint32 val = 0;
 		uint32 m_currCamera = 0;
+
+		SaveSystem m_saverMan;
 	};
 }

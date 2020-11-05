@@ -103,5 +103,6 @@ namespace buEngineSDK {
 
     buTransform m_meshTransform;
 
+		
 	};
 }

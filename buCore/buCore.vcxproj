@@ -209,6 +209,7 @@
     <ClCompile Include="src\buGraphicsDebug.cpp" />
     <ClCompile Include="src\buImgui.cpp" />
     <ClCompile Include="src\buTransform.cpp" />
+    <ClCompile Include="src\SaveSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="include\buResourceManager.h" />
     <ClInclude Include="include\buScene.h" />
     <ClInclude Include="include\buTransform.h" />
+    <ClInclude Include="include\SaveSystem.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

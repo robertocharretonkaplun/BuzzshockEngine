@@ -207,53 +207,63 @@ namespace buEngineSDK {
     if (ImGui::BeginMainMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Load...", "CTRL+O")) {
+          // Load model
+          String modelPath = m_saverMan.getString("UnrealChar");
+          m_resourceManager->loadMesh(modelPath);
+          // Load Textures
+          String AlbedoTexPath = m_saverMan.getString("AlbedoTex");
+          SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
+            AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+          m_resourceManager->getModel()->m_textures.push_back(AlbedoTex);
+          String NormalTexPath = m_saverMan.getString("NormalTex");
+          SPtr<buCoreTexture2D> NormalTex = m_graphicsAPI->loadImageFromFile(
+            NormalTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+          m_resourceManager->getModel()->m_textures.push_back(NormalTex);
+          String MetallicTexPath = m_saverMan.getString("MetallicTex");
+          SPtr<buCoreTexture2D> MetallicTex = m_graphicsAPI->loadImageFromFile(
+            MetallicTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+          m_resourceManager->getModel()->m_textures.push_back(MetallicTex);
+          String RoughnessTexPath = m_saverMan.getString("RoughnessTex");
+          SPtr<buCoreTexture2D> RoughnessTex = m_graphicsAPI->loadImageFromFile(
+             RoughnessTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+             m_resourceManager->getModel()->m_textures.push_back(RoughnessTex);
+          // Load Mesh transform
+          buVector3F tmpPos = m_saverMan.getFloatVec3("MeshPos");
+          m_position[0] = tmpPos.x;
+          m_position[1] = tmpPos.y;
+          m_position[2] = tmpPos.z;
+          
+          buVector3F tmpRot = m_saverMan.getFloatVec3("MeshRot");
+          m_Rotation[0] = tmpRot.x;
+          m_Rotation[1] = tmpRot.y;
+          m_Rotation[2] = tmpRot.z;
+          
+          buVector3F tmpSca = m_saverMan.getFloatVec3("MeshSca");
+          m_Scale[0] = tmpSca.x;
+          m_Scale[1] = tmpSca.y;
+          m_Scale[2] = tmpSca.z;
         }
         if (ImGui::MenuItem("Save...", "CTRL+S")) {
+          // Save the shader file
+
+          // Save the camera settings
+          // Save the Gameobject settings 
+          // Model name
+          m_saverMan.setString("UnrealChar", "Data/Models/character.dae");
+
+          // Model transform
+          m_saverMan.setFloatVec3("MeshPos", m_position);
+          m_saverMan.setFloatVec3("MeshRot", m_Rotation);
+          m_saverMan.setFloatVec3("MeshSca", m_Scale);
+          // Model loaded textures
+          m_saverMan.setString("AlbedoTex", "Data/Textures/Character/Albedo.jpeg");
+          m_saverMan.setString("NormalTex", "Data/Textures/Character/Normal.jpeg");
+          m_saverMan.setString("MetallicTex", "Data/Textures/Character/Metallic.jpeg");
+          m_saverMan.setString("RoughnessTex", "Data/Textures/Character/Roughness.jpeg");
+
+          // Save Shader textures
 
         }
-        if (ImGui::MenuItem("Import Model...", "CTRL+I")) {
-          OPENFILENAME ofn = { 0 };
-          TCHAR szFile[260] = { 0 };
-          // Initialize remaining fields of OPENFILENAME structure
-          ofn.lStructSize = sizeof(ofn);
-          ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-          ofn.lpstrFile = szFile;
-          ofn.nMaxFile = sizeof(szFile);
-          ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-          ofn.nFilterIndex = 1;
-          ofn.lpstrFileTitle = nullptr;
-          ofn.nMaxFileTitle = 0;
-          ofn.lpstrInitialDir = nullptr;
-          ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-          if (GetOpenFileName(&ofn) == TRUE) {
-            //Log("Resource Manager - Loading Mesh from file [Data/Models/AdvanceDancing.fbx]");
-            m_resourceManager->loadMesh(ofn.lpstrFile);
-            //m_GONames.push_back(m_resourceManager->getModel()->TexName);
-          }
-        }
-        if (ImGui::MenuItem("Import textures...", "CTRL+T")) {
-          OPENFILENAME ofn = { 0 };
-          TCHAR szFile[260] = { 0 };
-          // Initialize remaining fields of OPENFILENAME structure
-          ofn.lStructSize = sizeof(ofn);
-          ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-          ofn.lpstrFile = szFile;
-          ofn.nMaxFile = sizeof(szFile);
-          ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-          ofn.nFilterIndex = 1;
-          ofn.lpstrFileTitle = nullptr;
-          ofn.nMaxFileTitle = 0;
-          ofn.lpstrInitialDir = nullptr;
-          ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-          if (GetOpenFileName(&ofn) == TRUE) {
-            SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
-              ofn.lpstrFile, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-            m_resourceManager->getModel()->m_textures.push_back(currTex);
-          }
-        }
-
         ImGui::Separator();
 
         if (ImGui::MenuItem("Exit", "CTRL+F4")) {
