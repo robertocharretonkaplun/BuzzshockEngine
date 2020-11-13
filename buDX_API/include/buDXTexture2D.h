@@ -11,9 +11,9 @@
 #include <d3d11.h>
 #include "buCoreTexture2D.h"
 #include "buCoreRenderTargetView.h"
+#include "buCommons.h"
 namespace buEngineSDK {
- class buDXTexture2D : public buCoreTexture2D
- {
+ class buDXTexture2D : public buCoreTexture2D {
  public:
   /**
    * @brief 
@@ -42,7 +42,7 @@ namespace buEngineSDK {
    * @bug 
    */
   void 
-  init(String _filepath, int32 width, int32 height, uint32 format, TextureType::E textureType) override;
+  init(String _filepath, int32 width, int32 height, TextureType::E textureType) override;
  public:
    String m_name;
   /*
@@ -59,7 +59,9 @@ namespace buEngineSDK {
    ID3D11ShaderResourceView* m_shaderSubresource;
 
    SPtr<buCoreRenderTargetView> m_renderTarget;
-   
+   ID3D11RenderTargetView* m_renderTargetView;
+   CD3D11_SHADER_RESOURCE_VIEW_DESC m_shaderResourceViewDesc;
+   D3D11_RENDER_TARGET_VIEW_DESC m_renderTargetViewDesc;
    /**
    * @brief 
    */

@@ -42,9 +42,12 @@ namespace buEngineSDK {
 
     virtual buCoreModel*
     getModel() {return nullptr;};
+    
+    virtual Vector<SPtr<buCoreTexture2D>>*
+    getTextures() {return nullptr;}
 
     virtual Vector<buGameObject>
-    getGameObjects() { return Vector<buGameObject>(); }
+    getGameObjects() { return Vector<buGameObject>(); };
   };
 
   /**

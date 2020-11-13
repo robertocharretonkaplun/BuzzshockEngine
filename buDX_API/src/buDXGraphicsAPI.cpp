@@ -143,28 +143,57 @@ namespace buEngineSDK {
   }
 
   SPtr<buCoreTexture2D> 
-  buDXGraphicsAPI::createTexture2D(int32 width, int32 height ) {
+  buDXGraphicsAPI::createTexture2D(int32 width, int32 height,
+    TextureType::E _textureType, WString _filename) {
     auto ptexture2D = std::make_shared<buDXTexture2D>();
     auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
 
+    // Initialize the basic descriptors for the class
+    texture->init("",width, height, _textureType);
 
-    texture->init("",
-                  DXGI_FORMAT_D24_UNORM_S8_UINT,
-                  D3D11_USAGE_DEFAULT,
-                  width,
-                  height,
-                  1,
-                  1,
-                  1,
-                  0,
-                  D3D11_BIND_DEPTH_STENCIL,
-                  0,
-                  0);
+    // Make the proper initializations for each type
+    switch (_textureType) {
+    case TextureType::DEFAULT:
+      m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      break;
+    case TextureType::DEPTH_STENCIL:
+      m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      break;
+    case TextureType::RENDER_TARGET:
+      // Create the texture 2D
+      m_device->CreateTexture2D(&texture->m_descriptor,
+        nullptr,
+        &texture->m_texture);
+      // Create the render target view
+      m_device->CreateRenderTargetView(texture->m_texture, 
+                                       nullptr,
+                                       &texture->m_renderTargetView);
+      // Create the shader resource for the render target
+      m_device->CreateShaderResourceView(texture->m_texture, 
+                                         &texture->m_shaderResourceViewDesc,
+                                         &texture->m_shaderSubresource);
 
+      break;
+    case TextureType::CUBE_MAP:
+      DirectX::CreateDDSTextureFromFileEx(m_device,
+        _filename.c_str(),
+        0,
+        texture->m_descriptor.Usage,
+        texture->m_descriptor.BindFlags,
+        texture->m_descriptor.CPUAccessFlags,
+        texture->m_descriptor.MiscFlags,
+        false,
+        (ID3D11Resource**)&texture->m_texture,
+        &texture->m_shaderSubresource);
+      break;
+    default:
+      break;
+    }
 
-    m_device->CreateTexture2D(&texture->m_descriptor,
-                              nullptr,
-                              &texture->m_texture);
 
     return ptexture2D;
   }
@@ -447,7 +476,7 @@ namespace buEngineSDK {
 
   bool 
   buDXGraphicsAPI::createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture,
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView) {
+    WeakSPtr<buCoreTexture2D> _renderTargetView) {
     // Back buffer texture
     if (_texture.expired()) {
       return false;
@@ -460,7 +489,7 @@ namespace buEngineSDK {
       return false;
     }
     auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
+    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
 
 
     return static_cast<int>(m_device->CreateRenderTargetView(texture->m_texture,
@@ -593,7 +622,7 @@ namespace buEngineSDK {
     if (texture->image == nullptr) {
       return nullptr;
     }
-    texture->init(_filepath, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, textureType);
+    texture->init(_filepath, width, height, textureType);
 
     D3D11_SUBRESOURCE_DATA subResource;
     subResource.pSysMem = texture->image;
@@ -718,7 +747,7 @@ namespace buEngineSDK {
 
   void 
   buDXGraphicsAPI::setRenderTargets(int32 _numViews,
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+    WeakSPtr<buCoreTexture2D> _renderTargetView,
     WeakSPtr<buCoreDepthStencilView> _depthStencilView) {
     if (_depthStencilView.expired()) {
       return;
@@ -730,7 +759,7 @@ namespace buEngineSDK {
       return;
     }
     auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
+    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
     m_deviceContext->OMSetRenderTargets(_numViews,
       &tmpRTV->m_renderTargetView,
       tmpDSV->m_depthStencilView);
@@ -738,12 +767,12 @@ namespace buEngineSDK {
 
   void 
   buDXGraphicsAPI::clearRenderTargetView(
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView, float _color[4]) {
+    WeakSPtr<buCoreTexture2D> _renderTargetView, float _color[4]) {
     if (_renderTargetView.expired()) {
       return;
     }
     auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
+    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
 
     m_deviceContext->ClearRenderTargetView(tmpRTV->m_renderTargetView, _color);
   }

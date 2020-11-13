@@ -15,16 +15,25 @@ namespace buEngineSDK {
     // Sends message onCreate method
     auto& graphMan = g_graphicsAPI();
     // Create Backbuffer
-    backBuffer = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
+    backBuffer = graphMan.createTexture2D(m_screenWidth, 
+                                          m_screenHeight, 
+                                          TextureType::E::DEFAULT,
+                                          L"");
 
     // Create depth stencil texture
-    depthStencil = graphMan.createTexture2D(m_screenWidth, m_screenHeight);
+    depthStencil = graphMan.createTexture2D(m_screenWidth, 
+                                            m_screenHeight,
+                                            TextureType::E::DEPTH_STENCIL,
+                                            L"");
 
     // Create depth stencil View
     depthStencilView = graphMan.createDepthStencilView();
 
     // Create render target view
-    renderTargetView = graphMan.createRenderTargetView();
+    renderTargetView = graphMan.createTexture2D(m_screenWidth,
+                                                m_screenHeight,
+                                                TextureType::E::RENDER_TARGET,
+                                                L"");
 
     // Create Viewport
     viewport = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
@@ -207,62 +216,12 @@ namespace buEngineSDK {
     if (ImGui::BeginMainMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Load...", "CTRL+O")) {
-          // Load model
-          String modelPath = m_saverMan.getString("UnrealChar");
-          m_resourceManager->loadMesh(modelPath);
-          // Load Textures
-          String AlbedoTexPath = m_saverMan.getString("AlbedoTex");
-          SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
-            AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-          m_resourceManager->getModel()->m_textures.push_back(AlbedoTex);
-          String NormalTexPath = m_saverMan.getString("NormalTex");
-          SPtr<buCoreTexture2D> NormalTex = m_graphicsAPI->loadImageFromFile(
-            NormalTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-          m_resourceManager->getModel()->m_textures.push_back(NormalTex);
-          String MetallicTexPath = m_saverMan.getString("MetallicTex");
-          SPtr<buCoreTexture2D> MetallicTex = m_graphicsAPI->loadImageFromFile(
-            MetallicTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-          m_resourceManager->getModel()->m_textures.push_back(MetallicTex);
-          String RoughnessTexPath = m_saverMan.getString("RoughnessTex");
-          SPtr<buCoreTexture2D> RoughnessTex = m_graphicsAPI->loadImageFromFile(
-             RoughnessTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-             m_resourceManager->getModel()->m_textures.push_back(RoughnessTex);
-          // Load Mesh transform
-          buVector3F tmpPos = m_saverMan.getFloatVec3("MeshPos");
-          m_position[0] = tmpPos.x;
-          m_position[1] = tmpPos.y;
-          m_position[2] = tmpPos.z;
-          
-          buVector3F tmpRot = m_saverMan.getFloatVec3("MeshRot");
-          m_Rotation[0] = tmpRot.x;
-          m_Rotation[1] = tmpRot.y;
-          m_Rotation[2] = tmpRot.z;
-          
-          buVector3F tmpSca = m_saverMan.getFloatVec3("MeshSca");
-          m_Scale[0] = tmpSca.x;
-          m_Scale[1] = tmpSca.y;
-          m_Scale[2] = tmpSca.z;
+          // Load scene from file
+          loadInformation();
         }
         if (ImGui::MenuItem("Save...", "CTRL+S")) {
-          // Save the shader file
-
-          // Save the camera settings
-          // Save the Gameobject settings 
-          // Model name
-          m_saverMan.setString("UnrealChar", "Data/Models/character.dae");
-
-          // Model transform
-          m_saverMan.setFloatVec3("MeshPos", m_position);
-          m_saverMan.setFloatVec3("MeshRot", m_Rotation);
-          m_saverMan.setFloatVec3("MeshSca", m_Scale);
-          // Model loaded textures
-          m_saverMan.setString("AlbedoTex", "Data/Textures/Character/Albedo.jpeg");
-          m_saverMan.setString("NormalTex", "Data/Textures/Character/Normal.jpeg");
-          m_saverMan.setString("MetallicTex", "Data/Textures/Character/Metallic.jpeg");
-          m_saverMan.setString("RoughnessTex", "Data/Textures/Character/Roughness.jpeg");
-
-          // Save Shader textures
-
+          // Save scene to file
+          saveInformation();
         }
         ImGui::Separator();
 
@@ -326,7 +285,7 @@ namespace buEngineSDK {
 
     auto GameObjects = m_resourceManager->getGameObjects();
     static char str0[128] = "Game Object";
-    if (GameObjects.size() >= 1) {
+    if (GameObjects.size() >= 2) {
       auto &currGameObject = GameObjects[val];
       currGameObject.m_name = str0;
       m_selectedObject = true;
@@ -405,7 +364,7 @@ namespace buEngineSDK {
 
     // Container for shader attributes
     ImGui::Begin("Shaders");
-    ImGui::SliderFloat3("LightPos", m_lightPos, -5000, 5000);
+    ImGui::SliderFloat3("LightPos", m_lightPos, -500, 500);
     ImGui::ColorEdit3("LightColor", m_LightColor);
     ImGui::ColorEdit3("SurfColor", m_surfColor);
     ImGui::SliderFloat("LightIntensity", &m_constants[0],0, 10);
@@ -434,6 +393,7 @@ namespace buEngineSDK {
     ImGui::Text("Active GO");
     ImGui::Checkbox(" ", &m_selectedObject);
     ImGui::SameLine();
+
     ImGui::InputInt("GO", &val);
     
     ImGui::Separator();    
@@ -872,6 +832,70 @@ namespace buEngineSDK {
     colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
     colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+  }
+
+  void 
+  BaseApp::loadInformation() {
+    // Load Textures
+    auto goNum = m_resourceManager->getGameObjects().size();
+    auto gameobjects = m_resourceManager->getGameObjects();
+    String AlbedoTexPath = m_saverMan.getString("AlbedoTex");
+    SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
+      AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+    m_resourceManager->getTextures()->push_back(AlbedoTex);
+    String NormalTexPath = m_saverMan.getString("NormalTex");
+    SPtr<buCoreTexture2D> NormalTex = m_graphicsAPI->loadImageFromFile(
+      NormalTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+    m_resourceManager->getTextures()->push_back(NormalTex);
+    String MetallicTexPath = m_saverMan.getString("MetallicTex");
+    SPtr<buCoreTexture2D> MetallicTex = m_graphicsAPI->loadImageFromFile(
+      MetallicTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+    m_resourceManager->getTextures()->push_back(MetallicTex);
+    String RoughnessTexPath = m_saverMan.getString("RoughnessTex");
+    SPtr<buCoreTexture2D> RoughnessTex = m_graphicsAPI->loadImageFromFile(
+      RoughnessTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+    m_resourceManager->getTextures()->push_back(RoughnessTex);
+    // Load model
+    String modelPath = m_saverMan.getString("UnrealChar");
+    m_resourceManager->loadMesh(modelPath);
+    // Load Mesh transform
+    buVector3F tmpPos = m_saverMan.getFloatVec3("MeshPos");
+    m_position[0] = tmpPos.x;
+    m_position[1] = tmpPos.y;
+    m_position[2] = tmpPos.z;
+
+    buVector3F tmpRot = m_saverMan.getFloatVec3("MeshRot");
+    m_Rotation[0] = tmpRot.x;
+    m_Rotation[1] = tmpRot.y;
+    m_Rotation[2] = tmpRot.z;
+
+    buVector3F tmpSca = m_saverMan.getFloatVec3("MeshSca");
+    m_Scale[0] = tmpSca.x;
+    m_Scale[1] = tmpSca.y;
+    m_Scale[2] = tmpSca.z;
+  }
+
+  void 
+  BaseApp::saveInformation() {
+    m_saverMan.cleanFileData();
+    // Save the shader file
+
+    // Save the camera settings
+    // Save the Gameobject settings 
+    // Model name
+    m_saverMan.setString("UnrealChar", "Data/Models/character.dae");
+
+    // Model transform
+    m_saverMan.setFloatVec3("MeshPos", m_position);
+    m_saverMan.setFloatVec3("MeshRot", m_Rotation);
+    m_saverMan.setFloatVec3("MeshSca", m_Scale);
+    // Model loaded textures
+    m_saverMan.setString("AlbedoTex", "Data/Textures/Character/Albedo.jpeg");
+    m_saverMan.setString("NormalTex", "Data/Textures/Character/Normal.jpeg");
+    m_saverMan.setString("MetallicTex", "Data/Textures/Character/Metallic.jpeg");
+    m_saverMan.setString("RoughnessTex", "Data/Textures/Character/Roughness.jpeg");
+
+    // Save Shader textures
   }
 
   LRESULT 

@@ -18,15 +18,23 @@ cbuffer cbCamera: register(b0) {
 
 cbuffer cbChangesEveryFrame : register(b1) {
   matrix World;
+  /*float4 viewPosition;
+  float4 LightPos;
+  float4 LightColor;
+  float4 surfColor;
+  float4 LightIntensity;*/
+};
+
+cbuffer cbBonesTransform : register (b2) {
+  matrix boneTransform[100];
+};
+
+cbuffer LightBuffer : register (b3) {
   float4 viewPosition;
   float4 LightPos;
   float4 LightColor;
   float4 surfColor;
   float4 LightIntensity;
-};
-
-cbuffer cbBonesTransform : register (b2) {
-  matrix boneTransform[100];
 };
 
 
@@ -140,6 +148,8 @@ float4 PS(PS_INPUT input) : SV_Target {
 
   // AO positions (N, S, E, W)
   const float2 vec[4] = { float2(1,0), float2(-1,0) , float2(0,1) , float2(0,-1) };
+
+
   //float4 AOPos = getPosition();
   // Get Diffuse Tex Value
   float4 DiffuseTex = txDiffuse.Sample(samLinear, input.Tex.xy);
@@ -201,15 +211,10 @@ float4 PS(PS_INPUT input) : SV_Target {
   float3 specularBRDF = (D * F * G) / max(EPSILON, 4.0f * NdL * NdV);
   
   
-  // Compute intensity
-  //float intensity = pow(kS, metallic * 255.0f) * SpecularTex.xyz;
-
-  // Compute final diffuse
-  //float3 finalDiffuse = surfColor * NdL * LightColor * DiffuseTex.xyz * LightIntensity[0] ;
   // Absorsion factor
   float3 kD = lerp(float3(1, 1, 1), float3(0, 0, 0), metallic);
   float3 DiffuseBRDF = DiffuseTex.xyz * kD * LightColor.xyz * surfColor.xyz * LightIntensity[0];
 
 
- return float4(pow((DiffuseBRDF + specularBRDF /*+ CubeMapTex.xyz*/) * NdL, 1.0f / 2.2f), DiffuseTex.w);
+ return float4(pow((DiffuseBRDF + specularBRDF + CubeMapTex.xyz) * NdL, 1.0f / 2.2f), DiffuseTex.w);
 }

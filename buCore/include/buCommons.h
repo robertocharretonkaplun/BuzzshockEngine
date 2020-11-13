@@ -10,12 +10,15 @@ namespace buEngineSDK {
 
 	struct CBChangesEveryFrame {
 		buMatrix4x4 mWorld = buMatrix4x4::ZERO;
-		buVector4F viewDirection;
-		buVector4F LightPos;
-		buVector4F LightColor;
-		buVector4F surfColor;
-    buVector4F constants;
 	};
+
+  struct LightBuffer {
+    buVector4F viewPosition;
+    buVector4F LightPos;
+    buVector4F LightColor;
+    buVector4F surfColor;
+    buVector4F LightIntensity;
+  };
 }
 
 namespace CameraType {
@@ -172,5 +175,30 @@ namespace BindFlag {
     BU_BIND_UNORDERED_ACCESS = 0x80L,
     BU_BIND_DECODER = 0x200L,
     BU_BIND_VIDEO_ENCODER = 0x400L
+  };
+}
+
+namespace TopologyType {
+  enum E {
+    BU_PRIMITIVE_TOPOLOGY_UNDEFINED = 0,
+    BU_PRIMITIVE_TOPOLOGY_POINTLIST = 1,
+    BU_PRIMITIVE_TOPOLOGY_LINELIST = 2,
+    BU_PRIMITIVE_TOPOLOGY_LINESTRIP = 3,
+    BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST = 4,
+    BU_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP = 5,
+    BU_PRIMITIVE_TOPOLOGY_LINELIST_ADJ = 10,
+    BU_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ = 11,
+    BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ = 12,
+    BU_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ = 13,
+  };
+}
+
+namespace TextureType {
+  enum E {
+    DEFAULT = 0,
+    DEPTH_STENCIL = 1,
+    RENDER_TARGET = 2,
+    CUBE_MAP = 3,
+    TEXTURE_FROM_FILE = 4,
   };
 }

@@ -166,9 +166,18 @@ namespace buEngineSDK {
     currGameobject.m_name = _filepath;
     currGameobject.m_type = GameObjectType::MESH_TYPE;
     currGameobject.m_model = m_model;
+    currGameobject.m_model.m_textures = m_textures;
     currGameobject.m_id = m_goCounter;
+    currGameobject.init();
     m_gameobjects.push_back(currGameobject);
     m_goCounter++;
+    Model = nullptr;
+    m_model.m_vertexBuffer = nullptr;
+    m_model.m_indexBuffer = nullptr;
+    m_model.m_vertices.clear();
+    m_model.m_indices.clear();
+    m_model.m_bonesTransforms.clear();
+    //m_model.;
   }
 
   buCoreModel*
@@ -179,6 +188,11 @@ namespace buEngineSDK {
   Vector<buGameObject> 
   buDXResourceManager::getGameObjects() {
     return m_gameobjects;
+  }
+
+  Vector<SPtr<buCoreTexture2D>> *
+  buDXResourceManager::getTextures() {
+      return &m_textures;
   }
 
 }

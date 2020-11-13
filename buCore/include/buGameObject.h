@@ -4,17 +4,21 @@
 #include "buCommons.h"
 #include "buTransform.h"
 #include <buVector3F.h>
+#include <buCoreGraphicsAPI.h>
 namespace buEngineSDK {
 	class BU_CORE_EXPORT buGameObject {
 	public:
 		buGameObject() = default;
 		~buGameObject() = default;
 
+		void 
+		init();
+
 		void
 		update(buVector3F _pos, buVector3F _rot, buVector3F _scal, float _angle);
 		
 		void
-		render();
+		render(TopologyType::E _typology);
 
 	public:
 		String m_name;
@@ -22,6 +26,8 @@ namespace buEngineSDK {
 		GameObjectType::E m_type;
 		buCoreModel m_model;
 		buTransform m_transform;
+		CBChangesEveryFrame cb;
+		SPtr<buCoreBuffer> changeEveryFrame;
 		bool m_isActive = true;
 		bool m_isActiveTransform = true;
 		bool m_isSelected = false;

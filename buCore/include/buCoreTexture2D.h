@@ -7,12 +7,7 @@
  */
 #pragma once
 #include"buPrerequisitesCore.h"
-namespace TextureType {
-  enum E {
-    DEFAULT,
-    CUBEMAP
-  };
-}
+#include "buCommons.h"
 namespace buEngineSDK {
  class buCoreTexture2D {
   public:
@@ -37,6 +32,6 @@ namespace buEngineSDK {
    * @brief Virtual method that initialize a texture loaded from file.
    */
   virtual void 
-  init(String _filepath, int32 width, int32 height, uint32 format, TextureType::E textureType) = 0;
+  init(String _filepath, int32 width, int32 height, TextureType::E textureType) = 0;
  };
 }

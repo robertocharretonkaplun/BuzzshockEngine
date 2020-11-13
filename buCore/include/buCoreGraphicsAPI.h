@@ -21,6 +21,7 @@
 #include <buCoreDepthStencilView.h>
 #include <buCoreSampler.h>
 #include <buCoreModelLoader.h>
+#include <buCommons.h>
 //#include <buImgui.h>
 namespace buEngineSDK {
 
@@ -122,7 +123,7 @@ namespace buEngineSDK {
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreTexture2D>
-  createTexture2D(int32 /*width*/, int32 /*height*/) { return nullptr; };
+  createTexture2D(int32 /*width*/, int32 /*height*/, TextureType::E _textureType, WString _filename) { return nullptr; };
   
   virtual SPtr<buCoreTexture2D>
   createTexture2D(int32 /*width*/, int32 /*height*/, uint32, uint32, uint32) { return nullptr; };
@@ -277,7 +278,7 @@ namespace buEngineSDK {
     */
    virtual bool
    createRenderTargetView(WeakSPtr<buCoreTexture2D> /*_texture*/, 
-                          WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/)
+                          WeakSPtr<buCoreTexture2D> /*_renderTargetView*/)
                           {return false;}
 
    virtual SPtr<buCoreRenderTargetView>
@@ -332,14 +333,14 @@ namespace buEngineSDK {
     */
    virtual void
    setRenderTargets(int32 /*_numViews*/,
-                    WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/,
+                    WeakSPtr<buCoreTexture2D> /*_renderTargetView*/,
                     WeakSPtr<buCoreDepthStencilView> /*_depthStencilView*/) { };
 
    /**
     * @brief Virtual method that clears the render target view.
     */
    virtual void
-   clearRenderTargetView(WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/,
+   clearRenderTargetView(WeakSPtr<buCoreTexture2D> /*_renderTargetView*/,
                          float /*_color*/[4]) { };
 
    /**

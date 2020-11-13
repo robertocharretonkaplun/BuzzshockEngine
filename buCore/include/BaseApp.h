@@ -118,6 +118,11 @@ namespace buEngineSDK {
 		void
 		setUnrealStyle();
 
+		void
+		loadInformation();
+		
+		void
+		saveInformation();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -193,7 +198,7 @@ namespace buEngineSDK {
 		/**
 		 * @brief Member that creates a render target view object.
 		 */
-		SPtr<buCoreRenderTargetView> renderTargetView;
+		SPtr<buCoreTexture2D> renderTargetView;
 
 		/**
 		 * @brief Member that creates a viewport object.
@@ -230,7 +235,7 @@ namespace buEngineSDK {
 		float m_at[3] = { 0.0f, 60.0f, 0.0f };
 		float m_eye[3] = { 0.0f, 60.0f, -60.0f };
 		//Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
-		float m_lightPos[3] = { 0.0f, -1000.0f, 0.0f };
+		float m_lightPos[3] = { 0.0f, -100, 0.0f };
 		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_constants[4] = { 2.0f, 0,0,0 };
@@ -247,7 +252,7 @@ namespace buEngineSDK {
 		bool m_selectedObject = false;
 		bool m_isCubeLoaded = false;
 		uint32 m_audioState;
-		uint32 val = 0;
+		uint32 val = 1;
 		uint32 m_currCamera = 0;
 
 		SaveSystem m_saverMan;

@@ -35,12 +35,6 @@ namespace buEngineSDK {
     buVector2F Tex;
   };
 
-
-  struct CBChangesEveryFrame {
-    buMatrix4x4 mWorld;
-    buVector4F vMeshColor;
-  };
-
  class buDXGraphicsAPI : public buCoreGraphicsAPI {
   public:
    
@@ -125,7 +119,9 @@ namespace buEngineSDK {
    */
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
-                   int32 height ) override;
+                   int32 height, 
+                   TextureType::E _textureType,
+                   WString _filename) override;
    
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
@@ -276,7 +272,7 @@ namespace buEngineSDK {
     */
    bool
    createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture, 
-                          WeakSPtr<buCoreRenderTargetView> _renderTargetView)
+                          WeakSPtr<buCoreTexture2D> _renderTargetView)
    override;
 
    /**
@@ -362,14 +358,14 @@ namespace buEngineSDK {
     */
    void
    setRenderTargets(int32 _numViews,
-                    WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+                    WeakSPtr<buCoreTexture2D> _renderTargetView,
                     WeakSPtr<buCoreDepthStencilView> _depthStencilView) override;
 
    /**
     * @brief Method that clears the render target view.
     */
    void
-   clearRenderTargetView(WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+   clearRenderTargetView(WeakSPtr<buCoreTexture2D> _renderTargetView,
                          float _color[4]) override;
 
    /**

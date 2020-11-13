@@ -2,6 +2,13 @@
 
 namespace buEngineSDK {
   void 
+  SaveSystem::cleanFileData() {
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data.clear();
+    m_data.close();
+  }
+  
+  void
   SaveSystem::setString(String _key, String _val) {
     String tmpFileData = "[ " + _key + " , " + _val + " ];";
     std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app );
@@ -12,10 +19,16 @@ namespace buEngineSDK {
   void 
   SaveSystem::setInt(String _key, int _val) {
     String tmpFileData = "[ " + _key + " , " + std::to_string(_val) + " ];";
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
   void 
   SaveSystem::setFloat(String _key, float _val) {
     String tmpFileData = "[ " + _key + " , " + std::to_string(_val) + " ];";
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
 
   void 
@@ -28,29 +41,40 @@ namespace buEngineSDK {
       boolVal = "false";
     }
     String tmpFileData = "[ " + _key + " , " + boolVal + " ];";
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
 
   void 
   SaveSystem::setIntVec4(String _key, int _val[4]) {
     String tmpFileData = "[ " + _key + " , " + " ( " +
       std::to_string(_val[0]) + " , " + std::to_string(_val[1]) + " , " + 
-      std::to_string(_val[2]) + " , " + std::to_string(_val[3]) + " ) " + " ];";
+      std::to_string(_val[2]) + " , " + std::to_string(_val[3]) + ", ) " + " ];";
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
 
   void 
   SaveSystem::setIntVec3(String _key, int _val[3]) {
     String tmpFileData = "[ " + _key + " , " + " ( " +
       std::to_string(_val[0]) + " , " + std::to_string(_val[1]) + " , " +
-      std::to_string(_val[2]) + " ) " + " ];";
+      std::to_string(_val[2]) + ", ) " + " ];";
 
-    
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
 
   void 
   SaveSystem::setFloatVec4(String _key, float _val[4]) {
     String tmpFileData = "[ " + _key + " , " + " ( " +
       std::to_string(_val[0]) + " , " + std::to_string(_val[1]) + " , " + 
-      std::to_string(_val[2]) + " , " + std::to_string(_val[3]) + " ) " + " ];";
+      std::to_string(_val[2]) + " , " + std::to_string(_val[3]) + ", ) " + " ];";
+    std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
+    m_data << tmpFileData;
+    m_data.close();
   }
 
   void 
@@ -61,6 +85,7 @@ namespace buEngineSDK {
 
     std::ofstream m_data("Data/SavedData/EngineLoadedData.bu", std::ios::app);
     m_data << tmpFileData;
+    m_data.close();
   }
 
   String 

@@ -41,13 +41,16 @@ namespace buEngineSDK {
     buCoreModel*
     getModel() override;
 
-    Vector<buGameObject>
+    Vector<buGameObject> 
     getGameObjects() override;
+
+    Vector<SPtr<buCoreTexture2D>>*
+    getTextures() override;
 
   public:
     
     Vector<String> textNames;
-
+    Vector<SPtr<buCoreTexture2D>> m_textures;
     buCoreModel m_model;
     Vector<buGameObject> m_gameobjects;
     uint32 m_goCounter = 0;
