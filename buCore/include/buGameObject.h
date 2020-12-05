@@ -20,16 +20,31 @@ namespace buEngineSDK {
 		void
 		render(TopologyType::E _typology);
 
+		void getTextures(SPtr<buCoreTexture2D> tmpTex) {
+			m_model.m_textures.clear();
+			m_model.m_textures.push_back(tmpTex);
+		}
+		void addTexture(SPtr<buCoreTexture2D> tmpTex) {
+			m_model.m_textures.push_back(tmpTex);
+		}
+
 	public:
 		String m_name;
 		uint32 m_id = 0;
 		GameObjectType::E m_type;
 		buCoreModel m_model;
+		Vector<SPtr<buCoreTexture2D>> m_textures;
 		buTransform m_transform;
+		buVector3F m_pos;
+		buVector3F m_rot;
+		buVector3F m_sca;
+		float m_angle;
+		buTransform m_lastTransform;
 		CBChangesEveryFrame cb;
 		SPtr<buCoreBuffer> changeEveryFrame;
 		bool m_isActive = true;
 		bool m_isActiveTransform = true;
 		bool m_isSelected = false;
+		bool m_isUsed = false;
 	};
 }

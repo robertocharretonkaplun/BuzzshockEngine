@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c6653c66-d271-48eb-be64-7837131389a6}</ProjectGuid>
-    <RootNamespace>buCore</RootNamespace>
+    <ProjectGuid>{30a47322-8821-438c-bead-1ac6177c409a}</ProjectGuid>
+    <RootNamespace>sysRender</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -30,27 +30,27 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -95,14 +95,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BU_CORE_EXPORTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BU_RENDER_EXPORTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/</AdditionalIncludeDirectories>
-      <SupportJustMyCode>false</SupportJustMyCode>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -111,7 +108,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenAL32.lib;sysAudiod.lib;sysRenderd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -120,12 +117,10 @@
       <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BU_CORE_EXPORTS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BU_RENDER_EXPORTS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -135,22 +130,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilities.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BU_CORE_EXPORTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BU_RENDER_EXPORTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/</AdditionalIncludeDirectories>
-      <SupportJustMyCode>false</SupportJustMyCode>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -159,7 +148,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenAL32.lib;sysAudiod.lib;sysRenderd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -168,12 +157,10 @@
       <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BU_CORE_EXPORTS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BU_RENDER_EXPORTS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -183,78 +170,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilities.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
-    <ClCompile Include="include\buResourceManager.cpp" />
-    <ClCompile Include="src\BaseApp.cpp" />
-    <ClCompile Include="src\buCamera.cpp" />
-    <ClCompile Include="src\buCameraManager.cpp" />
-    <ClCompile Include="src\buCoreConfig.cpp" />
-    <ClCompile Include="src\buCoreGraphicsAPI.cpp" />
-    <ClCompile Include="src\buCoreMesh.cpp" />
-    <ClCompile Include="src\buCoreModel.cpp" />
-    <ClCompile Include="src\buCoreModelLoader.cpp" />
-    <ClCompile Include="src\buCoreTexture2D.cpp" />
-    <ClCompile Include="src\buGameObject.cpp" />
-    <ClCompile Include="src\buGraphicsDebug.cpp" />
-    <ClCompile Include="src\buImgui.cpp" />
-    <ClCompile Include="src\buLight.cpp" />
-    <ClCompile Include="src\buSceneGraph.cpp" />
-    <ClCompile Include="src\buTransform.cpp" />
-    <ClCompile Include="src\SaveSystem.cpp" />
+    <ClInclude Include="include\PrerequisitesRender.h" />
+    <ClInclude Include="include\sysRender.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h" />
-    <ClInclude Include="include\BaseApp.h" />
-    <ClInclude Include="include\BSPNodeTree.h" />
-    <ClInclude Include="include\buAnimation.h" />
-    <ClInclude Include="include\buCamera.h" />
-    <ClInclude Include="include\buCameraManager.h" />
-    <ClInclude Include="include\buCommons.h" />
-    <ClInclude Include="include\buCoreBuffer.h" />
-    <ClInclude Include="include\buCoreConfig.h" />
-    <ClInclude Include="include\buCoreDepthStencilView.h" />
-    <ClInclude Include="include\buCoreGraphicsAPI.h" />
-    <ClInclude Include="include\buCoreInputLayout.h" />
-    <ClInclude Include="include\buCoreMesh.h" />
-    <ClInclude Include="include\buCoreModel.h" />
-    <ClInclude Include="include\buCoreModelLoader.h" />
-    <ClInclude Include="include\buCorePixelShader.h" />
-    <ClInclude Include="include\buCoreRenderTargetView.h" />
-    <ClInclude Include="include\buCoreSampler.h" />
-    <ClInclude Include="include\buCoreSwapchain.h" />
-    <ClInclude Include="include\buCoreTexture2D.h" />
-    <ClInclude Include="include\buCoreVertexShader.h" />
-    <ClInclude Include="include\buCoreViewport.h" />
-    <ClInclude Include="include\buGameObject.h" />
-    <ClInclude Include="include\buGraphicsDebug.h" />
-    <ClInclude Include="include\buImgui.h" />
-    <ClInclude Include="include\buLight.h" />
-    <ClInclude Include="include\buNode.h" />
-    <ClInclude Include="include\buPrerequisitesCore.h" />
-    <ClInclude Include="include\buResourceManager.h" />
-    <ClInclude Include="include\buScene.h" />
-    <ClInclude Include="include\buSceneGraph.h" />
-    <ClInclude Include="include\buTransform.h" />
-    <ClInclude Include="include\SaveSystem.h" />
-    <ClInclude Include="stb_image.h" />
+    <ClCompile Include="src\sysRender.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

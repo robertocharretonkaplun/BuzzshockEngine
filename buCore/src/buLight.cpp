@@ -17,7 +17,7 @@ namespace buEngineSDK {
   void
   buLight::render() {
     auto& graphMan = g_graphicsAPI();
-    graphMan.PSsetConstantBuffers(m_lightBuffer, 3, 1);
+    graphMan.PSsetConstantBuffers(m_lightBuffer, BufferSlot::E::LIGHT, 1);
   }
 
 }

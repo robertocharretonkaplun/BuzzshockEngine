@@ -94,13 +94,6 @@ namespace buEngineSDK {
     */
    bool 
    createDeviceAndSwapChain(void* _window) override;
-   
-   /**
-    * @brief Method that creates the back buffer texture, this is a 
-    * very specific method for his implementation.
-    */
-   bool 
-   createTextureForBackBuffer(WeakSPtr<buCoreTexture2D> _backbuffer) override;
 
    /**
    * @brief
@@ -138,15 +131,6 @@ namespace buEngineSDK {
     */
    SPtr<buCoreSwapchain>
    createSwapchain() override;
-
-   /** 
-    * @brief 
-    * @param 
-    * @return 
-    * @bug 
-    */
-   SPtr<buCoreRenderTargetView>
-   createRenderTargetView() override;
 
    /** 
     * @brief 
@@ -265,16 +249,6 @@ namespace buEngineSDK {
                           WeakSPtr<buCoreDepthStencilView> _depthStencilView) 
                           override;
 
-   SPtr<buCoreRenderTargetView>createRenderTarget(WeakSPtr<buCoreTexture2D> _texture) override;
-
-   /**
-    * @brief Method that creates the render target view.
-    */
-   bool
-   createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture, 
-                          WeakSPtr<buCoreTexture2D> _renderTargetView)
-   override;
-
    /**
     * @brief Method that creates the vertex shader.
     */
@@ -321,11 +295,6 @@ namespace buEngineSDK {
    SPtr<buCoreTexture2D>
    loadImageFromFile(String _filepath, int32 width, int32 height, TextureType::E textureType) override;
    
-   /**
-    * @brief Method in charge of loading a texture from file
-    */
-   SPtr<buCoreTexture2D>
-   loadDDSFromFile(WString _filepath, int32 width, int32 height) override;
 
    SPtr<buCoreModelLoader>
    loadMesh(String _filepath) override;

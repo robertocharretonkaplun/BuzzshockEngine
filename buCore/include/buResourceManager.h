@@ -40,6 +40,9 @@ namespace buEngineSDK {
     virtual void
     loadMesh(String _filepath) {};
 
+    virtual buGameObject
+    getMesh(String _filepath) {return buGameObject();};
+
     virtual buCoreModel*
     getModel() {return nullptr;};
     

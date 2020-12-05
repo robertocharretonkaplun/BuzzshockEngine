@@ -12,23 +12,8 @@ namespace buEngineSDK
   void 
   buGameApp_UnitTest::onCreate() {
     auto& graphMan = g_graphicsAPI();
+    // Load SAQ
 
-    // Initialize the GBuffer
-   // WString GBufferFileName = L"GBuffer.fx";
-   // m_gBufferVS = graphMan.createVertexShader(GBufferFileName); // Put the entry point
-   // m_gBufferIL = graphMan.createInputLayout(m_gBufferVS,
-   //   { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT"});
-   // m_gBufferPS = graphMan.createPixelShader(GBufferFileName);
-   // PosTex = m_graphicsAPI->createTexture2D(m_screenWidth, m_screenHeight);
-   // PosRT = m_graphicsAPI->createRenderTarget(PosTex);
-   // AlbedoTex = m_graphicsAPI->createTexture2D(m_screenWidth, m_screenHeight);
-   // AlbedoRT = m_graphicsAPI->createRenderTarget(AlbedoTex);
-   // NormalTex = m_graphicsAPI->createTexture2D(m_screenWidth, m_screenHeight);
-   // NormalRT = m_graphicsAPI->createRenderTarget(NormalTex);
-   // MetallicTex = m_graphicsAPI->createTexture2D(m_screenWidth, m_screenHeight);
-   // MetallicRT = m_graphicsAPI->createRenderTarget(MetallicTex);
-   // RoughnessTex = m_graphicsAPI->createTexture2D(m_screenWidth, m_screenHeight);
-   // RoughnessRT = m_graphicsAPI->createRenderTarget(RoughnessTex);
 
     // Initialize 
     WString shaderFileName = L"Normal.fx";
@@ -59,8 +44,16 @@ namespace buEngineSDK
 
     //m_sysAudioAPI->createNewAudioResource("TestSound_Mono", AudioType::E::MONO);
 
-    m_resourceManager->loadMesh("Data/Models/Primitives/sphere.obj");
+    //m_resourceManager->loadMesh("Data/Models/Primitives/sphere.obj");
+    //tmpGO = m_resourceManager->getMesh("Data/Models/Primitives/sphere.obj");
+  }
 
+  void 
+  buGameApp_UnitTest::onCreateGBuffer() {
+
+
+    // Graphics API initializations
+    auto& graphMan = g_graphicsAPI();
   }
 
   void 
@@ -73,13 +66,16 @@ namespace buEngineSDK
     //delete graphicAPI;
     m_directXPlug.destroy();
     m_audioPlug.destroy();
+    
   }
 
   void 
   buGameApp_UnitTest::onUpdate(float _deltaTime) {
     m_graphicsAPI->update();
 
+
     // Initialize View matrix
+    
     buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
     buVector3F At(m_at[0], m_at[1], m_at[2]);
     buVector3F Up(m_up[0], m_up[1], m_up[2]);
@@ -103,37 +99,15 @@ namespace buEngineSDK
     LB.LightIntensity = constants;
     
     m_light.update(LB);
-    // Set Mesh transform
-    buVector3F scale(m_Scale[0] * m_EngineScale, 
-                     m_Scale[1] * m_EngineScale, 
-                     m_Scale[2] * m_EngineScale);
-    buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
-    if (m_isRotating) {
-      m_angle += _deltaTime;
-    }   
-
-    buVector3F position(m_position[0], m_position[1], m_position[2]);
-    
-    //m_meshTransform.update(position, rotation, scale, m_angle);
-    auto goNum = m_resourceManager->getGameObjects().size();
-    auto gameobjects = m_resourceManager->getGameObjects();
-    // Render the go
-      gameobjects[0].update(buVector3F(lightPos.x, lightPos.y, lightPos.z), buVector3F::Zero, buVector3F(2,2,2), 0);
-    if (goNum>=2) {
-      gameobjects[val].update(position, rotation, scale, m_angle);
-    }
     //m_sysAudioAPI->playAudioResource(0, m_audioState);
   }
 
 
   void 
   buGameApp_UnitTest::onRender() {
-
+    // Set Camera
     m_cameraManager.render();
     cbBonesTranform cbBonestransform;
-    auto goNum = m_resourceManager->getGameObjects().size();
-    auto gameobjects = m_resourceManager->getGameObjects();
-    //
     //if (-1 < currModel->m_currAnimation) {
     //  for (uint32 i = 0; i < currModel->m_bonesTransforms.size(); ++i) {
     //    cbBonestransform.boneTransform[i] = currModel->m_bonesTransforms[i];
@@ -150,12 +124,10 @@ namespace buEngineSDK
     m_light.render();
     // Update Audio
     //m_audioTest.update();
-    // Update variables that change once per frame
-    // Set Vertex Shader
-
 
     // Set Bones Transform constant buffer
     m_graphicsAPI->VSsetConstantBuffers(BonesTranform, 2, 1);
+    // Set Vertex Shader
     m_graphicsAPI->setVertexShader(vertexShader);
     // Set the input layout
     m_graphicsAPI->setInputLayout(inputLayout);
@@ -165,13 +137,5 @@ namespace buEngineSDK
     m_graphicsAPI->PSsetSamplers(sampler, 0, 1);
     // Update shader resource cubemap
     m_graphicsAPI->PSSetShaderResources(m_cubeMap, 4, 1);
-
-    // Render the go
-      gameobjects[0].render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_LINELIST);
-    if (goNum >=2) {
-      for (uint32 currGO = 1; currGO < goNum; currGO++) {
-        gameobjects[currGO].render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-      }
-    }
   }
 }

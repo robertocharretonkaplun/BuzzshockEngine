@@ -200,5 +200,15 @@ namespace TextureType {
     RENDER_TARGET = 2,
     CUBE_MAP = 3,
     TEXTURE_FROM_FILE = 4,
+    BACKBUFFER = 5,
+  };
+}
+
+namespace BufferSlot {
+  enum E {
+    CAMERA = 0,
+    WORLD = 1,
+    BONES = 2,
+    LIGHT = 3,
   };
 }

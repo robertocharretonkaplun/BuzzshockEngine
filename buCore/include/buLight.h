@@ -23,5 +23,6 @@ namespace buEngineSDK {
 		String m_name;
 		LightBuffer LB;
 		SPtr<buCoreBuffer> m_lightBuffer;
+		// Include game object
 	};
 };

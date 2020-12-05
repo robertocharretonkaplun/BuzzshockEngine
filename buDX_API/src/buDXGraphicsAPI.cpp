@@ -120,19 +120,6 @@ namespace buEngineSDK {
     return static_cast<int>(hr);
   }
 
-  bool 
-  buDXGraphicsAPI::createTextureForBackBuffer(
-    WeakSPtr<buCoreTexture2D> _backbuffer) {
-    if (_backbuffer.expired()) {
-      return false;
-    }
-    auto bbObj = _backbuffer.lock();
-    auto tmpBB = reinterpret_cast<buDXTexture2D*>(bbObj.get());
-    //ID3D11Texture2D* pBackBuffer = nullptr;
-    return static_cast<int>(m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-      (void**)&tmpBB->m_texture));
-  }
-
   SPtr<buCoreViewport>
   buDXGraphicsAPI::createViewport(float width, float height) {
     auto pviewport = std::make_shared<buDXViewport>();
@@ -157,6 +144,21 @@ namespace buEngineSDK {
       m_device->CreateTexture2D(&texture->m_descriptor,
                                 nullptr,
                                 &texture->m_texture);
+      break;
+    case TextureType::BACKBUFFER:
+       m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      static_cast<int>(m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+        (void**)&texture->m_texture));
+      // Create the render target view
+      m_device->CreateRenderTargetView(texture->m_texture,
+        nullptr,
+        &texture->m_renderTargetView);
+      // Create the shader resource for the render target
+      m_device->CreateShaderResourceView(texture->m_texture,
+        &texture->m_shaderResourceViewDesc,
+        &texture->m_shaderSubresource);
       break;
     case TextureType::DEPTH_STENCIL:
       m_device->CreateTexture2D(&texture->m_descriptor,
@@ -232,12 +234,6 @@ namespace buEngineSDK {
   buDXGraphicsAPI::createSwapchain() {
     auto swapchain = std::make_shared<buDXSwapchain>();
     return swapchain;
-  }
-
-  SPtr<buCoreRenderTargetView> 
-  buDXGraphicsAPI::createRenderTargetView() {
-    auto renderTargetView = std::make_shared<buDXRenderTargetView>();
-    return renderTargetView;
   }
 
   SPtr<buCoreVertexShader> 
@@ -451,52 +447,6 @@ namespace buEngineSDK {
       &tmpDSV->m_depthStencilView));
   }
 
-  SPtr<buCoreRenderTargetView> buDXGraphicsAPI::createRenderTarget(WeakSPtr<buCoreTexture2D> _texture)
-  {
-    auto pRenderTargetView = std::make_shared<buDXRenderTargetView>();
-    auto renderTargetView = reinterpret_cast<buDXRenderTargetView*>(pRenderTargetView.get());
-
-    auto textureObj = _texture.lock();
-    auto texture = reinterpret_cast<buDXTexture2D*>(textureObj.get());
-
-    D3D11_RENDER_TARGET_VIEW_DESC d;
-    ZeroMemory(&d, sizeof(d));
-
-    d.Format = texture->m_descriptor.Format;
-    d.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
-    d.Texture2DArray.ArraySize = 1;
-    d.Texture2DArray.FirstArraySlice = 0;
-
-    static_cast<int>(m_device->CreateRenderTargetView(texture->m_texture,
-      &d,
-      &renderTargetView->m_renderTargetView));
-
-    return pRenderTargetView;
-  }
-
-  bool 
-  buDXGraphicsAPI::createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture,
-    WeakSPtr<buCoreTexture2D> _renderTargetView) {
-    // Back buffer texture
-    if (_texture.expired()) {
-      return false;
-    }
-    auto textureObj = _texture.lock();
-    auto texture = reinterpret_cast<buDXTexture2D*>(textureObj.get());
-
-    // Render target view
-    if (_renderTargetView.expired()) {
-      return false;
-    }
-    auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
-
-
-    return static_cast<int>(m_device->CreateRenderTargetView(texture->m_texture,
-      nullptr,
-      &tmpRTV->m_renderTargetView));
-  }
-
   bool
   buDXGraphicsAPI::createVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) {
     if (_vertexShader.expired()) {
@@ -653,28 +603,6 @@ namespace buEngineSDK {
     return ptexture2D;
   }
 
-  SPtr<buCoreTexture2D> buDXGraphicsAPI::loadDDSFromFile(WString _filepath,
-    int32 width, int32 height) {
-    auto ptexture2D = std::make_shared<buDXTexture2D>();
-
-    auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
-    
-    DirectX::CreateDDSTextureFromFileEx(m_device,
-      _filepath.c_str(),
-      0,
-      D3D11_USAGE_DEFAULT,
-      D3D11_BIND_SHADER_RESOURCE,
-      0,
-      D3D11_RESOURCE_MISC_TEXTURECUBE,
-      false,
-      (ID3D11Resource**)&texture->m_texture,
-      &texture->m_shaderSubresource);
-
-   
-    m_ShaderResources.push_back(texture->m_shaderSubresource);
-    return ptexture2D;
-  
-  }
 
   SPtr<buCoreModelLoader>
   buDXGraphicsAPI::loadMesh(String _filepath) {

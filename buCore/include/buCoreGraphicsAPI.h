@@ -103,13 +103,6 @@ namespace buEngineSDK {
    */
   virtual bool 
   createDeviceAndSwapChain(void* /*_window*/) { return false; };
-  /**
-   * @brief Virtal method that creates the backbuffer texture, this is a 
-   * very specific method for his implementation.
-   */
-  virtual bool 
-  createTextureForBackBuffer(WeakSPtr<buCoreTexture2D> /*_backbuffer*/)
-  { return false; }
 
   /** 
    * @brief Virtual method that creates a temporal reference to a viewport object.
@@ -148,14 +141,6 @@ namespace buEngineSDK {
     */
   virtual SPtr<buCorePixelShader>
   createPixelShader(WString _fileName) { return nullptr; };
-
-  /**
-   * @brief Virtual method that creates a temporal reference to a
-   * render target view object.
-   * @return A smart pointer to the object.
-   */
-  virtual SPtr<buCoreRenderTargetView>
-  createRenderTargetView() { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a 
@@ -211,11 +196,6 @@ namespace buEngineSDK {
                      int32 /*width*/,
                      int32 /*height*/, 
                      TextureType::E textureType) { return nullptr; };
-   
-   virtual SPtr<buCoreTexture2D>
-   loadDDSFromFile(WString /*_filepath*/, 
-                     int32 /*width*/,
-                     int32 /*height*/) { return nullptr; };
    
    virtual SPtr<buCoreModelLoader>
    loadMesh(String _filepath) {return nullptr;};
@@ -273,16 +253,6 @@ namespace buEngineSDK {
                           WeakSPtr<buCoreDepthStencilView> /*_depthStencilView*/) 
                           { return false; }
 
-   /**
-    * @brief Virtual method that creates the render target view.
-    */
-   virtual bool
-   createRenderTargetView(WeakSPtr<buCoreTexture2D> /*_texture*/, 
-                          WeakSPtr<buCoreTexture2D> /*_renderTargetView*/)
-                          {return false;}
-
-   virtual SPtr<buCoreRenderTargetView>
-   createRenderTarget(WeakSPtr<buCoreTexture2D> _texture) { return nullptr; }
    /**
     * @brief Virtual method that creates the vertex shader.
     */

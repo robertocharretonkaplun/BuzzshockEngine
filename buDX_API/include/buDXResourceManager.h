@@ -38,6 +38,9 @@ namespace buEngineSDK {
     void
     loadMesh(String _filepath) override;
     
+    buGameObject 
+    getMesh(String _filepath) override;
+
     buCoreModel*
     getModel() override;
 
@@ -52,7 +55,6 @@ namespace buEngineSDK {
     Vector<String> textNames;
     Vector<SPtr<buCoreTexture2D>> m_textures;
     buCoreModel m_model;
-    Vector<buGameObject> m_gameobjects;
     uint32 m_goCounter = 0;
   };
 

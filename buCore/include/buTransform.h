@@ -16,5 +16,9 @@ namespace buEngineSDK {
 	public:
 		String m_name = "Transform";
 		buMatrix4x4 m_world;
+		buVector3F m_position;
+		buVector3F m_rotation;
+		buVector3F m_scale;
+		float m_angle;
 	};
 }

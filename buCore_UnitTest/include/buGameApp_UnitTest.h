@@ -24,7 +24,6 @@
 #include <buTransform.h>
 #include <buCommons.h>
 #include <buLight.h>
-
 namespace buEngineSDK {
 
 	struct cbBonesTranform
@@ -48,6 +47,9 @@ namespace buEngineSDK {
 		 */
 		void 
 		onCreate() override;
+
+		void 
+		onCreateGBuffer() override;
 
 		/** 
 		 * @brief Method that destroys the modules and components of the app.
@@ -79,21 +81,6 @@ namespace buEngineSDK {
 		SPtr<buCorePixelShader> pixelShader;
 
 
-		SPtr<buCoreVertexShader> m_gBufferVS;
-		SPtr<buCoreInputLayout> m_gBufferIL;
-		SPtr<buCorePixelShader> m_gBufferPS;
-		
-		SPtr<buCoreRenderTargetView> PosRT;
-		SPtr<buCoreRenderTargetView> AlbedoRT;
-		SPtr<buCoreRenderTargetView> NormalRT;
-		SPtr<buCoreRenderTargetView> MetallicRT;
-		SPtr<buCoreRenderTargetView> RoughnessRT;
-
-		SPtr<buCoreTexture2D> PosTex;
-		SPtr<buCoreTexture2D> AlbedoTex;
-		SPtr<buCoreTexture2D> NormalTex;
-		SPtr<buCoreTexture2D> MetallicTex;
-		SPtr<buCoreTexture2D> RoughnessTex;
 		/**
 		 * @brief Member that creates a sampler object. 
 		 */

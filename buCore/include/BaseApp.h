@@ -10,12 +10,14 @@
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
 #include <sysAudioAPI.h>
+#include <sysRender.h>
 #include <buCameraManager.h>
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
 #include <buCoreTexture2D.h>
 #include <SaveSystem.h>
+#include <buSceneGraph.h>
 #include "imgui\imGuiDocking\imgui.h"
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -50,6 +52,8 @@ namespace buEngineSDK {
 		virtual void 
 		onCreate() {};
 
+		virtual void 
+		onCreateGBuffer() {};
 		/** 
 		 * @brief Method in charge of destroying the game settings and members. This
 		 * method can be used in the gameApp.
@@ -105,24 +109,40 @@ namespace buEngineSDK {
 		 */
 		void 
 		destroySystems() {};
-		
-		/**
-		 * @brief 
-		 */
-		void 
-		setImguiWhiteStyle();
-
-		void
-		setDarkStyle();
 
 		void
 		setUnrealStyle();
+
+		void
+		MainMenu();
+
+		void 
+		cameraHerarchy();
 
 		void
 		loadInformation();
 		
 		void
 		saveInformation();
+
+		void 
+		goProperties_ImGui(buGameObject gameobject);
+
+		void
+		shaderProperties();
+
+		void 
+		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
+
+		void
+		valControl(String label, float *value,
+							 float resetValues = 0.0f, float columnWidth = 100.0f);
+
+		void 
+		cameraProperties(buCamera currCamera);
+
+		void 
+		sceneGraph();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -141,6 +161,7 @@ namespace buEngineSDK {
 		 */
     buPluggin m_directXPlug;
     buPluggin m_audioPlug;
+    buPluggin m_renderPlug;
 
 		/**
 		* @brief Member that sets the window reference.
@@ -170,18 +191,19 @@ namespace buEngineSDK {
 		/**
 		 * @brief 
 		 */
-		AppOptions* m_appOptions = nullptr;
+		//AppOptions* m_appOptions = nullptr;
 		/**
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
 		sysAudioAPI* m_sysAudioAPI = nullptr;
-	
+		sysRender* m_sysRenderAPI = nullptr;
 		buCameraManager m_cameraManager ;
 		/**
 		 * @brief 
 		 */
 		buResourceManager* m_resourceManager = nullptr;
+		buSceneGraph m_scene_graph ;
 		/**
 		 * @brief Member that creates a depth stencil view object.
 		 */
@@ -195,10 +217,6 @@ namespace buEngineSDK {
 		 * @brief Member that will be used as a back buffer texture.
 		 */
 		SPtr<buCoreTexture2D> backBuffer;
-		/**
-		 * @brief Member that creates a render target view object.
-		 */
-		SPtr<buCoreTexture2D> renderTargetView;
 
 		/**
 		 * @brief Member that creates a viewport object.
@@ -213,6 +231,7 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		float m_position[3] = { 0,0,0 };
+
 		/**
 		 * @brief 
 		 */
@@ -227,15 +246,15 @@ namespace buEngineSDK {
 		float m_angle = 0.0f;
 		float m_near = 3.0f;
 		float m_EngineScale = 1.0f;
-		float m_far = 100.0f;
+		float m_far = 300.0f;
 		/**
 		 * @brief
 		 */
-		float m_up[3] = { 0.0f, 1.0f, 0.0f };
-		float m_at[3] = { 0.0f, 60.0f, 0.0f };
-		float m_eye[3] = { 0.0f, 60.0f, -60.0f };
+		float m_up[3] = { 0.0f, 90.0f, -1.0f };
+		float m_at[3] = { 0.0f, 0.0f, 1.0f };
+		float m_eye[3] = { 0.0f, 60.0f, -90.0f };
 		//Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
-		float m_lightPos[3] = { 0.0f, -100, 0.0f };
+		float m_lightPos[3] = { -30.0f, 85, -50.0f };
 		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_constants[4] = { 2.0f, 0,0,0 };
@@ -247,14 +266,15 @@ namespace buEngineSDK {
 
 		float dealtaTime = 0;
 		float oldTime = 0;
-
+		
 		bool m_renderObjects = true;
 		bool m_selectedObject = false;
 		bool m_isCubeLoaded = false;
 		uint32 m_audioState;
 		uint32 val = 1;
 		uint32 m_currCamera = 0;
-
+		uint32 m_selectedItem = 1;
+		//buGameObject tmpGO;
 		SaveSystem m_saverMan;
 	};
 }
