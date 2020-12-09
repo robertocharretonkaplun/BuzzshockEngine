@@ -31,14 +31,14 @@ namespace buEngineSDK {
 	public:
 		String m_name;
 		uint32 m_id = 0;
-		GameObjectType::E m_type;
+		GameObjectType::E m_type = GameObjectType::E::DEFAULT_TYPE;
 		buCoreModel m_model;
 		Vector<SPtr<buCoreTexture2D>> m_textures;
 		buTransform m_transform;
-		buVector3F m_pos;
-		buVector3F m_rot;
-		buVector3F m_sca;
-		float m_angle;
+		buVector3F m_pos = buVector3F::Zero;
+		buVector3F m_rot = buVector3F::Zero;
+		buVector3F m_sca = buVector3F::Zero;
+		float m_angle = 0.0f;
 		buTransform m_lastTransform;
 		CBChangesEveryFrame cb;
 		SPtr<buCoreBuffer> changeEveryFrame;

@@ -1,6 +1,7 @@
 #pragma once
 #include <PrerequisitesRender.h>
 #include <buModule.h>
+#include "buUI.h"
 namespace buEngineSDK {
 	class BU_RENDER_EXPORT sysRender : public buModule<sysRender>
 	{
@@ -23,7 +24,7 @@ namespace buEngineSDK {
 		}
 
 		virtual void
-		init(float width, float height) {}
+		init(void* _window, float width, float height) {}
 
 		virtual void
 		createGBuffer(float width, float height) {}
@@ -39,6 +40,9 @@ namespace buEngineSDK {
 
 		virtual void 
 		destroy() {}
+
+		virtual buUI 
+		getUI() {return buUI(); };
 	};
 	/**
  * @brief Export method for the class instance.

@@ -32,16 +32,16 @@ namespace buEngineSDK {
 		SPtr<buCoreBuffer> m_cameraBuffer;
 		CameraType::E m_cameraType = CameraType::E::PROJECTION_TYPE;
 
-		buVector3F m_cameraPos;
-		buVector3F m_cameraTar;
-		buVector3F m_cameraDir;
+		buVector3F m_cameraPos = buVector3F::Zero;
+		buVector3F m_cameraTar = buVector3F::Zero;
+		buVector3F m_cameraDir = buVector3F::Zero;
 
-		buVector3F m_up;
-		buVector3F m_cameraUp;
-		buVector3F m_right;
-		buVector3F m_cameraRight;
-		buVector3F m_front;
-		buVector3F m_cameraFront;
+		buVector3F m_up = buVector3F::Zero;
+		buVector3F m_cameraUp = buVector3F::Zero;
+		buVector3F m_right = buVector3F::Zero;
+		buVector3F m_cameraRight = buVector3F::Zero;
+		buVector3F m_front = buVector3F::Zero;
+		buVector3F m_cameraFront = buVector3F::Zero;
 	public:
 		String m_name = "";
 		uint32 m_id = 0;

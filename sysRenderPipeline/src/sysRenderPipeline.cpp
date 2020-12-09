@@ -1,12 +1,18 @@
 #include "sysRenderPipeline.h"
 
 namespace buEngineSDK {
-  void sysRenderPipeline::init(float width, float height)
-  {
+  void 
+  sysRenderPipeline::init(void* _window, float width, float height) {
+    auto& graphMan = g_graphicsAPI();
+    m_screenWidth = width;
+    m_screenHeight = height;
+    graphMan.initialize(_window, width, height);
+    createTemporalPipeline(width, height);
+    m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
 
-  void sysRenderPipeline::createGBuffer(float width, float height)
-  {
+  void 
+  sysRenderPipeline::createGBuffer(float width, float height) {
     auto& graphMan = g_graphicsAPI();
     // Create backbuffer
     m_txBackBuffer_GB = graphMan.createTexture2D((int32)width,
@@ -38,23 +44,130 @@ namespace buEngineSDK {
     // Create rasterizer
   }
 
-  void sysRenderPipeline::createTemporalPipeline(float width, float height)
-  {
+  void 
+  sysRenderPipeline::createTemporalPipeline(float width, float height) {
+    auto& graphMan = g_graphicsAPI();
+
+    m_txBackBuffer_tmp = graphMan.createTexture2D(m_screenWidth, 
+                                          m_screenHeight, 
+                                          TextureType::E::BACKBUFFER,
+                                          L"");
+    
+    // Create depth stencil texture
+    m_txDepthStencil_tmp = graphMan.createTexture2D(m_screenWidth, 
+                                            m_screenHeight,
+                                            TextureType::E::DEPTH_STENCIL,
+                                            L"");
+    
+    // Create depth stencil View
+    m_depthStencilView_tmp = graphMan.createDepthStencilView();
+    
+    // Create Viewport
+    m_viewport_tmp = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
+    
+    graphMan.createDepthStencilView(m_txDepthStencil_tmp, m_depthStencilView_tmp);
+
+    WString shaderFileName = L"Normal.fx";
+    // Create Vertex Shader
+    m_vertexShader_tmp = graphMan.createVertexShader(shaderFileName); // Put the entry point
+    
+    // Create input layout
+    m_inputLayout_tmp = graphMan.createInputLayout(m_vertexShader_tmp, 
+      { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT", "BLENDINDICES", "BLENDWEIGHT"});
+    
+    // Create Pixel shader 
+    m_pixelShader_tmp = graphMan.createPixelShader(shaderFileName);
+    
+    m_cameraManager.AddCamera("CameraTest");
+    m_cameraManager.SetActiveCamera(0);
+    
+    BonesTranform = graphMan.createBuffer(sizeof(cbBonesTranform));
+    // Create light
+    m_light.init();
+    
+    // Create sampler
+    m_sampler_tmp = graphMan.createSampler();
+    
+    m_cubeMap = graphMan.createTexture2D(m_screenWidth, 
+                                         m_screenHeight, 
+                                         TextureType::E::CUBE_MAP, 
+                                         L"Data/Textures/galileo_cross.dds");
   }
 
   void
   sysRenderPipeline::update() {
+    // Initialize View matrix
 
+    buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
+    buVector3F At(m_at[0], m_at[1], m_at[2]);
+    buVector3F Up(m_up[0], m_up[1], m_up[2]);
+
+    m_cameraManager.update(Eye, Up, At,
+      buDegrees(45).getRadians(),
+      static_cast<float>(m_screenWidth) /
+      static_cast<float>(m_screenHeight),
+      m_near,
+      m_far);
+    // Update light
+    buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
+    buVector4F lightPos(m_lightPos, 0);
+    buVector4F LightColor(m_LightColor, 0);
+    buVector4F surfColor(m_surfColor, 0);
+    buVector4F constants(m_constants[0], 0, 0, 0);
+    LB.viewPosition = viewDir;
+    LB.LightPos = lightPos;
+    LB.LightColor = LightColor;
+    LB.surfColor = surfColor;
+    LB.LightIntensity = constants;
+
+    m_light.update(LB);
+    m_userInterface.update();
   }
 
   void 
   sysRenderPipeline::render() {
-
+    auto& graphMan = g_graphicsAPI();
+    // Set viewport
+    graphMan.setViewport(m_viewport_tmp);
+    // Set Render Targets
+    graphMan.setRenderTargets(1, m_txBackBuffer_tmp, m_depthStencilView_tmp);
+    // Clear the back buffer 
+    graphMan.clearRenderTargetView(m_txBackBuffer_tmp, ClearColor);
+    // Clear depth stencil view
+    graphMan.clearDepthStencilView(m_depthStencilView_tmp,
+                                         1, // D3D11_CLEAR_DEPTH
+                                         1.0f,
+                                         0);
+    // Set Camera
+    m_cameraManager.render();
+    cbBonesTranform cbBonestransform;
+    // Update light
+    m_light.render();
+    // Update Audio
+    //m_audioTest.update();
+    
+    // Set Bones Transform constant buffer
+    graphMan.VSsetConstantBuffers(BonesTranform, 2, 1);
+    // Set Vertex Shader
+    graphMan.setVertexShader(m_vertexShader_tmp);
+    // Set the input layout
+    graphMan.setInputLayout(m_inputLayout_tmp);
+    // Set Pixel shader
+    graphMan.setPixelhader(m_pixelShader_tmp);
+    // Set samplers
+    graphMan.PSsetSamplers(m_sampler_tmp, 0, 1);
+    // Update shader resource cubemap
+    graphMan.PSSetShaderResources(m_cubeMap, 4, 1);
+    m_userInterface.render();
   }
 
   void 
   sysRenderPipeline::destroy() {
 
+  }
+  buUI sysRenderPipeline::getUI()
+  {
+    return m_userInterface;
   }
 }
 

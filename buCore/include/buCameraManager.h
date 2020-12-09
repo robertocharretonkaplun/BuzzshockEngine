@@ -48,7 +48,7 @@ namespace buEngineSDK {
     }
   private:
     Vector<buCamera> m_cameras;
-    uint32 m_cameraCounter;
+    uint32 m_cameraCounter = 0;
   };
   /**
    * @brief Export method for the class instance.

@@ -1,6 +1,6 @@
 #include "BaseApp.h"
 #include <chrono>
-#include <imgui\imGuiDocking\imgui_internal.h>
+//#include <imgui\imGuiDocking\imgui_internal.h>
 
 namespace buEngineSDK {
 
@@ -13,41 +13,24 @@ namespace buEngineSDK {
     createWindow();
     // Create systems
     initSystems();
+    // Initialize the renderer 
+    auto& renderMan = g_renderAPI();
+    renderMan.init(m_window, m_screenWidth, m_screenHeight);
+    loadInformation();
 
-    // Sends message onCreate method
-    auto& graphMan = g_graphicsAPI();
-    // Create Backbuffer
-    backBuffer = graphMan.createTexture2D(m_screenWidth, 
-                                          m_screenHeight, 
-                                          TextureType::E::BACKBUFFER,
-                                          L"");
-
-    // Create depth stencil texture
-    depthStencil = graphMan.createTexture2D(m_screenWidth, 
-                                            m_screenHeight,
-                                            TextureType::E::DEPTH_STENCIL,
-                                            L"");
-
-    // Create depth stencil View
-    depthStencilView = graphMan.createDepthStencilView();
-    
-    // Create Viewport
-    viewport = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
-
-    m_graphicsAPI->createDepthStencilView(depthStencil, depthStencilView);
     onCreate();
     // Init Imgui
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui_ImplWin32_Init(m_window);
-    ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_graphicsAPI->getDevice()),
-      reinterpret_cast<ID3D11DeviceContext*>(m_graphicsAPI->getDeviceContext()));
-    ImGui::StyleColorsLight();
+    //IMGUI_CHECKVERSION();
+    //ImGui::CreateContext();
+    //ImGuiIO& io = ImGui::GetIO();
+    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    //ImGui_ImplWin32_Init(m_window);
+    //ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_graphicsAPI->getDevice()),
+    //  reinterpret_cast<ID3D11DeviceContext*>(m_graphicsAPI->getDeviceContext()));
+    //ImGui::StyleColorsLight();
     //ImFont* font1 = io.Fonts->AddFontDefault();
     //ImFont* font2 = io.Fonts->AddFontFromFileTTF("Data/Fonts/fontello.ttf", 16.0f);
-    setUnrealStyle();
+    //setUnrealStyle();
     // Main loop
     MSG msg = { nullptr };
     while (WM_QUIT != msg.message) {
@@ -204,13 +187,15 @@ namespace buEngineSDK {
   void 
   BaseApp::update(float _deltaTime = 0) {
     onUpdate(_deltaTime);
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-    // Set main menu
-    MainMenu();
+    // Update the renderer
+    auto& renderMan = g_renderAPI();
+    renderMan.update();
+    //ImGui_ImplDX11_NewFrame();
+    //ImGui_ImplWin32_NewFrame();
+    //ImGui::NewFrame();
+    //// Set main menu
+    //MainMenu();
     
-
     //auto GameObjects = m_resourceManager->getGameObjects();
     //static char str0[128] = "Game Object";
     //if (GameObjects.size() >= 2) {
@@ -219,10 +204,7 @@ namespace buEngineSDK {
     //  m_selectedObject = true;
     //}
 
-    
-    
-    cameraHerarchy();
- 
+    //cameraHerarchy(); 
 
     // Container for shader attributes
     //ImGui::Begin("Audio Resource");
@@ -234,61 +216,51 @@ namespace buEngineSDK {
     //}
     //ImGui::End();
 
-    
-
-    ImGui::Begin("Game");
-    //ImGui::Image(m_graphicsAPI->getShaderResource()[0],
-    //  ImVec2(800, 450));
-    ImGui::End();
-    
-    //if (GameObjects.size() <= 1) {
+    //ImGui::Begin("Game");
+    //ImGui::End();
+    //
+    //
+    //if (m_scene_graph.m_gameObjects.size() >= 1 && m_scene_graph.m_selectedGO >= 0) {
+    //  goProperties_ImGui(m_scene_graph.getSelectedGO());
+    //}
+    //else {
     //  buGameObject tmpGo;
     //  goProperties_ImGui(tmpGo);
-    //} 
-    //else {
-    //  goProperties_ImGui(GameObjects[m_selectedItem]);
     //}
-
-    if (m_scene_graph.m_gameObjects.size() >= 1 && m_scene_graph.m_selectedGO >= 0) {
-      goProperties_ImGui(m_scene_graph.getSelectedGO());
-    }
-    else {
-      buGameObject tmpGo;
-      goProperties_ImGui(tmpGo);
-    }
     // goProperties_ImGui(tmpGO);
     // Shader Properties
-    cameraProperties(m_cameraManager.GetActiveCamera());
+    //cameraProperties(m_cameraManager.GetActiveCamera());
     
-    sceneGraph();
-    shaderProperties();
+    //sceneGraph();
+    //shaderProperties();
+    buVector3F scale(m_Scale[0] * m_EngineScale,
+      m_Scale[1] * m_EngineScale,
+      m_Scale[2] * m_EngineScale);
+    buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
+
+
+    buVector3F position(m_position[0], m_position[1], m_position[2]);
+
+    m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
   }
 
   void 
   BaseApp::render() {
-    // Set viewport
-    m_graphicsAPI->setViewport(viewport);
-    // Set Render Targets
-    m_graphicsAPI->setRenderTargets(1, backBuffer, depthStencilView);
-    // Clear the back buffer 
-    m_graphicsAPI->clearRenderTargetView(backBuffer, ClearColor);
-    // Clear depth stencil view
-    m_graphicsAPI->clearDepthStencilView(depthStencilView,
-                                         1, // D3D11_CLEAR_DEPTH
-                                         1.0f,
-                                         0);
+    // Draw the renderer
+    auto& renderMan = g_renderAPI();
+    renderMan.render();
     m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     onRender();   
     // Render ImGui Data
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    //ImGui::Render();
+    //ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     // Present
     m_graphicsAPI->present(0, 0);
   }
 
   void
   BaseApp::setUnrealStyle() {
-    
+    /*
     ImGui::GetStyle().FrameRounding = 0.0f;
     ImGui::GetStyle().GrabRounding = 4.0f;
     ImGui::GetStyle().WindowRounding = 0.0f;
@@ -341,10 +313,12 @@ namespace buEngineSDK {
     colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
     colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+    */
   }
 
   void
   BaseApp::MainMenu() {
+    /*
     if (ImGui::BeginMainMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Load...", "CTRL+O")) {
@@ -433,16 +407,18 @@ namespace buEngineSDK {
         /*if (ImGui::BeginPopup("ElementList")) {
         ImGui::MenuItem("Possible error in []");
         ImGui::EndPopup();
-      }*/
         ImGui::SameLine();
         ImGui::Text(m_logs[i].c_str());
       }
       ImGui::End();
     }
+    */
+    
   }
 
   void 
   BaseApp::cameraHerarchy() { 
+    /*
     ImGui::Begin("Camera Manager");
     auto currCamera = m_cameraManager.GetActiveCamera();
     // Container for the camera manager
@@ -479,6 +455,7 @@ namespace buEngineSDK {
       ImGui::Separator();
     }
     ImGui::End();
+    */
   }
 
   void 
@@ -555,6 +532,7 @@ namespace buEngineSDK {
 
   void
   BaseApp::goProperties_ImGui(buGameObject gameobject) {
+    /*
     static char str0[128] = "Game Object";
     gameobject.m_name = str0;
     ImGui::Begin("Properties");
@@ -594,8 +572,7 @@ namespace buEngineSDK {
 
     for (uint32 i = 0; i < gameobject.m_textures.size(); ++i) {
      // ImGui::Separator();
-      if (ImGui::Button("Text"))
-      {
+      if (ImGui::Button("Text")) {
 
       }
       //ImGui::Image(m_graphicsAPI->getShaderResource()[i], ImVec2(64, 64));
@@ -629,38 +606,14 @@ namespace buEngineSDK {
        // m_resourceManager->getModel()->m_textures.push_back(currTex);
       }
     }
-    ImGui::Separator();
-    const float ItemSpacing1 = ImGui::GetStyle().ItemSpacing.x;
-
-    static float HostButtonWidth1 = 250; //The 100.0f is just a guess size for the first frame.
-    float pos1 = HostButtonWidth1 + ItemSpacing1;
-    ImGui::SameLine(ImGui::GetWindowWidth() - pos1);
-    if (ImGui::Button("Add Component Model")) {
-      OPENFILENAME ofn = { 0 };
-      TCHAR szFile[260] = { 0 };
-      // Initialize remaining fields of OPENFILENAME structure
-      ofn.lStructSize = sizeof(ofn);
-      ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-      ofn.lpstrFile = szFile;
-      ofn.nMaxFile = sizeof(szFile);
-      ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-      ofn.nFilterIndex = 1;
-      ofn.lpstrFileTitle = nullptr;
-      ofn.nMaxFileTitle = 0;
-      ofn.lpstrInitialDir = nullptr;
-      ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-      if (GetOpenFileName(&ofn) == TRUE) {
-        //m_resourceManager->loadMesh(ofn.lpstrFile);
-        
-      }
-    }
 
     ImGui::End();
+    */
   }
 
   void
   BaseApp::shaderProperties() {
+    /*
     // Container for shader attributes
     ImGui::Begin("Shaders");
     vec3Control("Light Pos", m_lightPos);
@@ -668,11 +621,12 @@ namespace buEngineSDK {
     vec3Control("Surf color", m_surfColor);
     ImGui::SliderFloat("LightIntensity", &m_constants[0], 0, 10);
     ImGui::End();
+    */
   }
 
   void
   BaseApp::vec3Control(String label, float*values, float resetValues, float columnWidth) {
-
+    /*
     ImGui::PushID(label.c_str());
     ImGui::Columns(2);
     ImGui::SetColumnWidth(0, columnWidth);
@@ -727,10 +681,12 @@ namespace buEngineSDK {
     ImGui::Columns(1);
 
     ImGui::PopID();
+    */
   }
 
   void 
   BaseApp::valControl(String label, float *values, float resetValues, float columnWidth) {
+    /*
     ImGui::PushID(label.c_str());
     ImGui::Columns(2);
     ImGui::SetColumnWidth(0, columnWidth);
@@ -760,10 +716,12 @@ namespace buEngineSDK {
     ImGui::Columns(1);
 
     ImGui::PopID();
+    */
   }
 
   void 
   BaseApp::cameraProperties(buCamera currCamera) {
+    /*
     // Container for the camera inpector
     ImGui::Begin("Camera Inspector");
     //auto currCamera = m_cameraManager.GetActiveCamera();
@@ -790,10 +748,12 @@ namespace buEngineSDK {
     ImGui::SliderFloat("Near", &m_near, 3, 5);
     ImGui::SliderFloat("Far", &m_far, 0, 300);
     ImGui::End();
+    */
   }
 
   void 
   BaseApp::sceneGraph() {
+    /*
     ImGui::Begin("Scene Graph");
     ImGui::Text("Scene Graph");
     ImGui::SameLine();
@@ -825,14 +785,21 @@ namespace buEngineSDK {
       }
     }
     ImGui::End();
+    */
   }
+
 
   LRESULT 
   BaseApp::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
+    /*
+    //*/
     if ( ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
       return true;
     }
-    /*auto pThis = (BaseApp*)GetWindowLongPtr(Hw, GWLP_USERDATA);
+    //auto& renderMan = g_renderAPI();
+    //renderMan.getUI().WndProc(Hw, Msg, wParam, lParam);
+    /*
+    auto pThis = (BaseApp*)GetWindowLongPtr(Hw, GWLP_USERDATA);
     if (pThis != nullptr) {
       return pThis->CustomDialogProcInstance(Hw, Msg, wParam, lParam);*/
     return DefWindowProc(Hw, Msg, wParam, lParam);

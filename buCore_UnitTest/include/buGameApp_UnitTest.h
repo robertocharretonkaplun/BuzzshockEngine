@@ -48,9 +48,6 @@ namespace buEngineSDK {
 		void 
 		onCreate() override;
 
-		void 
-		onCreateGBuffer() override;
-
 		/** 
 		 * @brief Method that destroys the modules and components of the app.
 		 */

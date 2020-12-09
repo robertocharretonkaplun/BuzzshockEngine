@@ -95,14 +95,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>BU_RENDER_EXPORTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,14 +136,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>BU_RENDER_EXPORTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,10 +175,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h" />
+    <ClInclude Include="include\buUI.h" />
     <ClInclude Include="include\PrerequisitesRender.h" />
     <ClInclude Include="include\sysRender.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
+    <ClCompile Include="src\buUI.cpp" />
     <ClCompile Include="src\sysRender.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

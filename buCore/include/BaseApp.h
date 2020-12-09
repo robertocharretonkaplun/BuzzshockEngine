@@ -18,13 +18,13 @@
 #include <buCoreTexture2D.h>
 #include <SaveSystem.h>
 #include <buSceneGraph.h>
-#include "imgui\imGuiDocking\imgui.h"
-#include "imgui\imGuiDocking\imgui_impl_dx11.h"
-#include "imgui\imGuiDocking\imgui_impl_win32.h"
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
-																							UINT msg,
-																						  WPARAM wParam,
-																							LPARAM lParam);
+//#include "imgui\imGuiDocking\imgui.h"
+//#include "imgui\imGuiDocking\imgui_impl_dx11.h"
+//#include "imgui\imGuiDocking\imgui_impl_win32.h"
+//extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
+//																							UINT msg,
+//																						  WPARAM wParam,
+//																							LPARAM lParam);
 namespace buEngineSDK {
 	class BU_CORE_EXPORT BaseApp {
 	public:
@@ -52,8 +52,6 @@ namespace buEngineSDK {
 		virtual void 
 		onCreate() {};
 
-		virtual void 
-		onCreateGBuffer() {};
 		/** 
 		 * @brief Method in charge of destroying the game settings and members. This
 		 * method can be used in the gameApp.
@@ -176,6 +174,7 @@ namespace buEngineSDK {
 		 * @brief Member in charge of setting the screen width of the game window.
 		 */
 		uint32 m_screenWidth = 0;
+		uint32 m_screenHeight = 0;
 		/**
 		 * @brief 
 		 */
@@ -187,7 +186,6 @@ namespace buEngineSDK {
 		/**
 		 * @brief Member in charge of setting the screen height of the game window.
 		 */
-		uint32 m_screenHeight = 0;
 		/**
 		 * @brief 
 		 */
@@ -270,7 +268,7 @@ namespace buEngineSDK {
 		bool m_renderObjects = true;
 		bool m_selectedObject = false;
 		bool m_isCubeLoaded = false;
-		uint32 m_audioState;
+		uint32 m_audioStatec = 0;
 		uint32 val = 1;
 		uint32 m_currCamera = 0;
 		uint32 m_selectedItem = 1;
