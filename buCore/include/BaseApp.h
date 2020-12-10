@@ -179,8 +179,8 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		bool windowd = false;
-		bool m_showConsole = false;
 		bool m_showEngineScale = false;
+		bool m_showConsole = false;
 		bool m_showAnimator = false;
 		bool m_isRotating = false;
 		/**

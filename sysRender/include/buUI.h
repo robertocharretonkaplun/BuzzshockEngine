@@ -32,9 +32,16 @@ namespace buEngineSDK {
 		void
 		setCostumStyle();
 
-		bool 
-		WndProc(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam);
-	private:
+		void
+		setInspector();
 
+		void
+		setMenu();
+		static LRESULT CALLBACK
+		handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam);
+	private:
+		bool windowd = false;
+		bool m_showEngineScale = false;
+		float m_EngineScale = 1.0f;
 	};
 }

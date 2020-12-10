@@ -21,9 +21,8 @@ namespace buEngineSDK {
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Test");
-    ImGui::Text("Hola");
-    ImGui::End();
+    // Render Menu
+    setInspector();
   }
 
   void 
@@ -92,10 +91,98 @@ namespace buEngineSDK {
     colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
   }
 
-  bool
-  buUI::WndProc(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
+  void
+  buUI::setInspector() {
+    static char str0[128] = "Game Object";
+    //gameobject.m_name = str0;
+    ImGui::Begin("Properties");
+    //ImGui::Checkbox(" ", &m_renderObjects);
+    ImGui::SameLine();
+    ImGui::InputText("-", str0, IM_ARRAYSIZE(str0));
+    ImGui::Separator();
+
+    ImGui::Text("Active GO");
+    //ImGui::Checkbox(" ", &m_selectedObject);
+    ImGui::SameLine();
+
+    //ImGui::InputInt("GO", &m_scene_graph.m_selectedGO);
+    ImGui::Separator();
+    ImGui::Text("Transform");
+    ImGui::Separator();
+
+    // Set Mesh transform
+    //buVector3F scale(m_Scale[0] * m_EngineScale,
+    //  m_Scale[1] * m_EngineScale,
+    //  m_Scale[2] * m_EngineScale);
+    //buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
+    //
+    //
+    //buVector3F position(m_position[0], m_position[1], m_position[2]);
+    //
+    //gameobject.update(position, rotation, scale, m_angle);
+    //vec3Control("Position", m_position);
+    //vec3Control("Rotation", m_Rotation);
+    //vec3Control("Scale", m_Scale);
+    //valControl("Angle", &m_angle);
+    ImGui::Separator();
+    ImGui::Text("Material");
+    // Button to add a texture component to the scene
+
+    ImGui::Separator();
+
+   
+    ImGui::Separator();
+    const float ItemSpacing = ImGui::GetStyle().ItemSpacing.x;
+
+    static float HostButtonWidth = 255.0f; //The 100.0f is just a guess size for the first frame.
+    float pos = HostButtonWidth + ItemSpacing;
+    ImGui::SameLine(ImGui::GetWindowWidth() - pos);
+    if (ImGui::Button("Add Component Texture")) {
+      //OPENFILENAME ofn = { 0 };
+      //TCHAR szFile[260] = { 0 };
+      //// Initialize remaining fields of OPENFILENAME structure
+      //ofn.lStructSize = sizeof(ofn);
+      //ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
+      //ofn.lpstrFile = szFile;
+      //ofn.nMaxFile = sizeof(szFile);
+      //ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
+      //ofn.nFilterIndex = 1;
+      //ofn.lpstrFileTitle = nullptr;
+      //ofn.nMaxFileTitle = 0;
+      //ofn.lpstrInitialDir = nullptr;
+      //ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+      //
+      //if (GetOpenFileName(&ofn) == TRUE) {
+      //  SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
+      //    ofn.lpstrFile, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+      //  m_scene_graph.addTexToSelectedObj(currTex);
+      //  // m_resourceManager->getModel()->m_textures.push_back(currTex);
+      //}
+    }
+
+    ImGui::End();
+  }
+
+  void
+  buUI::setMenu() {
+    
+    
+    
+  }
+
+  LRESULT
+  buUI::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
     if (ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
       return true;
     }
+    //auto& renderMan = g_renderAPI();
+    //renderMan.getUI().WndProc(Hw, Msg, wParam, lParam);
+    /*
+    auto pThis = (BaseApp*)GetWindowLongPtr(Hw, GWLP_USERDATA);
+    if (pThis != nullptr) {
+      return pThis->CustomDialogProcInstance(Hw, Msg, wParam, lParam);*/
+    return DefWindowProc(Hw, Msg, wParam, lParam);
   }
+
+
 }

@@ -131,12 +131,12 @@ namespace buEngineSDK {
   bool 
   BaseApp::createWindow() {
     auto hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
-
+    auto& renderMan = g_renderAPI();
     // Register class
     WNDCLASSEX wcex;
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = handelWindowEvent;
+    wcex.lpfnWndProc = renderMan.getUI().handelWindowEvent;// handelWindowEvent;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
