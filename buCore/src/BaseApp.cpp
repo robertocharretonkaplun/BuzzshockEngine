@@ -133,20 +133,20 @@ namespace buEngineSDK {
     auto hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
     auto& renderMan = g_renderAPI();
     // Register class
-    WNDCLASSEX wcex;
-    wcex.cbSize = sizeof(WNDCLASSEX);
+    WNDCLASSEXA wcex;
+    wcex.cbSize = sizeof(WNDCLASSEXA);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = renderMan.getUI().handelWindowEvent;// handelWindowEvent;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_APPLICATION);
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hIcon = LoadIconA(hInstance, (LPCTSTR)IDI_APPLICATION);
+    wcex.hCursor = LoadCursorA(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = nullptr;
     wcex.lpszClassName = "TutorialWindowClass";
-    wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_APPLICATION);
-    if (!RegisterClassEx(&wcex)) {
+    wcex.hIconSm = LoadIconA(wcex.hInstance, (LPCTSTR)IDI_APPLICATION);
+    if (!RegisterClassExA(&wcex)) {
       return false;
     }
 
@@ -156,7 +156,7 @@ namespace buEngineSDK {
     AdjustWindowRect(&rc, WS_MAXIMIZEBOX, FALSE);
     
     HWND hWd;
-    hWd = CreateWindow("TutorialWindowClass",
+    hWd = CreateWindowA("TutorialWindowClass",
                        "Buzz shock Engine",
                        WS_OVERLAPPEDWINDOW,
                        CW_USEDEFAULT,
