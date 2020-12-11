@@ -37,11 +37,18 @@ namespace buEngineSDK {
 
 		void
 		setMenu();
+
+		void 
+		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
+
 		static LRESULT CALLBACK
 		handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam);
 	private:
 		bool windowd = false;
 		bool m_showEngineScale = false;
 		float m_EngineScale = 1.0f;
+		float m_position[3] = { 0,0,0 };
+		float m_Rotation[3] = { 0,1,0 };
+		float m_Scale[3] = { 1.0f , 1.0f , 1.0f };
 	};
 }
