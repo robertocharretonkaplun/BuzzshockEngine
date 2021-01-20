@@ -2,50 +2,48 @@
 
 namespace buEngineSDK {
   void 
-  sysRenderPipeline::init(void* _window, float width, float height) {
+  sysRenderPipeline::onCreate() {
     auto& graphMan = g_graphicsAPI();
-    m_screenWidth = width;
-    m_screenHeight = height;
-    graphMan.initialize(_window, width, height);
-    createTemporalPipeline(width, height);
-    m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
+    graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
+    createTemporalPipeline();
+    //m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
 
-  void 
-  sysRenderPipeline::createGBuffer(float width, float height) {
-    auto& graphMan = g_graphicsAPI();
-    // Create backbuffer
-    m_txBackBuffer_GB = graphMan.createTexture2D((int32)width,
-      (int32)height,
-      TextureType::BACKBUFFER,
-      L"");
-    // Create depth stencil texture
-    m_txDepthStencil_GB = graphMan.createTexture2D((int32)width,
-      (int32)height,
-      TextureType::DEFAULT,
-      L"");
-    // Create depth stencil view
-    m_depthStencilView_GB = graphMan.createDepthStencilView();
+  //void 
+  //sysRenderPipeline::createGBuffer(float width, float height) {
+  //  auto& graphMan = g_graphicsAPI();
+  //  // Create backbuffer
+  //  m_txBackBuffer_GB = graphMan.createTexture2D((int32)width,
+  //    (int32)height,
+  //    TextureType::BACKBUFFER,
+  //    L"");
+  //  // Create depth stencil texture
+  //  m_txDepthStencil_GB = graphMan.createTexture2D((int32)width,
+  //    (int32)height,
+  //    TextureType::DEFAULT,
+  //    L"");
+  //  // Create depth stencil view
+  //  m_depthStencilView_GB = graphMan.createDepthStencilView();
+  //
+  //  // Create viewport
+  //  m_viewport_GB = graphMan.createViewport(width,
+  //    height);
+  //  graphMan.createDepthStencilView(m_txDepthStencil_GB, m_depthStencilView_GB);
+  //  // Create the vertex shader
+  //  WString shaderFileName = L"GBuffer.fx";
+  //  m_vertexShader_GB = graphMan.createVertexShader(shaderFileName);
+  //  // Create the input layout
+  //  m_inputLayout_GB = graphMan.createInputLayout(m_vertexShader_GB,
+  //    { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT" });
+  //  // Create the pixel shader
+  //  m_pixelShader_GB = graphMan.createPixelShader(shaderFileName);
+  //  // Create sampler
+  //  m_sampler_GB = graphMan.createSampler();
+  //  // Create rasterizer
+  //}
 
-    // Create viewport
-    m_viewport_GB = graphMan.createViewport(width,
-      height);
-    graphMan.createDepthStencilView(m_txDepthStencil_GB, m_depthStencilView_GB);
-    // Create the vertex shader
-    WString shaderFileName = L"GBuffer.fx";
-    m_vertexShader_GB = graphMan.createVertexShader(shaderFileName);
-    // Create the input layout
-    m_inputLayout_GB = graphMan.createInputLayout(m_vertexShader_GB,
-      { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT" });
-    // Create the pixel shader
-    m_pixelShader_GB = graphMan.createPixelShader(shaderFileName);
-    // Create sampler
-    m_sampler_GB = graphMan.createSampler();
-    // Create rasterizer
-  }
-
   void 
-  sysRenderPipeline::createTemporalPipeline(float width, float height) {
+  sysRenderPipeline::createTemporalPipeline() {
     auto& graphMan = g_graphicsAPI();
 
     m_txBackBuffer_tmp = graphMan.createTexture2D(m_screenWidth, 
@@ -95,7 +93,7 @@ namespace buEngineSDK {
   }
 
   void
-  sysRenderPipeline::update() {
+  sysRenderPipeline::onUpdate(float _deltaTime) {
     // Initialize View matrix
 
     buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
@@ -115,17 +113,19 @@ namespace buEngineSDK {
     buVector4F surfColor(m_surfColor, 0);
     buVector4F constants(m_constants[0], 0, 0, 0);
     LB.viewPosition = viewDir;
+    //lightPos = m_userInterface.setPosition();
     LB.LightPos = lightPos;
     LB.LightColor = LightColor;
     LB.surfColor = surfColor;
     LB.LightIntensity = constants;
 
     m_light.update(LB);
-    m_userInterface.update();
+    
+    //m_userInterface.update();
   }
 
   void 
-  sysRenderPipeline::render() {
+  sysRenderPipeline::onRender() {
     auto& graphMan = g_graphicsAPI();
     // Set viewport
     graphMan.setViewport(m_viewport_tmp);
@@ -158,16 +158,24 @@ namespace buEngineSDK {
     graphMan.PSsetSamplers(m_sampler_tmp, 0, 1);
     // Update shader resource cubemap
     graphMan.PSSetShaderResources(m_cubeMap, 4, 1);
-    m_userInterface.render();
+   // m_userInterface.render();
   }
 
   void 
-  sysRenderPipeline::destroy() {
-
+  sysRenderPipeline::onDestroy() {
+    m_graphicsAPI->cleanUp();
+    //m_sysAudioAPI.de;
+    // Shutdown module
+    buCoreGraphicsAPI::shutDown();
+    //sysAudioAPI::shutDown();
+    //delete graphicAPI;
+    m_directXPlug.destroy();
+    //m_audioPlug.destroy();
   }
-  buUI sysRenderPipeline::getUI()
-  {
-    return m_userInterface;
-  }
+  
+  //buUI sysRenderPipeline::getUI()
+  //{
+  //  return m_userInterface;
+  //}
 }
 

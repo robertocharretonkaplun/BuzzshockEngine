@@ -119,6 +119,9 @@ namespace buEngineSDK {
     //buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
     //
     //
+    //m_position[0] = _pos.x;
+    //m_position[1] = _pos.y;
+    //m_position[2] = _pos.z;
     //buVector3F position(m_position[0], m_position[1], m_position[2]);
     //
     //gameobject.update(position, rotation, scale, m_angle);
@@ -163,6 +166,10 @@ namespace buEngineSDK {
     }
 
     ImGui::End();
+  }
+
+  buVector4F buUI::setPosition() {
+    return buVector4F(m_position[0], m_position[1], m_position[2],0);
   }
 
   void

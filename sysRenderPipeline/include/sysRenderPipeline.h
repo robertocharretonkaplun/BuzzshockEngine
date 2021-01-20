@@ -1,7 +1,7 @@
 #pragma once
+#include "BaseApp.h"
 #include <buPrerequisitesCore.h>
 #include <buCoreGraphicsAPI.h>
-#include <sysRender.h>
 #include <buLight.h>
 #include <buCommons.h>
 #include <buCameraManager.h>
@@ -9,42 +9,68 @@
 #include <buCoreDepthStencilView.h>
 #include <buCoreViewport.h>
 #include <buLight.h>
-#include <buUI.h>
+//#include <buUI.h>
 
 namespace buEngineSDK {
 	struct cbBonesTranform
 	{
 		buMatrix4x4 boneTransform[100];
 	};
-	class sysRenderPipeline : public sysRender
+	class sysRenderPipeline : public BaseApp
 	{
 	public:
 		sysRenderPipeline() = default;
 		~sysRenderPipeline() = default;
 
+		//void
+		//init(void* _window, float width, float height) override;
+		//
+		//void
+		//createGBuffer(float width, float height) override;
+		//
+		//void
+		//createTemporalPipeline(float width, float height) override;
+		//
+		//void
+		//update(buVector3F _pos, buVector3F _rot,
+		//	buVector3F _scal, float _angle) override;
+		//
+		//void
+		//render() override;
+		//
+		//void 
+		//destroy() override;
+
+		/**
+		 * @brief Method that allows the user to initialize the information.
+		 */
 		void
-		init(void* _window, float width, float height) override;
+			onCreate() override;
 
+		/**
+		 * @brief Method that destroys the modules and components of the app.
+		 */
 		void
-		createGBuffer(float width, float height) override;
+			onDestroy() override;
 
+		/**
+		 * @brief Method that updates the logic information of the app.
+		 */
 		void
-		createTemporalPipeline(float width, float height) override;
+			onUpdate(float _deltaTime = 0) override;
 
+		/**
+		 * @brief Method that draw the objects on the screen.
+		 */
 		void
-		update() override;
-
+			onRender() override;
 		void
-		render() override;
-
-		void 
-		destroy() override;
-
-		buUI 
-		getUI() override;
+			createTemporalPipeline();
+		//buUI 
+		//getUI() override;
 
 	private:
-		buUI m_userInterface;
+		//buUI m_userInterface;
 		// GBuffer
 		SPtr<buCoreTexture2D> m_txBackBuffer_GB;
 		SPtr<buCoreTexture2D> m_txDepthStencil_GB;
@@ -102,18 +128,7 @@ namespace buEngineSDK {
 		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_constants[4] = { 2.0f, 0,0,0 };
-		uint32 m_screenWidth = 0;
-		uint32 m_screenHeight = 0;
 		LightBuffer LB;
 		
 	};
-	/**
-	* @brief Plugging exportation data method.
-	* @return Instance of audio.
-	*/
-	extern "C" BU_PLUGIN_EXPORT sysRenderPipeline *
-		createRenderAPI() {
-		auto pRender = new sysRenderPipeline();
-		return pRender;
-	}
 }

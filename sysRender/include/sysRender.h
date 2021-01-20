@@ -33,7 +33,8 @@ namespace buEngineSDK {
 		createTemporalPipeline(float width, float height) {}
 
 		virtual void
-		update() {}
+		update(buVector3F _pos, buVector3F _rot,
+			buVector3F _scal, float _angle) {}
 
 		virtual void
 		render() {}

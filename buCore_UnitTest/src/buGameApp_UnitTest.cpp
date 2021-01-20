@@ -19,10 +19,10 @@ namespace buEngineSDK
     //m_sysAudioAPI.de;
     // Shutdown module
     buCoreGraphicsAPI::shutDown();
-    sysAudioAPI::shutDown();
+    //sysAudioAPI::shutDown();
     //delete graphicAPI;
     m_directXPlug.destroy();
-    m_audioPlug.destroy();
+    //m_audioPlug.destroy();
     
   }
 

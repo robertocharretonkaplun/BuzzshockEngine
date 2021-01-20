@@ -8,17 +8,17 @@ namespace buEngineSDK {
   BaseApp::run() {
     // Create Window
     m_windowName = "Buzzshock Engine";
-    m_screenWidth = 1940;
-    m_screenHeight = 1040;
+    m_screenWidth = 1536;
+    m_screenHeight = 864;
     createWindow();
     // Create systems
     initSystems();
     // Initialize the renderer 
-    auto& renderMan = g_renderAPI();
-    renderMan.init(m_window, m_screenWidth, m_screenHeight);
-    loadInformation();
+    //auto& renderMan = g_renderAPI();
+    //renderMan.init(m_window, m_screenWidth, m_screenHeight);
 
     onCreate();
+    loadInformation();
     // Init Imgui
     //IMGUI_CHECKVERSION();
     //ImGui::CreateContext();
@@ -106,37 +106,37 @@ namespace buEngineSDK {
       g_AppOptions().setObject(appOptions);
       m_appOptions = &g_AppOptions();*/
     }
-    if (m_audioPlug.loadPluggin("sysAudio_OpenALd.dll")) {
-      auto createAudioAPI = reinterpret_cast<fnAudioAPIProt>(
-        m_audioPlug.getProcedureByName("createAudioAPI"));
+    //if (m_audioPlug.loadPluggin("sysAudio_OpenALd.dll")) {
+    //  auto createAudioAPI = reinterpret_cast<fnAudioAPIProt>(
+    //    m_audioPlug.getProcedureByName("createAudioAPI"));
+    //
+    //  sysAudioAPI::startUp();
+    //  sysAudioAPI* audioAPI = createAudioAPI();
+    //  g_audioAPI().setObject(audioAPI);
+    //  m_sysAudioAPI = &g_audioAPI();
+    //}
 
-      sysAudioAPI::startUp();
-      sysAudioAPI* audioAPI = createAudioAPI();
-      g_audioAPI().setObject(audioAPI);
-      m_sysAudioAPI = &g_audioAPI();
-    }
-
-    if (m_renderPlug.loadPluggin("sysRenderPipelined.dll")) {
-      auto createRenderAPI = reinterpret_cast<fnRenderAPIProt>(
-        m_renderPlug.getProcedureByName("createRenderAPI"));
-
-      sysRender::startUp();
-      sysRender* renderAPI = createRenderAPI();
-      g_renderAPI().setObject(renderAPI);
-      m_sysRenderAPI = &g_renderAPI();
-    }
+    //if (m_renderPlug.loadPluggin("sysRenderPipelined.dll")) {
+    //  auto createRenderAPI = reinterpret_cast<fnRenderAPIProt>(
+    //    m_renderPlug.getProcedureByName("createRenderAPI"));
+    //
+    //  sysRender::startUp();
+    //  sysRender* renderAPI = createRenderAPI();
+    //  g_renderAPI().setObject(renderAPI);
+    //  m_sysRenderAPI = &g_renderAPI();
+    //}
 
   }
 
   bool 
   BaseApp::createWindow() {
     auto hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
-    auto& renderMan = g_renderAPI();
+    //auto& renderMan = g_renderAPI();
     // Register class
     WNDCLASSEXA wcex;
     wcex.cbSize = sizeof(WNDCLASSEXA);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = renderMan.getUI().handelWindowEvent;// handelWindowEvent;
+    wcex.lpfnWndProc = handelWindowEvent;// renderMan.getUI().handelWindowEvent;// handelWindowEvent;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
@@ -188,8 +188,7 @@ namespace buEngineSDK {
   BaseApp::update(float _deltaTime = 0) {
     onUpdate(_deltaTime);
     // Update the renderer
-    auto& renderMan = g_renderAPI();
-    renderMan.update();
+    //auto& renderMan = g_renderAPI();
     //ImGui_ImplDX11_NewFrame();
     //ImGui_ImplWin32_NewFrame();
     //ImGui::NewFrame();
@@ -242,15 +241,16 @@ namespace buEngineSDK {
     buVector3F position(m_position[0], m_position[1], m_position[2]);
 
     m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
+    //renderMan.update(position, rotation, scale, m_angle);
   }
 
   void 
   BaseApp::render() {
     // Draw the renderer
-    auto& renderMan = g_renderAPI();
-    renderMan.render();
-    m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    //auto& renderMan = g_renderAPI();
+    //renderMan.render();
     onRender();   
+    m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     // Render ImGui Data
     //ImGui::Render();
     //ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -793,9 +793,9 @@ namespace buEngineSDK {
   BaseApp::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
     /*
     //*/
-    if ( ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
-      return true;
-    }
+    //if ( ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
+    //  return true;
+    //}
     //auto& renderMan = g_renderAPI();
     //renderMan.getUI().WndProc(Hw, Msg, wParam, lParam);
     /*

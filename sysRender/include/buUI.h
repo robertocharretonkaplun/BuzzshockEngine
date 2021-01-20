@@ -35,6 +35,9 @@ namespace buEngineSDK {
 		void
 		setInspector();
 
+		buVector4F 
+		setPosition();
+
 		void
 		setMenu();
 

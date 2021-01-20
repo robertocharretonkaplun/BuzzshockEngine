@@ -9,8 +9,8 @@
 #pragma once
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
-#include <sysAudioAPI.h>
-#include <sysRender.h>
+//#include <sysAudioAPI.h>
+//#include <sysRender.h>
 #include <buCameraManager.h>
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
@@ -194,8 +194,8 @@ namespace buEngineSDK {
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
-		sysAudioAPI* m_sysAudioAPI = nullptr;
-		sysRender* m_sysRenderAPI = nullptr;
+		//sysAudioAPI* m_sysAudioAPI = nullptr;
+		//sysRender* m_sysRenderAPI = nullptr;
 		buCameraManager m_cameraManager ;
 		/**
 		 * @brief 

@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Allocators">
+      <UniqueIdentifier>{5e6928f9-8874-4f59-b507-3f1dca02d518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logger">
+      <UniqueIdentifier>{30417911-bc3a-483a-8396-bd3b91d55c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logger">
+      <UniqueIdentifier>{021cb4e2-cf0e-41cb-8db6-11bdf6dc7c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CURL">
+      <UniqueIdentifier>{43a497e8-f56e-4afe-94b0-d4e930c49657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CURL">
+      <UniqueIdentifier>{7120a7d3-bd7d-4ad0-9e02-5772124c814c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Allocators">
+      <UniqueIdentifier>{d6e92079-25b2-4640-8b88-237e0c18e4e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -96,6 +114,15 @@
     <ClInclude Include="include\buMatrix3x3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\buLogger.h">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCurl.h">
+      <Filter>Header Files\CURL</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buHeap.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -160,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="src\buMatrix3x3.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buLogger.cpp">
+      <Filter>Source Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCurl.cpp">
+      <Filter>Source Files\CURL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buHeap.cpp">
+      <Filter>Source Files\Allocators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

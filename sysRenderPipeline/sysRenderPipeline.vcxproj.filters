@@ -68,5 +68,8 @@
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
