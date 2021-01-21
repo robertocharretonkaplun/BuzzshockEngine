@@ -8,7 +8,15 @@ namespace buEngineSDK {
 		buCurl() = default;
 		buCurl(String _url);
 		~buCurl();
-		static size_t 
+
+		/**
+     * @brief Method in charge of post information to http service.
+     */
+		void
+		post();
+
+		static 
+		size_t 
 	  WriteCallback(void* contents, size_t size, size_t nmemb, void* userp)	{
 			((std::string*)userp)->append((char*)contents, size * nmemb);
 			return size * nmemb;
