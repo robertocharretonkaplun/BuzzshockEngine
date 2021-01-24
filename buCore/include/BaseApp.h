@@ -18,13 +18,14 @@
 #include <buCoreTexture2D.h>
 #include <SaveSystem.h>
 #include <buSceneGraph.h>
+#include "buCommons.h"
 //#include "imgui\imGuiDocking\imgui.h"
 //#include "imgui\imGuiDocking\imgui_impl_dx11.h"
 //#include "imgui\imGuiDocking\imgui_impl_win32.h"
-//extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
-//																							UINT msg,
-//																						  WPARAM wParam,
-//																							LPARAM lParam);
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
+																							UINT msg,
+																						  WPARAM wParam,
+																							LPARAM lParam);
 namespace buEngineSDK {
 	class BU_CORE_EXPORT BaseApp {
 	public:

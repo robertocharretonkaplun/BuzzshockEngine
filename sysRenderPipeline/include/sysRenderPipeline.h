@@ -9,6 +9,7 @@
 #include <buCoreDepthStencilView.h>
 #include <buCoreViewport.h>
 #include <buLight.h>
+#include <buHistogram.h>
 //#include <buUI.h>
 
 namespace buEngineSDK {
@@ -129,6 +130,6 @@ namespace buEngineSDK {
 		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
 		float m_constants[4] = { 2.0f, 0,0,0 };
 		LightBuffer LB;
-		
+		buHistogram histogram;
 	};
 }

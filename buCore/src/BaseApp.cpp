@@ -20,17 +20,17 @@ namespace buEngineSDK {
     onCreate();
     loadInformation();
     // Init Imgui
-    //IMGUI_CHECKVERSION();
-    //ImGui::CreateContext();
-    //ImGuiIO& io = ImGui::GetIO();
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    //ImGui_ImplWin32_Init(m_window);
-    //ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_graphicsAPI->getDevice()),
-    //  reinterpret_cast<ID3D11DeviceContext*>(m_graphicsAPI->getDeviceContext()));
-    //ImGui::StyleColorsLight();
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    ImGui_ImplWin32_Init(m_window);
+    ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_graphicsAPI->getDevice()),
+      reinterpret_cast<ID3D11DeviceContext*>(m_graphicsAPI->getDeviceContext()));
+    ImGui::StyleColorsLight();
     //ImFont* font1 = io.Fonts->AddFontDefault();
     //ImFont* font2 = io.Fonts->AddFontFromFileTTF("Data/Fonts/fontello.ttf", 16.0f);
-    //setUnrealStyle();
+    setUnrealStyle();
     // Main loop
     MSG msg = { nullptr };
     while (WM_QUIT != msg.message) {
@@ -186,12 +186,39 @@ namespace buEngineSDK {
 
   void 
   BaseApp::update(float _deltaTime = 0) {
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+    ImGui::Begin("Test");
     onUpdate(_deltaTime);
     // Update the renderer
     //auto& renderMan = g_renderAPI();
-    //ImGui_ImplDX11_NewFrame();
-    //ImGui_ImplWin32_NewFrame();
-    //ImGui::NewFrame();
+    //static bool animate = true;
+    //ImGui::Checkbox("Animate", &animate);
+    ////ImGui::Begin("App Average", &windowd);
+    ////ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+    ////  1000.0 / (ImGui::GetIO().Framerate), (ImGui::GetIO().Framerate));
+    ////ImGui::End();
+    //static float arr[] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
+    //ImGui::PlotLines("Frame Times", arr, IM_ARRAYSIZE(arr));
+    //// Create a dummy array of contiguous float values to plot
+    //// Tip: If your float aren't contiguous but part of a structure, you can pass a pointer to your first float and the sizeof() of your structure in the Stride parameter.
+    //static float values[90] = { 0 };
+    //static int values_offset = 0;
+    //static float refresh_time = 0.0f;
+    //if (!animate || refresh_time == 0.0f)
+    //  refresh_time = ImGui::GetTime();
+    //while (refresh_time < ImGui::GetTime()) // Create dummy data at fixed 60 hz rate for the demo
+    //{
+    //  static float phase = 0.0f;
+    //  values[values_offset] = cosf(phase);
+    //  values_offset = (values_offset + 1) % IM_ARRAYSIZE(values);
+    //  phase += 0.10f * values_offset;
+    //  refresh_time += 1.0f / 60.0f;
+    //}
+    //ImGui::PlotLines("Lines", values, IM_ARRAYSIZE(values), values_offset, "avg 0.0", -1.0f, 1.0f, ImVec2(0, 80));
+    //ImGui::PlotHistogram("Histogram", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 1.0f, ImVec2(0, 80));
+    ImGui::End();
     //// Set main menu
     //MainMenu();
     
@@ -252,15 +279,15 @@ namespace buEngineSDK {
     onRender();   
     m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     // Render ImGui Data
-    //ImGui::Render();
-    //ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     // Present
     m_graphicsAPI->present(0, 0);
   }
 
   void
   BaseApp::setUnrealStyle() {
-    /*
+    
     ImGui::GetStyle().FrameRounding = 0.0f;
     ImGui::GetStyle().GrabRounding = 4.0f;
     ImGui::GetStyle().WindowRounding = 0.0f;
@@ -313,7 +340,7 @@ namespace buEngineSDK {
     colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
     colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
-    */
+    //*/
   }
 
   void
@@ -793,9 +820,9 @@ namespace buEngineSDK {
   BaseApp::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
     /*
     //*/
-    //if ( ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
-    //  return true;
-    //}
+    if ( ImGui_ImplWin32_WndProcHandler(Hw, Msg, wParam, lParam)) {
+      return true;
+    }
     //auto& renderMan = g_renderAPI();
     //renderMan.getUI().WndProc(Hw, Msg, wParam, lParam);
     /*

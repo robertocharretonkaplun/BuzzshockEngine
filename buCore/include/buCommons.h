@@ -1,5 +1,8 @@
 #pragma once
 #include "buMatrix4x4.h"
+#include "imgui\imGuiDocking\imgui.h"
+#include "imgui\imGuiDocking\imgui_impl_dx11.h"
+#include "imgui\imGuiDocking\imgui_impl_win32.h"
 namespace buEngineSDK {
 	struct CBCamera
 	{
@@ -19,6 +22,9 @@ namespace buEngineSDK {
     buVector4F surfColor;
     buVector4F LightIntensity;
   };
+
+
+
 }
 
 namespace CameraType {

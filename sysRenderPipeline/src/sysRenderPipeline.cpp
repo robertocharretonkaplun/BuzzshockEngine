@@ -6,6 +6,7 @@ namespace buEngineSDK {
     auto& graphMan = g_graphicsAPI();
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
+    histogram.init();
     //m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
 
@@ -122,6 +123,8 @@ namespace buEngineSDK {
     m_light.update(LB);
     
     //m_userInterface.update();
+    histogram.drawUI("Histogram 1", "Red");
+
   }
 
   void 

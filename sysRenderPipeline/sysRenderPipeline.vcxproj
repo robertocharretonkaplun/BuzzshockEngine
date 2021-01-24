@@ -99,7 +99,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -108,8 +108,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenCL.lib;assimp-vc142-mt.lib;buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +141,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -150,8 +150,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenCL.lib;assimp-vc142-mt.lib;buUtilitiesd.lib;buCored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,23 +177,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h" />
-    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h" />
     <ClInclude Include="include\sysRenderPipeline.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\sysRenderPipeline.cpp" />
   </ItemGroup>
