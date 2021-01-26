@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Allocators">
       <UniqueIdentifier>{d6e92079-25b2-4640-8b88-237e0c18e4e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Time">
+      <UniqueIdentifier>{071eb79c-764f-4e95-b685-5cb2628733b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{c29d7664-f3c1-4548-8b4b-e745e6c84b85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -123,6 +129,9 @@
     <ClInclude Include="include\buHeap.h">
       <Filter>Header Files\Allocators</Filter>
     </ClInclude>
+    <ClInclude Include="include\buTime.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -196,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="src\buHeap.cpp">
       <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buTime.cpp">
+      <Filter>Source Files\Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

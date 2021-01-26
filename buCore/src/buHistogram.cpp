@@ -114,7 +114,7 @@ namespace buEngineSDK {
 
     size_t codeSize = kernel_code.length();
 
-    cl_program program = clCreateProgramWithSource(context, 1, code, &codeSize, &error);
+    cl_program program = clCreateProgramWithSource(context, 1, code, &codeSize, &error); 
     //errOut(error);
 
     clBuildProgram(program, 1, &selected_device, nullptr, nullptr, nullptr);

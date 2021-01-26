@@ -215,6 +215,7 @@
     <ClInclude Include="include\buSphere.h" />
     <ClInclude Include="include\buStdHeaders.h" />
     <ClInclude Include="include\buString.h" />
+    <ClInclude Include="include\buTime.h" />
     <ClInclude Include="include\buVector2F.h" />
     <ClInclude Include="include\buVector2I.h" />
     <ClInclude Include="include\buVector3F.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="src\buRay.cpp" />
     <ClCompile Include="src\buRectangle.cpp" />
     <ClCompile Include="src\buSphere.cpp" />
+    <ClCompile Include="src\buTime.cpp" />
     <ClCompile Include="src\buVector2F.cpp" />
     <ClCompile Include="src\buVector2I.cpp" />
     <ClCompile Include="src\buVector3F.cpp" />
