@@ -1,12 +1,9 @@
 #include "buLogger.h"
 
 namespace buEngineSDK {
-  const String buLogger::m_fileName = "Log.txt";
+  const String buLogger::m_fileName = "Data/Logs/Log.txt";
   buLogger* buLogger::m_this = NULL;
   std::ofstream buLogger::m_logfile;
-
-  buLogger::~buLogger() {
-  }
 
   void
   buLogger::Log(String _message, MessageType::E _type) {

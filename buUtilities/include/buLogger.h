@@ -1,6 +1,12 @@
+/**
+* @brief Class in charge of storing important proccess in the engine
+* Ref: https://cppcodetips.wordpress.com/2014/01/02/a-simple-logger-class-in-c/
+* Note: Check how to store it on week reports with new dates.
+*/
 #pragma once
 #include "buPrerequisitesUtil.h"
 #include <buTime.h>
+
 namespace MessageType {
 	enum E {
 		DEFAULT,
@@ -30,7 +36,7 @@ namespace buEngineSDK {
 			*/
 		buLogger& operator=(const buLogger& _log) { return *this; };
 
-		~buLogger();
+		~buLogger() = default;
 
 		/**
 			* @brief Method to log a message
