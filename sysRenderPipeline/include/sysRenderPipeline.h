@@ -11,7 +11,7 @@
 #include <buLight.h>
 #include <buHistogram.h>
 //#include <buUI.h>
-
+#include <buLogger.h>
 namespace buEngineSDK {
 	struct cbBonesTranform
 	{
@@ -131,5 +131,6 @@ namespace buEngineSDK {
 		float m_constants[4] = { 2.0f, 0,0,0 };
 		LightBuffer LB;
 		buHistogram histogram;
+
 	};
 }

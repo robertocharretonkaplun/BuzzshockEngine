@@ -7,6 +7,7 @@ namespace buEngineSDK {
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
     histogram.init();
+    buLogger::GetLogger()->Log("Beginner test");
     //m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
 

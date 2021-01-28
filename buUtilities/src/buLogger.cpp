@@ -6,7 +6,7 @@ namespace buEngineSDK {
   std::ofstream buLogger::m_logfile;
 
   void
-  buLogger::Log(String _message, MessageType::E _type) {
+  buLogger::Log(String _message/*, MessageType::E _type*/) {
     m_logfile << m_time.currDateTime() << ":\t";
     m_logfile << _message << "\n";
   }

@@ -229,7 +229,7 @@ namespace buEngineSDK {
   void
   buHistogram::drawUI(String _windowName, String _description) {
     ImGui::Begin(_windowName.c_str());
-    ImGui::PlotHistogram(_description.c_str(), &m_r[0], m_r.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
+    ImGui::PlotHistogram("Red", &m_r[0], m_r.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
     ImGui::PlotHistogram("Green", &m_g[0], m_g.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
     ImGui::PlotHistogram("Blue", &m_b[0], m_b.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
     ImGui::PlotHistogram("Alpha", &m_a[0], m_a.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
