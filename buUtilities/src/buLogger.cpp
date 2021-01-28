@@ -7,8 +7,10 @@ namespace buEngineSDK {
 
   void
   buLogger::Log(String _message/*, MessageType::E _type*/) {
+    m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
     m_logfile << m_time.currDateTime() << ":\t";
     m_logfile << _message << "\n";
+    m_logfile.close();
   }
 
   buLogger& 
@@ -22,7 +24,7 @@ namespace buEngineSDK {
   buLogger::GetLogger() {
     if (m_this == nullptr) {
       m_this = new buLogger();
-      m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
+      //m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
     }
     return m_this;
   }

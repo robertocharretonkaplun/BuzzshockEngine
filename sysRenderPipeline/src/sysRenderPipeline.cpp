@@ -7,7 +7,12 @@ namespace buEngineSDK {
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
     histogram.init();
-    buLogger::GetLogger()->Log("Beginner test");
+    String message1 = "logg message 1 ...";
+    
+    //buLogger::GetLogger()->Log("message to be logged");
+    buLogger log;
+    log.Log(message1);
+    //LOGGER->Log(" Message is:%s Number is:%d", message2.c_str(), nNum);
     //m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
 

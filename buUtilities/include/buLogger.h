@@ -35,7 +35,7 @@ namespace buEngineSDK {
 			* @brief Method to log a message
 			*/
 		void
-		Log(String _message, MessageType::E _type);
+		Log(String _message/*, MessageType::E _type*/);
     
 		/**
 			* @brief overloaded method to Logs a message
