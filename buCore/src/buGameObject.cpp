@@ -1,22 +1,42 @@
 #include "buGameObject.h"
-
+#include <imgui\imGuiDocking\imgui_internal.h>
 namespace buEngineSDK {
-  void 
+  buGameObject::~buGameObject()
+  {
+  }
+  void
   buGameObject::init() {
     auto& graphMan = g_graphicsAPI();
     // Create Change Every Frame
     changeEveryFrame = graphMan.createBuffer(sizeof(CBChangesEveryFrame));
-    
+    pos = new float[3];
+    rot = new float[3];
+    sca = new float[3];
+
+    pos[0] = 0;
+    pos[1] = 60;
+    pos[2] = 0;
+
+    rot[0] = 0;
+    rot[1] = 1;
+    rot[2] = 0;
+
+    sca[0] = 50;
+    sca[1] = 50;
+    sca[2] = 50;
   }
   void
   buGameObject::update(buVector3F _pos, buVector3F _rot,
                        buVector3F _scal, float _angle) {
     auto& graphMan = g_graphicsAPI();
-    m_pos = _pos;
-    m_rot = _rot;
-    m_sca = _scal;
+    //m_pos = _pos;
+    buVector3F newPos(pos[0], pos[1], pos[2]);
+    buVector3F newRot(rot[0], rot[1], rot[2]);
+    buVector3F newSca(sca[0], sca[1], sca[2]);
+    //m_rot = _rot;
+    //m_sca = _scal;
     m_angle = _angle;
-    m_transform.update(m_pos, m_rot, m_sca, m_angle);
+    m_transform.update(newPos, newRot, newSca, m_angle);
     cb.mWorld = m_transform.m_world;
     graphMan.updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
     
@@ -54,5 +74,82 @@ namespace buEngineSDK {
       }
 
     }
+  }
+  
+  void 
+  buGameObject::drawUI() {
+    ImGui::Begin("Properties");
+    ImGui::Checkbox(" ", &m_isUsed);
+    ImGui::SameLine();
+    ImGui::Text("Transform2");
+    ImGui::Separator();
+    
+    
+    //vec3Control("Position", pos);
+    vec3Control("Position", pos);
+    vec3Control("Rotation", rot);
+    vec3Control("Scale", sca);
+    ImGui::Separator();
+    ImGui::End();
+  }
+
+  void
+  buGameObject::vec3Control(String label, float* values, float resetValues, float columnWidth) {
+    
+    ImGui::PushID(label.c_str());
+    ImGui::Columns(2);
+    ImGui::SetColumnWidth(0, columnWidth);
+    ImGui::Text(label.c_str());
+    ImGui::NextColumn();
+
+    ImGui::PushMultiItemsWidths(3,ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0,0 });
+    float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+    if (ImGui::Button("X", buttonSize)) {
+      values[0] = resetValues;
+    }
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##X", &values[0], 0.1f);
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+    if (ImGui::Button("Y", buttonSize)) {
+      values[1] = resetValues;
+    }
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##Y", &values[1], 0.1f);
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+    if (ImGui::Button("Z", buttonSize)) {
+      values[2] = resetValues;
+    }
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##Z", &values[2], 0.1f);
+    ImGui::PopItemWidth();
+
+    ImGui::PopStyleVar();
+
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+    
   }
 }

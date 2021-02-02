@@ -19,6 +19,7 @@
 #include <SaveSystem.h>
 #include <buSceneGraph.h>
 #include "buCommons.h"
+#include "buLogger.h"
 //#include "imgui\imGuiDocking\imgui.h"
 //#include "imgui\imGuiDocking\imgui_impl_dx11.h"
 //#include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -260,7 +261,6 @@ namespace buEngineSDK {
 		/**
 		 * @brief 
 		 */
-		Vector<String> m_logs;
 		Vector<String> m_list;
 
 		float dealtaTime = 0;
@@ -275,5 +275,7 @@ namespace buEngineSDK {
 		uint32 m_selectedItem = 1;
 		//buGameObject tmpGO;
 		SaveSystem m_saverMan;
+
+		Vector<String> m_logs = buLogger::GetLogger()->GetLogDataFromFile();
 	};
 }

@@ -197,6 +197,9 @@ namespace buEngineSDK {
   void
   normalize();
   
+  float *
+  data();
+
  public:
   /**
    * @brief Member in charge of storing the point of the x - coordinate.

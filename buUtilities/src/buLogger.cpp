@@ -20,6 +20,18 @@ namespace buEngineSDK {
     return *this;
   }
 
+  Vector<String> buLogger::GetLogDataFromFile()
+  {
+    Vector<String> logs;
+    std::ifstream logFile("Data/Logs/Log.txt");
+    String line;
+    while (std::getline(logFile, line))
+    {
+      logs.push_back(line);
+    }
+    return logs;
+  }
+
   buLogger* 
   buLogger::GetLogger() {
     if (m_this == nullptr) {

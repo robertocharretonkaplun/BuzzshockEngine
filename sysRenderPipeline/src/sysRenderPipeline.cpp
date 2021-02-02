@@ -7,7 +7,7 @@ namespace buEngineSDK {
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
     histogram.init();
-    String message1 = "logg message 1 ...";
+    String message1 = "Engine initialization";
     
     //buLogger::GetLogger()->Log("message to be logged");
     buLogger log;
@@ -121,7 +121,7 @@ namespace buEngineSDK {
     buVector4F constants(m_constants[0], 0, 0, 0);
     LB.viewPosition = viewDir;
     //lightPos = m_userInterface.setPosition();
-    LB.LightPos = lightPos;
+    //LB.LightPos = lightPos;
     LB.LightColor = LightColor;
     LB.surfColor = surfColor;
     LB.LightIntensity = constants;

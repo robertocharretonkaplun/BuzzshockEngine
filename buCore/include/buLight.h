@@ -19,10 +19,17 @@ namespace buEngineSDK {
 		void
 		render();
 
+		void
+		drawUI();  
+
+		void
+		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
+
 	private:
 		String m_name;
 		LightBuffer LB;
 		SPtr<buCoreBuffer> m_lightBuffer;
 		// Include game object
+		float* m_pos;
 	};
 };

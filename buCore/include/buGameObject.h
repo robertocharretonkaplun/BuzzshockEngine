@@ -9,7 +9,7 @@ namespace buEngineSDK {
 	class BU_CORE_EXPORT buGameObject {
 	public:
 		buGameObject() = default;
-		~buGameObject() = default;
+		~buGameObject();
 
 		void 
 		init();
@@ -28,6 +28,12 @@ namespace buEngineSDK {
 			m_model.m_textures.push_back(tmpTex);
 		}
 
+		void drawUI();
+
+	private:
+		void
+		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
+
 	public:
 		String m_name;
 		uint32 m_id = 0;
@@ -38,6 +44,9 @@ namespace buEngineSDK {
 		buVector3F m_pos = buVector3F::Zero;
 		buVector3F m_rot = buVector3F::Zero;
 		buVector3F m_sca = buVector3F::Zero;
+		float* pos;// [3] = { 0,100,0 };;
+		float* rot;// = { 0,0,0 };
+		float* sca;// = { 0,0,0 };
 		float m_angle = 0.0f;
 		buTransform m_lastTransform;
 		CBChangesEveryFrame cb;

@@ -43,6 +43,9 @@ namespace buEngineSDK {
 			*/
 		buLogger& operator<<(const String& sMessage);
     
+
+		Vector<String> 
+		GetLogDataFromFile();
 		/**
 			* @brief Method in charge of create the instance of logger
 			* @return singleton object of Clogger class..

@@ -8,8 +8,8 @@ namespace buEngineSDK {
   BaseApp::run() {
     // Create Window
     m_windowName = "Buzzshock Engine";
-    m_screenWidth = 1536;
-    m_screenHeight = 864;
+    m_screenWidth = 1500;
+    m_screenHeight = 800;
     createWindow();
     // Create systems
     initSystems();
@@ -97,34 +97,7 @@ namespace buEngineSDK {
       m_resourceManager = &g_resourceManager();
 
       
-      /*AppOptions::startUp();
-      buCameraManager::startUp();
-      buCameraManager* cameraManager = createCameraManager();
-      g_CameraManager().setObject(cameraManager);
-      m_cameraManager = &g_CameraManager();
-      AppOptions* appOptions = createAppOptions();
-      g_AppOptions().setObject(appOptions);
-      m_appOptions = &g_AppOptions();*/
     }
-    //if (m_audioPlug.loadPluggin("sysAudio_OpenALd.dll")) {
-    //  auto createAudioAPI = reinterpret_cast<fnAudioAPIProt>(
-    //    m_audioPlug.getProcedureByName("createAudioAPI"));
-    //
-    //  sysAudioAPI::startUp();
-    //  sysAudioAPI* audioAPI = createAudioAPI();
-    //  g_audioAPI().setObject(audioAPI);
-    //  m_sysAudioAPI = &g_audioAPI();
-    //}
-
-    //if (m_renderPlug.loadPluggin("sysRenderPipelined.dll")) {
-    //  auto createRenderAPI = reinterpret_cast<fnRenderAPIProt>(
-    //    m_renderPlug.getProcedureByName("createRenderAPI"));
-    //
-    //  sysRender::startUp();
-    //  sysRender* renderAPI = createRenderAPI();
-    //  g_renderAPI().setObject(renderAPI);
-    //  m_sysRenderAPI = &g_renderAPI();
-    //}
 
   }
 
@@ -189,7 +162,11 @@ namespace buEngineSDK {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    ImGui::Begin("Test");
+    ImGui::Begin("Change Log");
+    for (auto go : m_logs) {
+      ImGui::Text(go.c_str());
+    }
+    ImGui::End();
     onUpdate(_deltaTime);
     // Update the renderer
     //auto& renderMan = g_renderAPI();
@@ -218,7 +195,6 @@ namespace buEngineSDK {
     //}
     //ImGui::PlotLines("Lines", values, IM_ARRAYSIZE(values), values_offset, "avg 0.0", -1.0f, 1.0f, ImVec2(0, 80));
     //ImGui::PlotHistogram("Histogram", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 1.0f, ImVec2(0, 80));
-    ImGui::End();
     //// Set main menu
     //MainMenu();
     
@@ -259,6 +235,9 @@ namespace buEngineSDK {
     
     //sceneGraph();
     //shaderProperties();
+
+
+
     buVector3F scale(m_Scale[0] * m_EngineScale,
       m_Scale[1] * m_EngineScale,
       m_Scale[2] * m_EngineScale);
@@ -268,6 +247,7 @@ namespace buEngineSDK {
     buVector3F position(m_position[0], m_position[1], m_position[2]);
 
     m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
+    m_scene_graph.getSelectedGO().drawUI();
     //renderMan.update(position, rotation, scale, m_angle);
   }
 

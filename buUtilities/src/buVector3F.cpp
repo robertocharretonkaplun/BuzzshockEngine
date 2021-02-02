@@ -5,7 +5,7 @@ namespace buEngineSDK {
 
   buVector3F::buVector3F(float _x, float _y, float _z) : x(_x), y(_y), z(_z) { }
 
-  buVector3F::~buVector3F() { }
+  buVector3F::~buVector3F() {}
 
   buVector3F::buVector3F(const buVector3F& _v) : x(_v.x), y(_v.y), z(_v.z) { }
 
@@ -115,5 +115,10 @@ namespace buEngineSDK {
     y = y * normValue;
     z = z * normValue;
     
+  }
+
+  float *
+  buVector3F::data() {
+    return nullptr;
   }
 }
