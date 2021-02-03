@@ -47,7 +47,7 @@ namespace buEngineSDK {
 		float* pos;// [3] = { 0,100,0 };;
 		float* rot;// = { 0,0,0 };
 		float* sca;// = { 0,0,0 };
-		float m_angle = 0.0f;
+		float* m_angle;// = 0.0f;
 		buTransform m_lastTransform;
 		CBChangesEveryFrame cb;
 		SPtr<buCoreBuffer> changeEveryFrame;

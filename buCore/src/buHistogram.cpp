@@ -199,10 +199,7 @@ namespace buEngineSDK {
     clEnqueueReadBuffer(command_queue, buffer_outAlpha, CL_TRUE, 0, sizeof(int) * 256,outAlpha, 0, nullptr, nullptr);
 
     std::cout << std::endl;
-    int32 maxValRed = 0;
-    int32 maxValGreen = 0;
-    int32 maxValBlue = 0;
-    int32 maxValAlpha = 0;
+    
     for (uint32 i = 0; i < 256; i++) {
       if (outRed[i] > maxValRed) {
         maxValRed = outRed[i];
@@ -219,9 +216,9 @@ namespace buEngineSDK {
     }
     for (uint32 i = 0; i < 256; i++)
     {
-      m_r.push_back((float)outRed[i] / maxValRed);
+      m_r.push_back((float)outRed[i]   / maxValRed  );
       m_g.push_back((float)outGreen[i] / maxValGreen);
-      m_b.push_back((float)outBlue[i] / maxValBlue);
+      m_b.push_back((float)outBlue[i]  / maxValBlue );
       m_a.push_back((float)outAlpha[i] / maxValAlpha);
     }
   }
@@ -229,10 +226,10 @@ namespace buEngineSDK {
   void
   buHistogram::drawUI(String _windowName, String _description) {
     ImGui::Begin(_windowName.c_str());
-    ImGui::PlotHistogram("Red", &m_r[0], m_r.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
-    ImGui::PlotHistogram("Green", &m_g[0], m_g.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
-    ImGui::PlotHistogram("Blue", &m_b[0], m_b.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
-    ImGui::PlotHistogram("Alpha", &m_a[0], m_a.size(), 0, nullptr, 0.0f, 1.0f, ImVec2(0, 80));
+    ImGui::PlotHistogram("Red", &m_r[0], m_r.size(), 0, nullptr, 0.0f,   .1f, ImVec2(0, 80));
+    ImGui::PlotHistogram("Green", &m_g[0], m_g.size(), 0, nullptr, 0.0f, .1f, ImVec2(0, 80));
+    ImGui::PlotHistogram("Blue", &m_b[0], m_b.size(), 0, nullptr, 0.0f,  .1f, ImVec2(0, 80));
+    ImGui::PlotHistogram("Alpha", &m_a[0], m_a.size(), 0, nullptr, 0.0f, .1f, ImVec2(0, 80));
     ImGui::End();
   }
 }

@@ -26,6 +26,10 @@ namespace buEngineSDK {
 		Vector<float> m_g;
 		Vector<float> m_b;
 		Vector<float> m_a;
+		int32 maxValRed = 0;
+		int32 maxValGreen = 0;
+		int32 maxValBlue = 0;
+		int32 maxValAlpha = 0;
 		float arr[10] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
 	};
 }

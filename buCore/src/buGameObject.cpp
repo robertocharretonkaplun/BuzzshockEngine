@@ -24,6 +24,9 @@ namespace buEngineSDK {
     sca[0] = 50;
     sca[1] = 50;
     sca[2] = 50;
+
+    m_angle = new float[1];
+    m_angle = 0;
   }
   void
   buGameObject::update(buVector3F _pos, buVector3F _rot,
@@ -35,8 +38,8 @@ namespace buEngineSDK {
     buVector3F newSca(sca[0], sca[1], sca[2]);
     //m_rot = _rot;
     //m_sca = _scal;
-    m_angle = _angle;
-    m_transform.update(newPos, newRot, newSca, m_angle);
+    //m_angle = _angle;
+    m_transform.update(newPos, newRot, newSca, m_angle[0]);
     cb.mWorld = m_transform.m_world;
     graphMan.updateSubresource(changeEveryFrame, 0, nullptr, &cb, 0, 0);
     
@@ -89,6 +92,7 @@ namespace buEngineSDK {
     vec3Control("Position", pos);
     vec3Control("Rotation", rot);
     vec3Control("Scale", sca);
+    ImGui::SliderFloat("Angle", m_angle,0, 5);
     ImGui::Separator();
     ImGui::End();
   }
