@@ -26,7 +26,7 @@ namespace buEngineSDK {
     sca[2] = 50;
 
     m_angle = new float[1];
-    m_angle = 0;
+    //m_angle = 0;
   }
   void
   buGameObject::update(buVector3F _pos, buVector3F _rot,

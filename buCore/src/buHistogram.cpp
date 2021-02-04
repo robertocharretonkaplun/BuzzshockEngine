@@ -4,8 +4,8 @@
 namespace buEngineSDK {
 //#define errOut(x) if(0 != x) {std::std::cout << "Error de salida: " << x << std::std::endl; return x; }
   void 
-  buHistogram::init() {
-   
+  buHistogram::init(String _fileName) {
+    m_filename = _fileName;
       // Get all platforms (Drivers)
     cl_uint num_platforms = 0;
     clGetPlatformIDs(0, nullptr, &num_platforms);
@@ -30,10 +30,10 @@ namespace buEngineSDK {
       clGetPlatformInfo(platforms, CL_PLATFORM_VENDOR, 255, &platform_vendor[0], nullptr);
       clGetPlatformInfo(platforms, CL_PLATFORM_EXTENSIONS, 1024, &platform_extensions[0], nullptr);
 
-      std::cout << "Platform version: " << platform_version << std::endl;
-      std::cout << "Platform name: " << platform_name << std::endl;
-      std::cout << "Platform vendor: " << platform_vendor << std::endl;
-      std::cout << "Platform extensions: " << platform_extensions << std::endl;
+      //std::cout << "Platform version: " << platform_version << std::endl;
+      //std::cout << "Platform name: " << platform_name << std::endl;
+      //std::cout << "Platform vendor: " << platform_vendor << std::endl;
+      //std::cout << "Platform extensions: " << platform_extensions << std::endl;
     }
 
     cl_platform_id selected_platform = all_platforms[0];
@@ -94,19 +94,19 @@ namespace buEngineSDK {
     //errOut(error);
 
     String kernel_code = "void kernel Histogram(global const int* RED,"
-                                                "global const int* GREEN,"
-                                                "global const int* BLUE,"
-                                                "global const int* ALPHA,"
-                                                "global int* oRED,"
-                                                "global int* oGREEN,"
-                                                "global int* oBLUE,"
-                                                "global int* oALPHA) {"
+                                               "global const int* GREEN,"
+                                               "global const int* BLUE,"
+                                               "global const int* ALPHA,"
+                                               "global int* oRED,"
+                                               "global int* oGREEN,"
+                                               "global int* oBLUE,"
+                                               "global int* oALPHA) {"
                                                   "int id = get_global_id(0);"
                                                   "atomic_add(&oRED[RED[id]],1);"
                                                   "atomic_add(&oGREEN[GREEN[id]],1);"
                                                   "atomic_add(&oBLUE[BLUE[id]],1);"
                                                   "atomic_add(&oALPHA[ALPHA[id]],1);"
-                                                "};";
+                                                  "};";
 
     const char** code = (const char**)new char[1];
     code[0] = kernel_code.c_str();
@@ -126,7 +126,8 @@ namespace buEngineSDK {
     // errOut(error);
 
     int32 Channels, x, y;
-    unsigned char* image = stbi_load("Data/Textures/927310.jpg", &x, &y, &Channels, 4);
+    String filepath = "Data/Textures/" + _fileName;
+    unsigned char* image = stbi_load(filepath.c_str(), &x, &y, &Channels, 4);
 
     int32 pixelSize = x * y;
 
@@ -164,10 +165,7 @@ namespace buEngineSDK {
     }
 
     stbi_image_free(image);
-    int outRed[256] = { 0 };
-    int outGreen[256] = { 0 };
-    int outBlue[256] = { 0 };
-    int outAlpha[256] = { 0 };
+    
     clEnqueueWriteBuffer(command_queue, buffer_red, CL_TRUE, 0, sizeof(int) * pixelSize, m_red.data(), 0, nullptr, nullptr);
     clEnqueueWriteBuffer(command_queue, buffer_green, CL_TRUE, 0, sizeof(int) * pixelSize, m_green.data(), 0, nullptr, nullptr);
     clEnqueueWriteBuffer(command_queue, buffer_blue, CL_TRUE, 0, sizeof(int) * pixelSize, m_blue.data(), 0, nullptr, nullptr);
@@ -226,10 +224,17 @@ namespace buEngineSDK {
   void
   buHistogram::drawUI(String _windowName, String _description) {
     ImGui::Begin(_windowName.c_str());
-    ImGui::PlotHistogram("Red", &m_r[0], m_r.size(), 0, nullptr, 0.0f,   .1f, ImVec2(0, 80));
+    String name = "Image Name: " + m_filename;
+    ImGui::Text(name.c_str());
+    ImGui::Separator();
+    ImGui::PlotHistogram("Red", &m_r[0], m_r.size(),   0, nullptr, 0.0f, .1f, ImVec2(0, 80));
+    ImGui::Separator();
     ImGui::PlotHistogram("Green", &m_g[0], m_g.size(), 0, nullptr, 0.0f, .1f, ImVec2(0, 80));
-    ImGui::PlotHistogram("Blue", &m_b[0], m_b.size(), 0, nullptr, 0.0f,  .1f, ImVec2(0, 80));
+    ImGui::Separator();
+    ImGui::PlotHistogram("Blue", &m_b[0], m_b.size(),  0, nullptr, 0.0f, .1f, ImVec2(0, 80));
+    ImGui::Separator();
     ImGui::PlotHistogram("Alpha", &m_a[0], m_a.size(), 0, nullptr, 0.0f, .1f, ImVec2(0, 80));
+    ImGui::Separator();
     ImGui::End();
   }
 }

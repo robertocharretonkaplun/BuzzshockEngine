@@ -95,7 +95,6 @@ namespace buEngineSDK {
       buResourceManager* resourceManager = createResourceManager();
       g_resourceManager().setObject(resourceManager);
       m_resourceManager = &g_resourceManager();
-
       
     }
 

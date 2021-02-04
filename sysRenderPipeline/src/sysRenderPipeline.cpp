@@ -6,7 +6,7 @@ namespace buEngineSDK {
     auto& graphMan = g_graphicsAPI();
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
-    histogram.init();
+    histogram.init("927310.jpg");
     String message1 = "Engine initialization";
     
     //buLogger::GetLogger()->Log("message to be logged");
@@ -129,7 +129,7 @@ namespace buEngineSDK {
     m_light.update(LB);
     
     //m_userInterface.update();
-    histogram.drawUI("Histogram 1", "Red");
+    histogram.drawUI("Histogram", "Red");
 
   }
 

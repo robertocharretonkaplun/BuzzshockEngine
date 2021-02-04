@@ -8,12 +8,25 @@ namespace buEngineSDK {
 	class BU_CORE_EXPORT buHistogram
 	{
 	public:
+		/**
+		 * @brief Default constructor
+		 */
 		buHistogram() = default;
+
+		/**
+		 * @brief Default destructor
+		 */
 		~buHistogram() = default;
 
+		/**
+		 * @brief Method in charge of reading and img with compute
+		 */
 		void 
-		init();
+		init(String _fileName);
 
+		/**
+		 * @brief Method in change of drawing the histogram on imgui
+		 */
 		void 
 		drawUI(String _windowName, String _description);
 
@@ -30,6 +43,11 @@ namespace buEngineSDK {
 		int32 maxValGreen = 0;
 		int32 maxValBlue = 0;
 		int32 maxValAlpha = 0;
+		int outRed[256] = { 0 };
+		int outGreen[256] = { 0 };
+		int outBlue[256] = { 0 };
+		int outAlpha[256] = { 0 };
 		float arr[10] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
+		String m_filename;
 	};
 }
