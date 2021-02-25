@@ -1,3 +1,5 @@
+#include "buPrerequisitesCore.h"
+#include "buCommons.h"
 #pragma once
 namespace buEngineSDK {
   class buImgui {
@@ -22,5 +24,11 @@ namespace buEngineSDK {
      */
     virtual void
       render() {};
+
+    void
+		vec3Control(String label, 
+                float* values, 
+                float resetValues = 0.0f,
+                float columnWidth = 100.0f);
   };
 }

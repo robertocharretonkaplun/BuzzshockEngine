@@ -215,7 +215,7 @@ namespace buEngineSDK {
     for (uint32 i = 0; i < 256; i++)
     {
       m_r.push_back((float)outRed[i]   / maxValRed  );
-      m_g.push_back((float)outGreen[i] / maxValGreen);
+      m_g.push_back((float)outGreen[i] / maxValGreen); 
       m_b.push_back((float)outBlue[i]  / maxValBlue );
       m_a.push_back((float)outAlpha[i] / maxValAlpha);
     }

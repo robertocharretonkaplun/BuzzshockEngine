@@ -158,6 +158,7 @@ namespace buEngineSDK {
 
   void 
   BaseApp::update(float _deltaTime = 0) {
+    // Draw ui
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -166,6 +167,9 @@ namespace buEngineSDK {
       ImGui::Text(go.c_str());
     }
     ImGui::End();
+    MainMenu();
+
+    // Update scene information
     onUpdate(_deltaTime);
     // Update the renderer
     //auto& renderMan = g_renderAPI();
@@ -206,7 +210,6 @@ namespace buEngineSDK {
     //}
 
     //cameraHerarchy(); 
-
     // Container for shader attributes
     //ImGui::Begin("Audio Resource");
     //if (ImGui::Button("Play")) {
@@ -324,7 +327,6 @@ namespace buEngineSDK {
 
   void
   BaseApp::MainMenu() {
-    /*
     if (ImGui::BeginMainMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Load...", "CTRL+O")) {
@@ -366,6 +368,7 @@ namespace buEngineSDK {
       ImGui::EndMainMenuBar();
     }
 
+    /*
     if (windowd) {
       ImGui::Begin("App Average", &windowd);
       ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
