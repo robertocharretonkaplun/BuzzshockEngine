@@ -51,4 +51,13 @@ namespace buEngineSDK {
     // Set the constant buffers
     graphMan.VSsetConstantBuffers(m_cameraBuffer, BufferSlot::E::CAMERA, 1);
   }
+
+  void
+  buCamera::drawUI() {
+    ImGui::Begin("CameraActor");
+    ImGui::Separator();
+    ImGui::Text("Camera Settings");
+    ImGui::Separator();
+    ImGui::End();
+  }
 }

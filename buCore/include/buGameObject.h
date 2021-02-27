@@ -55,5 +55,6 @@ namespace buEngineSDK {
 		bool m_isActiveTransform = true;
 		bool m_isSelected = false;
 		bool m_isUsed = false;
+		bool m_isActorHiddenInWorld = true;
 	};
 }

@@ -5,7 +5,8 @@
 #include <buCoreGraphicsAPI.h>
 #include <buDegrees.h>
 #include <buCommons.h>
-
+#include <buImgui.h>
+#include <buTransform.h>
 namespace buEngineSDK {
 
 	class BU_CORE_EXPORT buCamera
@@ -27,6 +28,8 @@ namespace buEngineSDK {
 		void 
 		render();
 
+		void
+		drawUI();
 	private:
 		CBCamera m_cameraData;
 		SPtr<buCoreBuffer> m_cameraBuffer;
@@ -42,6 +45,8 @@ namespace buEngineSDK {
 		buVector3F m_cameraRight = buVector3F::Zero;
 		buVector3F m_front = buVector3F::Zero;
 		buVector3F m_cameraFront = buVector3F::Zero;
+		buImgui m_ImGui;
+		buTransform m_transform;
 	public:
 		String m_name = "";
 		uint32 m_id = 0;

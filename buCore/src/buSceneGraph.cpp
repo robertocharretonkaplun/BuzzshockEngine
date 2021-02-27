@@ -18,8 +18,8 @@ namespace buEngineSDK {
     for (auto go : m_gameObjects) {
       // If the go is in use
       if (go.m_isUsed) {
-        go.render(_typology);
       }
+        go.render(_typology);
     }
   }
   
@@ -109,6 +109,39 @@ namespace buEngineSDK {
     if (m_gameObjects[m_selectedGO].m_isSelected) {
       m_gameObjects[m_selectedGO].m_textures.push_back(tmpTex);
     }
+  }
+
+  void 
+  buSceneGraph::drawUI() {
+    ImGui::Begin("Herarchy");
+    if (ImGui::TreeNode(m_sceneName.c_str()))
+    {
+      for (auto go : m_gameObjects) {
+        if (ImGui::TreeNode(go.m_name.c_str())) {
+          ImGui::TreePop();
+        }
+      }
+
+      //if (ImGui::TreeNode("Base"))
+      //{
+      //  ImGui::Indent();
+      //  ImGui::Text("Num Slots");
+      //  ImGui::Text("Count");
+      //  ImGui::Unindent();
+      //  ImGui::TreePop();
+      //}
+      //if (ImGui::TreeNode("Slots"))
+      //{
+      //  ImGui::TreePop();
+      //}
+      ImGui::TreePop();
+    }
+    ImGui::Indent();
+    //ImGui::Text("Previous Modifications");
+    //ImGui::Text("Debug Ticks");
+    ImGui::Unindent();
+
+    ImGui::End();
   }
 
 }

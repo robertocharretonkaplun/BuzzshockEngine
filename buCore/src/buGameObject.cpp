@@ -28,6 +28,7 @@ namespace buEngineSDK {
     m_angle = new float[1];
     //m_angle = 0;
   }
+
   void
   buGameObject::update(buVector3F _pos, buVector3F _rot,
                        buVector3F _scal, float _angle) {
@@ -36,6 +37,7 @@ namespace buEngineSDK {
     buVector3F newPos(pos[0], pos[1], pos[2]);
     buVector3F newRot(rot[0], rot[1], rot[2]);
     buVector3F newSca(sca[0], sca[1], sca[2]);
+
     //m_rot = _rot;
     //m_sca = _scal;
     //m_angle = _angle;
@@ -93,6 +95,15 @@ namespace buEngineSDK {
     vec3Control("Rotation", rot);
     vec3Control("Scale", sca);
     ImGui::SliderFloat("Angle", m_angle,0, 5);
+    ImGui::Separator();
+    ImGui::Text("Rendering");
+    ImGui::Separator();
+    ImGui::Checkbox("Actor Hidden In Game", &m_isUsed);
+    if (ImGui::Button("+"))
+    {
+      m_isActorHiddenInWorld = false;
+      m_isActive = false;
+    }
     ImGui::Separator();
     ImGui::End();
   }

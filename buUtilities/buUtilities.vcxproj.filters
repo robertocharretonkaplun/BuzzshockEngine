@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Time">
       <UniqueIdentifier>{c29d7664-f3c1-4548-8b4b-e745e6c84b85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Serializer">
+      <UniqueIdentifier>{00d99371-d627-4056-b1e8-a78f97f65351}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -131,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="include\buTime.h">
       <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="buSerializer.h">
+      <Filter>Header Files\Serializer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

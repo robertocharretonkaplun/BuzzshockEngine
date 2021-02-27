@@ -191,6 +191,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="buSerializer.h" />
     <ClInclude Include="include\buBox.h" />
     <ClInclude Include="include\buCurl.h" />
     <ClInclude Include="include\buDegrees.h" />

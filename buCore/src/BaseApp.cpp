@@ -250,6 +250,7 @@ namespace buEngineSDK {
 
     m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
     m_scene_graph.getSelectedGO().drawUI();
+    m_scene_graph.drawUI();
     //renderMan.update(position, rotation, scale, m_angle);
   }
 
@@ -352,7 +353,9 @@ namespace buEngineSDK {
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Settings")) {
-
+        if (ImGui::MenuItem("Scene Settings...")) {
+          m_sceneWindow = true;
+        }
         if (ImGui::MenuItem("Show Average...")) {
           windowd = true;
         }
@@ -367,7 +370,24 @@ namespace buEngineSDK {
       }
       ImGui::EndMainMenuBar();
     }
+    if (m_sceneWindow) {
+      ImGui::Begin("Scene Settings", &m_sceneWindow);
+      ImGui::Text("Scene name ");
 
+      static char str1[128] = "";
+      ImGui::InputTextWithHint(" ", "Enter the new name... ", str1, IM_ARRAYSIZE(str1));
+      //ImGui::InputTextWithHint("Change scene name: ", "enter text here", str1, IM_ARRAYSIZE(str1));
+      if (ImGui::Button("Update")) {
+        isUpdatedSceneInfo = true;
+      }
+
+      if (isUpdatedSceneInfo) {
+        m_scene_graph.m_sceneName = str1;
+        isUpdatedSceneInfo = false;
+      }
+
+      ImGui::End();
+    }
     /*
     if (windowd) {
       ImGui::Begin("App Average", &windowd);

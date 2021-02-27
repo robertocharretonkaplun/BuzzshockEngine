@@ -73,10 +73,17 @@ namespace buEngineSDK {
 		void
 		addTexToSelectedObj(SPtr<buCoreTexture2D> tmpTex);
 
+		/**
+		 * @brief Method that will draw the herarchy of the scene
+		 */
+		void
+		drawUI();
+
 	public:
 		Vector<buGameObject> m_gameObjects;
 		uint32 m_amountOfGameObjects = 20;
 		int32 m_selectedGO = 0;
+		String m_sceneName = "UnTitled*";
 	private:
 		Vector<buGameObject> m_inUseGameObjects;
 		Vector<buGameObject> m_notInUseGameObjects;
