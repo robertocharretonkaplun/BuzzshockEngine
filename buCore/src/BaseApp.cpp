@@ -1,5 +1,4 @@
 #include "BaseApp.h"
-#include <chrono>
 //#include <imgui\imGuiDocking\imgui_internal.h>
 
 namespace buEngineSDK {
@@ -39,24 +38,11 @@ namespace buEngineSDK {
         DispatchMessage(&msg);
       }
       else {
-        // Update the game time
-        static float t = 0.0f;
-        static uint32 dwTimeStart = 0;
-        uint32 dwTimeCur = GetTickCount();
-        if (dwTimeStart == 0)
-          dwTimeStart = dwTimeCur;
-        t = (dwTimeCur - dwTimeStart) / 1000.0f;
-
-        std::chrono::high_resolution_clock timer;
-        auto start = timer.now();
-
         // Update game logic
-        update(dealtaTime);
+        update(m_time.getDeltaTime());
         
         // Render frame
         render();
-        auto stop = timer.now();
-        dealtaTime = std::chrono::duration_cast<std::chrono::milliseconds > (stop - start).count() / 1000.0f; //DELTATIME WAS LESS THAN 1 MILLISECOND SO THAT IS WHY I USED THIS
       }
     }
 

@@ -20,6 +20,7 @@
 #include <buSceneGraph.h>
 #include "buCommons.h"
 #include "buLogger.h"
+#include "buTime.h"
 //#include "imgui\imGuiDocking\imgui.h"
 //#include "imgui\imGuiDocking\imgui_impl_dx11.h"
 //#include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -266,9 +267,6 @@ namespace buEngineSDK {
 		 */
 		Vector<String> m_list;
 
-		float dealtaTime = 0;
-		float oldTime = 0;
-		
 		bool m_renderObjects = true;
 		bool m_selectedObject = false;
 		bool m_isCubeLoaded = false;
@@ -280,5 +278,7 @@ namespace buEngineSDK {
 		SaveSystem m_saverMan;
 
 		Vector<String> m_logs = buLogger::GetLogger()->GetLogDataFromFile();
+
+		buTime m_time;
 	};
 }

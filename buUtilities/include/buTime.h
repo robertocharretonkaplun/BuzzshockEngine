@@ -1,14 +1,17 @@
 #include "buPrerequisitesUtil.h"
+#include <chrono>
 #pragma once
 
 namespace buEngineSDK {
-	class buTime
+	class BU_UTILITY_EXPORT buTime
 	{
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buTime(float _time = 0.0f) : m_time(_time) {}
+		buTime() = default;
+
+		buTime(float _time);
 
 		/**
 		 * @brief Default destructor
@@ -16,16 +19,10 @@ namespace buEngineSDK {
 		~buTime() = default;
 		
 		/**
-		 * @brief Method in charge of getting the current time
-		 */
-		float 
-		getCurrentTime();
-
-		/**
 		 * @brief Method in charge of getting the actual time value in seconds
 		 */
 		float
-		getSeconds() const {return m_time;}
+		getSeconds() const {return m_time; }
 
 		/**
 		 * @brief Method in charge of getting the current time in milliseconds.
@@ -45,8 +42,6 @@ namespace buEngineSDK {
 		const String 
 		currDateTime();
 	private:
-		void 
-		update();
 
 	private:
 		float m_time = 0.0f;

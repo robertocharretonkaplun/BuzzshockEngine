@@ -37,6 +37,9 @@ namespace buEngineSDK {
 		void
 		Log(String _message/*, MessageType::E _type*/);
     
+		/**
+		 * @brief Method in charge of storing a log for the errors in a specific line. 
+		 */
 		void
 		LogError(String _message);
 
