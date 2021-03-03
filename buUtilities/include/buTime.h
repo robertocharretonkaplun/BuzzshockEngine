@@ -1,5 +1,6 @@
 #include "buPrerequisitesUtil.h"
 #include <chrono>
+#include "buTimer.h"
 #pragma once
 
 namespace buEngineSDK {
@@ -19,16 +20,16 @@ namespace buEngineSDK {
 		~buTime() = default;
 		
 		/**
-		 * @brief Method in charge of getting the actual time value in seconds
+		 * @brief Method in charge of getting the actual time value in micro seconds
 		 */
 		float
-		getSeconds() const {return m_time; }
+		getMicroseconds() const {return m_lastFrameTime; }
 
 		/**
 		 * @brief Method in charge of getting the current time in milliseconds.
 		 */
 		float
-		getMilliseconds() const { return m_time * 1000.0f; }
+		getMilliseconds() const { return m_lastFrameTime; }
 
 		/**
 		 * @brief Method in charge of getting the current time step by step.
@@ -41,9 +42,16 @@ namespace buEngineSDK {
 		 */
 		const String 
 		currDateTime();
+
+		void
+		update();
 	private:
 
 	private:
 		float m_time = 0.0f;
+		float m_startTime = 0.0f;
+		float m_lastFrameTime = 0.0f;
+		SPtr<buTimer> m_timer;
+		
 	};
 }

@@ -40,6 +40,15 @@
     <Filter Include="Header Files\Serializer">
       <UniqueIdentifier>{00d99371-d627-4056-b1e8-a78f97f65351}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{1df2f266-05ad-4fb6-87d1-f9e7d8db2390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{09ee78de-3139-4bfb-9585-7d0460a591b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sockets">
+      <UniqueIdentifier>{d9cdef3b-0547-4fb6-991e-30d373ab1444}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -138,6 +147,9 @@
     <ClInclude Include="include\buSerializer.h">
       <Filter>Header Files\Serializer</Filter>
     </ClInclude>
+    <ClInclude Include="include\buTimer.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -214,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="src\buTime.cpp">
       <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buTimer.cpp">
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

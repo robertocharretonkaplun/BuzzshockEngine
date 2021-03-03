@@ -5,7 +5,13 @@
 #endif
 
 namespace buEngineSDK {
-  buTime::buTime(float _time) : m_time(_time) {}
+  buTime::buTime(float _time) : m_time(_time) {
+    m_timer.reset(new buTimer);
+
+    m_startTime = m_timer->getInitialMilliseconds();
+    m_lastFrameTime = m_timer->getMicroseconds();
+
+  }
 
   float
   buTime::getDeltaTime() {
@@ -34,6 +40,11 @@ namespace buEngineSDK {
     localtime_s(&tstruct, &now);
     strftime(buf, sizeof(buf), "%Y-%m-%d|%X", &tstruct);
     return buf;
+  }
+
+  void
+  buTime::update() {
+
   }
   
 }
