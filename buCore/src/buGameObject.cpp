@@ -85,8 +85,11 @@ namespace buEngineSDK {
   buGameObject::drawUI() {
     ImGui::Begin("Properties");
     ImGui::Checkbox(" ", &m_isUsed);
+    static char str1[128] = "";
     ImGui::SameLine();
-    ImGui::Text("Transform2");
+    ImGui::InputTextWithHint(" ", m_name.c_str(), str1, IM_ARRAYSIZE(str1));
+    ImGui::Separator();
+    ImGui::Text("Transform");
     ImGui::Separator();
     
     

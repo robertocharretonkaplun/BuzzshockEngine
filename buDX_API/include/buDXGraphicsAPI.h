@@ -24,6 +24,7 @@
 #include "buDXDepthStencilView.h"
 #include "buDXSampler.h"
 #include "DDSTextureLoader11.h"
+#include "buLogger.h"
 //#include "buDXImgui.h"
 // Assimp
 //using namespace DirectX;
@@ -446,7 +447,7 @@ namespace buEngineSDK {
    uint32 m_height = 0;
    
    Vector<void*> m_ShaderResources;
-   
+   buLogger m_logger;
 };
  
  /** 

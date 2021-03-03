@@ -135,7 +135,7 @@
     <ClInclude Include="include\buTime.h">
       <Filter>Header Files\Time</Filter>
     </ClInclude>
-    <ClInclude Include="buSerializer.h">
+    <ClInclude Include="include\buSerializer.h">
       <Filter>Header Files\Serializer</Filter>
     </ClInclude>
   </ItemGroup>

@@ -56,7 +56,12 @@ namespace buEngineSDK {
   buDXGraphicsAPI::initialize(void* _window, uint32 _width, uint32 _height) {
     m_width = _width;
     m_height = _height;
-    createDeviceAndSwapChain(_window);
+    bool result = false;
+    result = createDeviceAndSwapChain(_window);
+    
+    if (!result) {
+      m_logger.LogError("Error");
+    }
   }
 
   bool 

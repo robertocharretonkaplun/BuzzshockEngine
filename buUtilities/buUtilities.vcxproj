@@ -191,7 +191,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="buSerializer.h" />
     <ClInclude Include="include\buBox.h" />
     <ClInclude Include="include\buCurl.h" />
     <ClInclude Include="include\buDegrees.h" />
@@ -213,6 +212,7 @@
     <ClInclude Include="include\buRadians.h" />
     <ClInclude Include="include\buRay.h" />
     <ClInclude Include="include\buRectangle.h" />
+    <ClInclude Include="include\buSerializer.h" />
     <ClInclude Include="include\buSphere.h" />
     <ClInclude Include="include\buStdHeaders.h" />
     <ClInclude Include="include\buString.h" />

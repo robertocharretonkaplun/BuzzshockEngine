@@ -24,6 +24,10 @@ namespace buEngineSDK {
 		void 
 		init(String _fileName);
 
+
+		void 
+		initializeContextFromD3D11Device(void* _device);
+
 		/**
 		 * @brief Method in change of drawing the histogram on imgui
 		 */

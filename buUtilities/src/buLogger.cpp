@@ -13,6 +13,15 @@ namespace buEngineSDK {
     m_logfile.close();
   }
 
+  void 
+  buLogger::LogError(String _message) {
+    m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
+    m_logfile << m_time.currDateTime() << ":\t";
+    //m_logfile << _message;
+    m_logfile << "Error in line: \t" <<  __LINE__ << ", in file [ "<< __FILE__ << " ]";
+    m_logfile.close();
+  }
+
   buLogger& 
   buLogger::operator<<(const String& sMessage) {
     m_logfile << "\n" << m_time.currDateTime() << ":\t";

@@ -1,19 +1,18 @@
 #include "buPrerequisitesUtil.h"
-#include <buVector3F.h>
 #pragma once
 
 namespace buEngineSDK {
   template<class T>
   struct RTTIEmptyType {
-    static_assert(std::is_pod<T>::value, 
-                  "Provided type isnt plain-old-data. you need to specialize RTTIEmptyType" \
-                  "template in order to serialize this type."                               \
-                  "(Or call BU_ALLOW_MEMCPY_SERIALIZATION(type) macro if you are sure the"  \
-                  "type can be properly serialized using just memcpy.)");
+    static_assert(std::is_pod<T>::value,
+      "Provided type isnt plain-old-data. you need to specialize RTTIEmptyType" \
+      "template in order to serialize this type."                               \
+      "(Or call BU_ALLOW_MEMCPY_SERIALIZATION(type) macro if you are sure the"  \
+      "type can be properly serialized using just memcpy.)");
 
     enum {
       /*
-       * @brief Unique id for the sirializable type. 
+       * @brief Unique id for the sirializable type.
        */
       kID = 0
     };
@@ -30,7 +29,7 @@ namespace buEngineSDK {
      * @brief Serializes the provided object into the provided pre-allocated memory buffer.
      */
     static void
-    toMemory(const T& data, char* memory) {
+      toMemory(const T& data, char* memory) {
       memcpy(memory, &data, sizeof(T));
     }
 
@@ -39,7 +38,7 @@ namespace buEngineSDK {
      * Return the number of bytes read from the memory buffer.
      */
     static uint32
-    forMemory(T& data, char* memory) {
+      forMemory(T& data, char* memory) {
       memcpy(&data, memory, sizeof(T));
       return static_cast<uint32>(sizeof(T));
     }
@@ -49,7 +48,7 @@ namespace buEngineSDK {
      * (Works for both static and dynamic size types)
      */
     static uint32
-    getDynamicSize(const T&) {
+      getDynamicSize(const T&) {
       return static_cast<uint32>(sizeof(T));
     }
   };
@@ -74,5 +73,5 @@ namespace buEngineSDK {
     getDynamicSize(const type&) {                                                                          \
       return static_cast<uint32>(sizeof(type));                                                            \
     }                                                                                                      \
-  };                                                                                                       \
+  };                                                                                                         \
 }

@@ -221,6 +221,11 @@ namespace buEngineSDK {
     }
   }
 
+  void 
+  buHistogram::initializeContextFromD3D11Device(void* _device) {
+
+  }
+
   void
   buHistogram::drawUI(String _windowName, String _description) {
     ImGui::Begin(_windowName.c_str());

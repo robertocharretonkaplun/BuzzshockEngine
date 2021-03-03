@@ -37,6 +37,9 @@ namespace buEngineSDK {
 		void
 		Log(String _message/*, MessageType::E _type*/);
     
+		void
+		LogError(String _message);
+
 		/**
 			* @brief overloaded method to Logs a message
 			* @param sMessage message to be logged.
@@ -58,4 +61,5 @@ namespace buEngineSDK {
 		static std::ofstream m_logfile;
 		buTime m_time;
 	};
+
 }

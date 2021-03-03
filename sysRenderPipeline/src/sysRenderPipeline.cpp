@@ -12,6 +12,10 @@ namespace buEngineSDK {
     //buLogger::GetLogger()->Log("message to be logged");
     buLogger log;
     log.Log(message1);
+    
+    //buLogger logError;
+    //logError.LogError("Error");
+
     //LOGGER->Log(" Message is:%s Number is:%d", message2.c_str(), nNum);
     //m_userInterface.init(_window, graphMan.getDevice(), graphMan.getDeviceContext());
   }
@@ -53,6 +57,8 @@ namespace buEngineSDK {
   sysRenderPipeline::createTemporalPipeline() {
     auto& graphMan = g_graphicsAPI();
 
+    bool result = false;
+
     m_txBackBuffer_tmp = graphMan.createTexture2D(m_screenWidth, 
                                           m_screenHeight, 
                                           TextureType::E::BACKBUFFER,
@@ -70,7 +76,12 @@ namespace buEngineSDK {
     // Create Viewport
     m_viewport_tmp = graphMan.createViewport((float)m_screenWidth, (float)m_screenHeight);
     
-    graphMan.createDepthStencilView(m_txDepthStencil_tmp, m_depthStencilView_tmp);
+    result = graphMan.createDepthStencilView(m_txDepthStencil_tmp, m_depthStencilView_tmp);
+    
+    if (!result) {
+      buLogger logError;
+      logError.LogError("Error");
+    }
 
     WString shaderFileName = L"Normal.fx";
     // Create Vertex Shader
