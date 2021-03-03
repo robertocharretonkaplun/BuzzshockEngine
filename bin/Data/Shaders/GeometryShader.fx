@@ -67,6 +67,8 @@ struct GS_OUTPUT {
 
 [maxvertexcount(4)]
 void GS_Billboard(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> OutputStream) {
+  matrix WorldViewProj = mul(World, View);
+  WorldViewProj = mul(WorldViewProj, Projection);
   float3 up = float3(0.0f, 1.0f, 0.0f);
 
   float3 look = (viewPosition - input[0].Center).xyz;
@@ -99,7 +101,7 @@ void GS_Billboard(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> Outp
 
   [unroll]
   for (int i = 0; i < 4; ++i) {
-    output.PosH = mul(v[i], );
+    output.PosH = mul(v[i], WorldViewProj);
     output.PosW - v[i].xyz;
     output.NormalW = look;
     output.texCoord = tex[i];
@@ -108,87 +110,15 @@ void GS_Billboard(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> Outp
   }
 }
 
-
+struct PS_OUTPUT {
+  float4 Color : SV_Target0;
+};
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-float4 PS(PS_INPUT input) : SV_Target {
-  // Position of light
-  // Computes the light direction of the light to this pixel
-  float3 LightDir = LightPos - input.PosW;
-  float distance = length(LightPos);
-  LightDir = LightDir / distance;
-  distance = distance + distance;
+PS_OUTPUT PS(GS_OUTPUT input) {
+  PS_OUTPUT output = (PS_OUTPUT)0;
 
-  // AO positions (N, S, E, W)
-  const float2 vec[4] = { float2(1,0), float2(-1,0) , float2(0,1) , float2(0,-1) };
-
-
-  //float4 AOPos = getPosition();
-  // Get Diffuse Tex Value
-  float4 DiffuseTex = txDiffuse.Sample(samLinear, input.Tex.xy);
-
-  // Get Normal Tex Value
-  float4 NormalTex = txNormal.Sample(samLinear, input.Tex.xy);
-  
-  // Get Specular / metallic Tex Value
-  float4 SpecularTex = txSpecular.Sample(samLinear, input.Tex.xy);
-  
-  // Get Roughness Tex Value
-  float4 RoughnessTex = txRoughness.Sample(samLinear, input.Tex.xy);
-  
-
-  float metallic = SpecularTex.r;
-  float roughness = RoughnessTex.r;
-  
-
-  // Convert color to linear space
-  DiffuseTex.xyz = pow(DiffuseTex.xyz, 2.2f);
-
-  // Fresnel factor in 0 angle
-  float3 F0 = lerp(0.04f, DiffuseTex.xyz, metallic);
-
-  // Compute Surface Normal
-  float3 normal = 2.0f * NormalTex.xyz - 1.0f;
-  normal = normalize(mul(normal, input.TBN));
-
-  // Computes the view Direction
-  float3 viewDir = normalize(viewPosition.xyz - input.PosW);
-  
-  // Computes the reflect 
-  float3 reflejo = reflect(viewDir,  input.Nor);
-  // Get cube map Tex Value
-  float4 CubeMapTex = txCubeMap.Sample(samLinear, reflejo);
-  //float4 CubeMapTex2 = txDiffuse.Sample(samLinear, normal) ;
-  //return float4(CubeMapTex);
-
-  // Computes the lambert of the diffuse incidence (NdL)
-  float NdL = Lambert_Diffuse(normal, LightDir);
-  
-  // Blinn
-  float3 Reflected = reflect(-LightDir, normal);
-
-  // Specular Component
-  float3 Half = normalize(LightDir + viewDir);
-
-  // Computes the Specular Incidence (HdN)
-  float kS = max(0.0f, dot(Half, normal));
-  float NdV = max(0.0f, dot(normal, viewDir));
-  float HdV = max(0.0f, dot(Half, viewDir));
-
-  float D = ndf_GGX(kS, roughness); 
-
-  float3 F = fresnelSchlick(F0, HdV);
-
-  float G = ga_SchlickGGX(NdL, NdV, roughness);
-
-  float3 specularBRDF = (D * F * G) / max(EPSILON, 4.0f * NdL * NdV);
-  
-  
-  // Absorsion factor
-  float3 kD = lerp(float3(1, 1, 1), float3(0, 0, 0), metallic);
-  float3 DiffuseBRDF = DiffuseTex.xyz * kD * LightColor.xyz * surfColor.xyz * LightIntensity[0];
-
-
- return float4(pow((DiffuseBRDF + specularBRDF /*+ CubeMapTex.xyz*/) * NdL, 1.0f / 2.2f), DiffuseTex.w);
+  output.Color = float4(255, 0, 0, 255);
+  return output;
 }

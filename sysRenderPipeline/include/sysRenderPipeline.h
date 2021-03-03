@@ -87,7 +87,9 @@ namespace buEngineSDK {
 		SPtr<buCoreDepthStencilView> m_depthStencilView_tmp;
 		SPtr<buCoreViewport> m_viewport_tmp;
 		SPtr<buCoreVertexShader> m_vertexShader_tmp;
+		SPtr<buCoreGeometryShader> m_geometyShader_tmp;
 		SPtr<buCoreInputLayout> m_inputLayout_tmp;
+		SPtr<buCoreInputLayout> m_inputLayout_Geometry_tmp;
 		SPtr<buCorePixelShader> m_pixelShader_tmp;
 		SPtr<buCoreSampler> m_sampler_tmp;
 		buLight m_light;

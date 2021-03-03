@@ -257,6 +257,22 @@ namespace buEngineSDK {
     return vertexShader;
   }
 
+  SPtr<buCoreGeometryShader> 
+  buDXGraphicsAPI::createGeometryShader(WString _fileName) {
+    auto geometryShader = std::make_shared<buDXGeometryShader>();
+    auto tmpGeometryShader = reinterpret_cast<buDXGeometryShader*>(geometryShader.get());
+
+    tmpGeometryShader->init(_fileName);
+    
+    HRESULT hr = m_device->CreateGeometryShader(
+      tmpGeometryShader->m_compileGeometryShader->GetBufferPointer(),
+      tmpGeometryShader->m_compileGeometryShader->GetBufferSize(),
+      nullptr,
+      &tmpGeometryShader->m_geometryShader);
+
+    return geometryShader;
+  }
+
   SPtr<buCorePixelShader> 
   buDXGraphicsAPI::createPixelShader(WString _fileName) {
     auto pixelShader = std::make_shared<buDXPixelShader>();
@@ -295,6 +311,33 @@ namespace buEngineSDK {
       (UINT)tmpInputLayout->m_descriptor.size(),
       tmpVS->m_compileVertexShader->GetBufferPointer(),
       tmpVS->m_compileVertexShader->GetBufferSize(),
+      &tmpInputLayout->m_inputLayout));
+
+
+    return inputLayout;
+  }
+
+  SPtr<buCoreInputLayout>
+  buDXGraphicsAPI::createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
+                                     Vector<String> _semanticNames) {
+    auto inputLayout = std::make_shared<buDXInputLayout>();
+    auto tmpInputLayout = reinterpret_cast<buDXInputLayout*>(inputLayout.get());
+
+    
+    // Geometry Shader
+    if (_geometryShader.expired()) {
+      return nullptr;
+    }
+    auto gsObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(gsObj.get());
+
+
+    // Create the input layout
+    tmpInputLayout->init(_semanticNames);
+    static_cast<int>(m_device->CreateInputLayout(tmpInputLayout->m_descriptor.data(),
+      (UINT)tmpInputLayout->m_descriptor.size(),
+      tmpGS->m_compileGeometryShader->GetBufferPointer(),
+      tmpGS->m_compileGeometryShader->GetBufferSize(),
       &tmpInputLayout->m_inputLayout));
 
 
@@ -397,6 +440,17 @@ namespace buEngineSDK {
   }
 
   void
+  buDXGraphicsAPI::setGeometryShader(WeakSPtr<buCoreGeometryShader> _geometryShader) {
+
+    if (_geometryShader.expired()) {
+      return;
+    }
+    auto GSObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(GSObj.get());
+    m_deviceContext->GSSetShader(tmpGS->m_geometryShader, nullptr, 0);
+  }
+
+  void
   buDXGraphicsAPI::setInputLayout(WeakSPtr<buCoreInputLayout> _inputLayout) {
     if (_inputLayout.expired()) {
       return;
@@ -466,6 +520,24 @@ namespace buEngineSDK {
       tmpVS->m_compileVertexShader->GetBufferSize(),
       nullptr,
       &tmpVS->m_vertexShader);
+
+    return hr == S_OK;
+  }
+
+  bool 
+  buDXGraphicsAPI::createGeometryShader(WeakSPtr<buCoreGeometryShader> _geometryShader) {
+    if (_geometryShader.expired()) {
+      return false;
+    }
+    auto gsObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(gsObj.get());
+
+    // Create the geometry shader
+    HRESULT hr = m_device->CreateGeometryShader(
+      tmpGS->m_compileGeometryShader->GetBufferPointer(),
+      tmpGS->m_compileGeometryShader->GetBufferSize(),
+      nullptr,
+      &tmpGS->m_geometryShader);
 
     return hr == S_OK;
   }
@@ -763,6 +835,20 @@ namespace buEngineSDK {
     auto bufferObj = _buffer.lock();
     auto tmpbuffer = reinterpret_cast<buDXBuffer*>(bufferObj.get());
     m_deviceContext->VSSetConstantBuffers(_startSlot,
+      _numBuffers,
+      &tmpbuffer->m_buffer);
+  }
+
+  void 
+  buDXGraphicsAPI::GSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
+                                        uint32 _startSlot,
+                                        uint32 _numBuffers) {
+    if (_buffer.expired()) {
+      return;
+    }
+    auto bufferObj = _buffer.lock();
+    auto tmpbuffer = reinterpret_cast<buDXBuffer*>(bufferObj.get());
+    m_deviceContext->GSSetConstantBuffers(_startSlot,
       _numBuffers,
       &tmpbuffer->m_buffer);
   }

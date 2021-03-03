@@ -15,6 +15,7 @@
 #include <buCoreSwapchain.h>
 #include <buCoreRenderTargetView.h>
 #include <buCoreVertexShader.h>
+#include <buCoreGeometryShader.h>
 #include <buCorePixelShader.h>
 #include <buCoreInputLayout.h>
 #include <buCoreBuffer.h>
@@ -135,6 +136,9 @@ namespace buEngineSDK {
   virtual SPtr<buCoreVertexShader>
   createVertexShader(WString _fileName) { return nullptr; };
 
+  virtual SPtr<buCoreGeometryShader>
+  createGeometryShader(WString _fileName) { return nullptr; };
+
   /** 
     * @brief Virtual method that creates a temporal reference to a pixel shader object.
     * @return A smart pointer to the object.
@@ -149,6 +153,10 @@ namespace buEngineSDK {
    */
   virtual SPtr<buCoreInputLayout>
   createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                    Vector<String> _semanticNames) { return nullptr; };
+
+  virtual SPtr<buCoreInputLayout>
+  createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
                     Vector<String> _semanticNames) { return nullptr; };
 
   /** 
@@ -219,6 +227,9 @@ namespace buEngineSDK {
    virtual void
    setVertexShader(WeakSPtr<buCoreVertexShader> /*_vertexShader*/) {};
 
+   virtual void
+   setGeometryShader(WeakSPtr<buCoreGeometryShader> /*_vertexShader*/) {};
+
    /** 
     * @brief Virtual method that creates a temporal reference to a input layout 
     * object.
@@ -258,6 +269,9 @@ namespace buEngineSDK {
     */
    virtual bool 
    createVertexShader(WeakSPtr<buCoreVertexShader> /*_vertexShader*/) { return false;}
+   
+   virtual bool 
+   createGeometryShader(WeakSPtr<buCoreGeometryShader> /*_vertexShader*/) { return false;}
 
    /**
     * @brief Virtual method that creates the input layout.
@@ -344,6 +358,14 @@ namespace buEngineSDK {
     */
    virtual void
    VSsetConstantBuffers(WeakSPtr<buCoreBuffer> /*_buffer*/, 
+                        uint32 /*_startSlot*/,    
+                        uint32 /*_numBuffers*/) { };
+
+   /**
+    * @brief Virtual method that sets the constant buffer.
+    */
+   virtual void
+   GSsetConstantBuffers(WeakSPtr<buCoreBuffer> /*_buffer*/, 
                         uint32 /*_startSlot*/,    
                         uint32 /*_numBuffers*/) { };
 

@@ -18,6 +18,7 @@
 #include "buDXSwapchain.h"
 #include "buDXRenderTargetView.h"
 #include "buDXVertexShader.h"
+#include "buDXGeometryShader.h"
 #include "buDXPixelShader.h"
 #include "buDXInputLayout.h"
 #include "buDXBuffer.h"
@@ -142,6 +143,9 @@ namespace buEngineSDK {
    SPtr<buCoreVertexShader>
    createVertexShader(WString _fileName) override;
 
+   SPtr<buCoreGeometryShader>
+   createGeometryShader(WString _fileName) override;
+
    /** 
     * @brief 
     * @param 
@@ -159,6 +163,10 @@ namespace buEngineSDK {
     */
    SPtr<buCoreInputLayout>
    createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                     Vector<String> _semanticNames) override;
+
+   SPtr<buCoreInputLayout>
+   createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
                      Vector<String> _semanticNames) override;
 
    /** 
@@ -202,6 +210,9 @@ namespace buEngineSDK {
     */
    void
    setVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) override;
+
+   void
+   setGeometryShader(WeakSPtr<buCoreGeometryShader> _vertexShader) override;
 
    /** 
     * @brief 
@@ -255,6 +266,12 @@ namespace buEngineSDK {
     */
    bool 
    createVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) override;
+
+   /**
+    * @brief Method that creates the Geometry shader.
+    */
+   bool 
+   createGeometryShader(WeakSPtr<buCoreGeometryShader> _vertexShader) override;
 
    /**
     * @brief Method that creates the input layout.
@@ -369,6 +386,14 @@ namespace buEngineSDK {
     */
    void
    VSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
+                        uint32 _startSlot,    
+                        uint32 _numBuffers) override;
+
+   /**
+    * @brief Method that sets the geometry constant buffer.
+    */
+   void
+   GSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
                         uint32 _startSlot,    
                         uint32 _numBuffers) override;
 

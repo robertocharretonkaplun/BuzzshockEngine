@@ -232,6 +232,7 @@
     <ClInclude Include="include\buCoreBuffer.h" />
     <ClInclude Include="include\buCoreConfig.h" />
     <ClInclude Include="include\buCoreDepthStencilView.h" />
+    <ClInclude Include="include\buCoreGeometryShader.h" />
     <ClInclude Include="include\buCoreGraphicsAPI.h" />
     <ClInclude Include="include\buCoreInputLayout.h" />
     <ClInclude Include="include\buCoreMesh.h" />

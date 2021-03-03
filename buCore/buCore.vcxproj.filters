@@ -221,5 +221,8 @@
     <ClInclude Include="include\buHistogram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\buCoreGeometryShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

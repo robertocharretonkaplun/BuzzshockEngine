@@ -84,6 +84,7 @@ namespace buEngineSDK {
     }
 
     WString shaderFileName = L"Normal.fx";
+    WString GeometryshaderFileName = L"GeometryShader.fx";
     // Create Vertex Shader
     m_vertexShader_tmp = graphMan.createVertexShader(shaderFileName); // Put the entry point
     
@@ -91,6 +92,13 @@ namespace buEngineSDK {
     m_inputLayout_tmp = graphMan.createInputLayout(m_vertexShader_tmp, 
       { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT", "BLENDINDICES", "BLENDWEIGHT"});
     
+    // Create geometry Shader
+    m_geometyShader_tmp = graphMan.createGeometryShader(GeometryshaderFileName);
+
+    // Create Input layout for shader
+    m_inputLayout_Geometry_tmp = graphMan.createInputLayout(m_geometyShader_tmp,
+      { "POSITION" , "SIZE" });
+
     // Create Pixel shader 
     m_pixelShader_tmp = graphMan.createPixelShader(shaderFileName);
     

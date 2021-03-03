@@ -187,6 +187,7 @@
     <ClCompile Include="include\buDXSampler.cpp" />
     <ClCompile Include="include\buResource.cpp" />
     <ClCompile Include="src\buDXBuffer.cpp" />
+    <ClCompile Include="src\buDXGeometryShader.cpp" />
     <ClCompile Include="src\buDXGraphicsAPI.cpp" />
     <ClCompile Include="src\buDXImgui.cpp" />
     <ClCompile Include="src\buDXInputLayout.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="include\buDXBuffer.h" />
     <ClInclude Include="include\buDXDepthStencilView.h" />
     <ClInclude Include="include\buDXDevice.h" />
+    <ClInclude Include="include\buDXGeometryShader.h" />
     <ClInclude Include="include\buDXGraphicsAPI.h" />
     <ClInclude Include="include\buDXImgui.h" />
     <ClInclude Include="include\buDXInputLayout.h" />
