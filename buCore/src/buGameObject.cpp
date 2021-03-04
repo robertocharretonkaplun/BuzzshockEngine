@@ -26,7 +26,7 @@ namespace buEngineSDK {
     sca[2] = 50;
 
     m_angle = new float[1];
-    //m_angle = 0;
+    m_angle[0] = 0;
   }
 
   void
@@ -53,6 +53,9 @@ namespace buEngineSDK {
 
     // Set change every frame constant buffers
     graphMan.VSsetConstantBuffers(changeEveryFrame, 1, 1);
+
+    
+
     //graphMan.VSsetConstantBuffers(m_lightBuffer, 3, 1);
     
     // Set change every frame buffer.
@@ -98,15 +101,6 @@ namespace buEngineSDK {
     vec3Control("Rotation", rot);
     vec3Control("Scale", sca);
     ImGui::SliderFloat("Angle", m_angle,0, 5);
-    ImGui::Separator();
-    ImGui::Text("Rendering");
-    ImGui::Separator();
-    ImGui::Checkbox("Actor Hidden In Game", &m_isUsed);
-    if (ImGui::Button("+"))
-    {
-      m_isActorHiddenInWorld = false;
-      m_isActive = false;
-    }
     ImGui::Separator();
     ImGui::End();
   }

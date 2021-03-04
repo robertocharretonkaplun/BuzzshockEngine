@@ -213,6 +213,7 @@
     <ClInclude Include="include\buRay.h" />
     <ClInclude Include="include\buRectangle.h" />
     <ClInclude Include="include\buSerializer.h" />
+    <ClInclude Include="include\buSocket.h" />
     <ClInclude Include="include\buSphere.h" />
     <ClInclude Include="include\buStdHeaders.h" />
     <ClInclude Include="include\buString.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="src\buRadians.cpp" />
     <ClCompile Include="src\buRay.cpp" />
     <ClCompile Include="src\buRectangle.cpp" />
+    <ClCompile Include="src\buSocket.cpp" />
     <ClCompile Include="src\buSphere.cpp" />
     <ClCompile Include="src\buTime.cpp" />
     <ClCompile Include="src\buTimer.cpp" />

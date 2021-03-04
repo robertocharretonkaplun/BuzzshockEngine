@@ -22,6 +22,11 @@ namespace buEngineSDK {
         go.render(_typology);
     }
   }
+
+  void
+  buSceneGraph::renderBillBoard(TopologyType::E _typology) {
+
+  }
   
   void
   buSceneGraph::destroy() {

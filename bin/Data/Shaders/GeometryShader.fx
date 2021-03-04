@@ -66,7 +66,7 @@ struct GS_OUTPUT {
 };
 
 [maxvertexcount(4)]
-void GS_Billboard(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> OutputStream) {
+void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> OutputStream) {
   matrix WorldViewProj = mul(World, View);
   WorldViewProj = mul(WorldViewProj, Projection);
   float3 up = float3(0.0f, 1.0f, 0.0f);
@@ -90,23 +90,25 @@ void GS_Billboard(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> Outp
   v[2] = float4(input[0].Center - halfWidth * right - halfHeight * up, 1.0f);
   v[3] = float4(input[0].Center - halfWidth * right + halfHeight * up, 1.0f);
 
-  float tex[4] = {
+  float2 tex[4] = {
     float2(0.0f, 1.0f),
     float2(0.0f, 0.0f),
     float2(1.0f, 1.0f),
-    float2(1.0f, 0.0f),
+    float2(1.0f, 0.0f)
   };
 
-  GS_OUTPUT output;
+  GS_OUTPUT output = (GS_OUTPUT)0;;
 
   [unroll]
   for (int i = 0; i < 4; ++i) {
-    output.PosH = mul(v[i], WorldViewProj);
+    output.PosH = mul(v[i], World);
+    output.PosH = mul(output.PosH, View);
+    output.PosH = mul(output.PosH, Projection);
     output.PosW - v[i].xyz;
     output.NormalW = look;
-    output.texCoord = tex[i];
+    output.TexCoord = tex[i];
     
-    triStream.Append(output);
+    OutputStream.Append(output);
   }
 }
 

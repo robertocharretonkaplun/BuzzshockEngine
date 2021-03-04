@@ -214,6 +214,9 @@ namespace buEngineSDK {
    void
    setGeometryShader(WeakSPtr<buCoreGeometryShader> _vertexShader) override;
 
+   void
+   removeGeometryShader() override;
+
    /** 
     * @brief 
     * @param 
@@ -243,6 +246,9 @@ namespace buEngineSDK {
                uint32 _startIndexLocation, 
                uint32 _baseVertexLocation) override;
    
+   void 
+   draw(uint32 _numVertices, uint32 _startIndexLocation) override;
+
    /** 
     * @brief 
     * @param 

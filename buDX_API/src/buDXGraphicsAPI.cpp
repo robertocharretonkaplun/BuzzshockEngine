@@ -450,6 +450,11 @@ namespace buEngineSDK {
     m_deviceContext->GSSetShader(tmpGS->m_geometryShader, nullptr, 0);
   }
 
+  void 
+  buDXGraphicsAPI::removeGeometryShader() {
+    m_deviceContext->GSSetShader(nullptr, nullptr, 0);
+  }
+
   void
   buDXGraphicsAPI::setInputLayout(WeakSPtr<buCoreInputLayout> _inputLayout) {
     if (_inputLayout.expired()) {
@@ -477,6 +482,11 @@ namespace buEngineSDK {
     m_deviceContext->DrawIndexed(_numVertices, 
                                  _startIndexLocation,
                                  _baseVertexLocation);
+  }
+
+  void 
+  buDXGraphicsAPI::draw(uint32 _numVertices, uint32 _startIndexLocation) {
+    m_deviceContext->Draw(_numVertices, _startIndexLocation);
   }
 
   void

@@ -8,8 +8,8 @@ namespace buEngineSDK {
   void
     buDXGeometryShader::init(WString _fileName) {
     compileShaderFromFile(_fileName,
-      "VS",
-      "vs_5_0",
+      "GS",
+      "gs_5_0",
       &m_compileGeometryShader);
   }
 

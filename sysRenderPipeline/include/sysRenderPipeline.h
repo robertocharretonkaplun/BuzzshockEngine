@@ -17,6 +17,12 @@ namespace buEngineSDK {
 	{
 		buMatrix4x4 boneTransform[100];
 	};
+
+	struct Serch_Particle {
+		buVector4F Pos;
+		buVector2F Size;
+	};
+
 	class sysRenderPipeline : public BaseApp
 	{
 	public:
@@ -67,6 +73,9 @@ namespace buEngineSDK {
 			onRender() override;
 		void
 			createTemporalPipeline();
+
+		void 
+		renderBillBoard(buGameObject) override;
 		//buUI 
 		//getUI() override;
 
@@ -87,15 +96,21 @@ namespace buEngineSDK {
 		SPtr<buCoreDepthStencilView> m_depthStencilView_tmp;
 		SPtr<buCoreViewport> m_viewport_tmp;
 		SPtr<buCoreVertexShader> m_vertexShader_tmp;
-		SPtr<buCoreGeometryShader> m_geometyShader_tmp;
 		SPtr<buCoreInputLayout> m_inputLayout_tmp;
-		SPtr<buCoreInputLayout> m_inputLayout_Geometry_tmp;
 		SPtr<buCorePixelShader> m_pixelShader_tmp;
 		SPtr<buCoreSampler> m_sampler_tmp;
 		buLight m_light;
 		SPtr<buCoreTexture2D> m_cubeMap;
 		buCameraManager m_cameraManager;
 		SPtr<buCoreBuffer> BonesTranform;
+
+
+		SPtr<buCoreVertexShader> m_vertexShader_GS;
+		SPtr<buCoreGeometryShader> m_geometyShader;
+		SPtr<buCoreInputLayout> m_inputLayout_Geometry_tmp;
+		SPtr<buCorePixelShader> m_pixelShader_GS;
+		SPtr<buCoreBuffer> m_billboardBuff;
+		Serch_Particle m_particle;
 		/*
 		* @brief
 		*/

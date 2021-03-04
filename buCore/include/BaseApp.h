@@ -76,6 +76,9 @@ namespace buEngineSDK {
 		 */
 		virtual void
 		onRender() {};
+
+		virtual void
+		renderBillBoard(buGameObject) {};
 	private:
 		/** 
 		* @brief Method in charge of creating a window in the App.

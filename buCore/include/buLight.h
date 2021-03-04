@@ -28,8 +28,9 @@ namespace buEngineSDK {
 	private:
 		String m_name;
 		LightBuffer LB;
-		SPtr<buCoreBuffer> m_lightBuffer;
 		// Include game object
 		float* m_pos;
+	public:
+		SPtr<buCoreBuffer> m_lightBuffer;
 	};
 };

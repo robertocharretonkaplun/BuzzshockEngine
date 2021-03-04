@@ -32,7 +32,6 @@ namespace buEngineSDK {
 		drawUI();
 	private:
 		CBCamera m_cameraData;
-		SPtr<buCoreBuffer> m_cameraBuffer;
 		CameraType::E m_cameraType = CameraType::E::PROJECTION_TYPE;
 
 		buVector3F m_cameraPos = buVector3F::Zero;
@@ -48,6 +47,7 @@ namespace buEngineSDK {
 		buImgui m_ImGui;
 		buTransform m_transform;
 	public:
+		SPtr<buCoreBuffer> m_cameraBuffer;
 		String m_name = "";
 		uint32 m_id = 0;
 		bool m_isCameraActive = false;

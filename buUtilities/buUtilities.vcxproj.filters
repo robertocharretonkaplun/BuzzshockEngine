@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Sockets">
       <UniqueIdentifier>{d9cdef3b-0547-4fb6-991e-30d373ab1444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{2ae18870-6c95-4f4e-bd35-4e1891fbe47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Socket">
+      <UniqueIdentifier>{15d25c52-bae1-4a93-8b12-794469f943dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -150,6 +156,9 @@
     <ClInclude Include="include\buTimer.h">
       <Filter>Header Files\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="include\buSocket.h">
+      <Filter>Header Files\Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -229,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="src\buTimer.cpp">
       <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buSocket.cpp">
+      <Filter>Source Files\Socket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

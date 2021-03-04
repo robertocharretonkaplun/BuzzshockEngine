@@ -37,6 +37,8 @@ namespace buEngineSDK {
 		void 
 		render(TopologyType::E _typology);
 
+		void 
+		renderBillBoard(TopologyType::E _typology);
 		/**
 		 * @brief Method in charge of destroying the objects.
 		 */

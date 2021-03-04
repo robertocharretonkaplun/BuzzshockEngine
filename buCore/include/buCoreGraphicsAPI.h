@@ -230,6 +230,9 @@ namespace buEngineSDK {
    virtual void
    setGeometryShader(WeakSPtr<buCoreGeometryShader> /*_vertexShader*/) {};
 
+   virtual void
+   removeGeometryShader() {};
+
    /** 
     * @brief Virtual method that creates a temporal reference to a input layout 
     * object.
@@ -254,6 +257,9 @@ namespace buEngineSDK {
    drawIndexed(uint32 /*_numVertices*/, 
                uint32 /*_startIndexLocation*/, 
                uint32 /*_baseVertexLocation*/) { };
+
+   virtual void
+   draw(uint32 /*_numVertices*/, uint32 /*_startIndexLocation*/) { };
       
    /**
     * @brief Virtual method that creates the depth stencil texture from the 

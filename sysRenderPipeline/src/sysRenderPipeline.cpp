@@ -92,16 +92,33 @@ namespace buEngineSDK {
     m_inputLayout_tmp = graphMan.createInputLayout(m_vertexShader_tmp, 
       { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT", "BLENDINDICES", "BLENDWEIGHT"});
     
-    // Create geometry Shader
-    m_geometyShader_tmp = graphMan.createGeometryShader(GeometryshaderFileName);
-
-    // Create Input layout for shader
-    m_inputLayout_Geometry_tmp = graphMan.createInputLayout(m_geometyShader_tmp,
-      { "POSITION" , "SIZE" });
 
     // Create Pixel shader 
     m_pixelShader_tmp = graphMan.createPixelShader(shaderFileName);
+
+    // GEOMETRY SHADEr
+    // Create Vertex Shader
+    m_vertexShader_GS = graphMan.createVertexShader(GeometryshaderFileName); // Put the entry point
+
+    // Create geometry Shader
+    m_geometyShader = graphMan.createGeometryShader(GeometryshaderFileName);
     
+    // Create Input layout for shader
+    m_inputLayout_Geometry_tmp = graphMan.createInputLayout(m_vertexShader_GS,
+      { "POSITION" , "SIZE" });
+    
+    // Create Pixel shader GM 
+    m_pixelShader_GS = graphMan.createPixelShader(GeometryshaderFileName);
+
+    m_particle.Pos = {};
+    m_particle.Size = { 1000.0f, 1000.0f };
+
+    m_billboardBuff = graphMan.createBuffer(
+      sizeof(Serch_Particle) * 1,
+      1,
+      sizeof(Serch_Particle),
+      &m_particle);
+
     m_cameraManager.AddCamera("CameraTest");
     m_cameraManager.SetActiveCamera(0);
     
@@ -116,6 +133,27 @@ namespace buEngineSDK {
                                          m_screenHeight, 
                                          TextureType::E::CUBE_MAP, 
                                          L"Data/Textures/galileo_cross.dds");
+
+
+  }
+
+  void 
+  sysRenderPipeline::renderBillBoard(buGameObject _go) {
+    auto& graphMan = g_graphicsAPI();
+    graphMan.setPrimitiveTopology(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_POINTLIST);
+    graphMan.setInputLayout(m_inputLayout_Geometry_tmp);
+    graphMan.setVertexShader(m_vertexShader_GS);
+    graphMan.setGeometryShader(m_geometyShader);
+    graphMan.setPixelhader(m_pixelShader_GS);
+
+    graphMan.GSsetConstantBuffers(m_cameraManager.GetActiveCamera().m_cameraBuffer, BufferSlot::E::CAMERA, 1);
+    graphMan.GSsetConstantBuffers(_go.changeEveryFrame, BufferSlot::E::WORLD, 1);
+    graphMan.GSsetConstantBuffers(m_light.m_lightBuffer, BufferSlot::E::LIGHT, 1);
+
+    graphMan.setVertexBuffers(m_billboardBuff);
+    graphMan.draw(1, 0);
+    graphMan.setPrimitiveTopology(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    graphMan.removeGeometryShader();
   }
 
   void
@@ -176,6 +214,7 @@ namespace buEngineSDK {
     
     // Set Bones Transform constant buffer
     graphMan.VSsetConstantBuffers(BonesTranform, 2, 1);
+
     // Set Vertex Shader
     graphMan.setVertexShader(m_vertexShader_tmp);
     // Set the input layout
@@ -187,6 +226,8 @@ namespace buEngineSDK {
     // Update shader resource cubemap
     graphMan.PSSetShaderResources(m_cubeMap, 4, 1);
    // m_userInterface.render();
+
+   
   }
 
   void 

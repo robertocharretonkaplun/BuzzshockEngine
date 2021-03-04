@@ -43,6 +43,8 @@ namespace buEngineSDK {
         
         // Render frame
         render();
+        
+        
       }
     }
 
@@ -247,6 +249,7 @@ namespace buEngineSDK {
     //renderMan.render();
     onRender();   
     m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    renderBillBoard(m_scene_graph.getSelectedGO());
     // Render ImGui Data
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
