@@ -75,6 +75,9 @@ namespace buEngineSDK {
 			createTemporalPipeline();
 
 		void 
+		createBillBoard();
+
+		void 
 		renderBillBoard(buGameObject) override;
 		//buUI 
 		//getUI() override;

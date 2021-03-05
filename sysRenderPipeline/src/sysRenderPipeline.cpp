@@ -6,12 +6,14 @@ namespace buEngineSDK {
     auto& graphMan = g_graphicsAPI();
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
     createTemporalPipeline();
+    // Create billboard
+    createBillBoard();
     histogram.init("927310.jpg");
-    String message1 = "Engine initialization";
+    //String message1 = "Engine initialization";
     
     //buLogger::GetLogger()->Log("message to be logged");
-    buLogger log;
-    log.Log(message1);
+    //buLogger log;
+    //log.Log(message1);
     
     //buLogger logError;
     //logError.LogError("Error");
@@ -84,7 +86,6 @@ namespace buEngineSDK {
     }
 
     WString shaderFileName = L"Normal.fx";
-    WString GeometryshaderFileName = L"GeometryShader.fx";
     // Create Vertex Shader
     m_vertexShader_tmp = graphMan.createVertexShader(shaderFileName); // Put the entry point
     
@@ -92,32 +93,10 @@ namespace buEngineSDK {
     m_inputLayout_tmp = graphMan.createInputLayout(m_vertexShader_tmp, 
       { "POSITION" , "TEXCOORD", "NORMAL", "TANGENT", "BLENDINDICES", "BLENDWEIGHT"});
     
-
     // Create Pixel shader 
     m_pixelShader_tmp = graphMan.createPixelShader(shaderFileName);
 
-    // GEOMETRY SHADEr
-    // Create Vertex Shader
-    m_vertexShader_GS = graphMan.createVertexShader(GeometryshaderFileName); // Put the entry point
-
-    // Create geometry Shader
-    m_geometyShader = graphMan.createGeometryShader(GeometryshaderFileName);
     
-    // Create Input layout for shader
-    m_inputLayout_Geometry_tmp = graphMan.createInputLayout(m_vertexShader_GS,
-      { "POSITION" , "SIZE" });
-    
-    // Create Pixel shader GM 
-    m_pixelShader_GS = graphMan.createPixelShader(GeometryshaderFileName);
-
-    m_particle.Pos = {};
-    m_particle.Size = { 1000.0f, 1000.0f };
-
-    m_billboardBuff = graphMan.createBuffer(
-      sizeof(Serch_Particle) * 1,
-      1,
-      sizeof(Serch_Particle),
-      &m_particle);
 
     m_cameraManager.AddCamera("CameraTest");
     m_cameraManager.SetActiveCamera(0);
@@ -135,6 +114,33 @@ namespace buEngineSDK {
                                          L"Data/Textures/galileo_cross.dds");
 
 
+  }
+
+  void 
+  sysRenderPipeline::createBillBoard() {
+    auto& graphMan = g_graphicsAPI();
+    WString GeometryshaderFileName = L"GeometryShader.fx";
+    // Create Vertex Shader
+    m_vertexShader_GS = graphMan.createVertexShader(GeometryshaderFileName); // Put the entry point
+
+    // Create geometry Shader
+    m_geometyShader = graphMan.createGeometryShader(GeometryshaderFileName);
+
+    // Create Input layout for shader
+    m_inputLayout_Geometry_tmp = graphMan.createInputLayout(m_vertexShader_GS,
+      { "POSITION" , "SIZE" });
+
+    // Create Pixel shader GM 
+    m_pixelShader_GS = graphMan.createPixelShader(GeometryshaderFileName);
+
+    m_particle.Pos = {};
+    m_particle.Size = { 1000.0f, 1000.0f };
+
+    m_billboardBuff = graphMan.createBuffer(
+      sizeof(Serch_Particle) * 1,
+      1,
+      sizeof(Serch_Particle),
+      &m_particle);
   }
 
   void 
