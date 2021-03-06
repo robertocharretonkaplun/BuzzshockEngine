@@ -27,8 +27,6 @@ namespace buEngineSDK {
     ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_graphicsAPI->getDevice()),
       reinterpret_cast<ID3D11DeviceContext*>(m_graphicsAPI->getDeviceContext()));
     ImGui::StyleColorsLight();
-    //ImFont* font1 = io.Fonts->AddFontDefault();
-    //ImFont* font2 = io.Fonts->AddFontFromFileTTF("Data/Fonts/fontello.ttf", 16.0f);
     setUnrealStyle();
     // Main loop
     MSG msg = { nullptr };
@@ -150,15 +148,29 @@ namespace buEngineSDK {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    ImGui::Begin("Change Log");
-    for (auto go : m_logs) {
-      ImGui::Text(go.c_str());
+    if (IsEngineInitialized) {
+      ImGui::Begin("Change Log");
+      for (auto go : m_logs) {
+        ImGui::Text(go.c_str());
+      }
+      ImGui::End();
+      MainMenu();
+      onUpdate(_deltaTime);
+      buVector3F scale(m_Scale[0] * m_EngineScale,
+        m_Scale[1] * m_EngineScale,
+        m_Scale[2] * m_EngineScale);
+      buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
+
+
+      buVector3F position(m_position[0], m_position[1], m_position[2]);
+
+      m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
+      m_scene_graph.getSelectedGO().drawUI();
+      m_scene_graph.drawUI();
+
     }
-    ImGui::End();
-    MainMenu();
 
     // Update scene information
-    onUpdate(_deltaTime);
     // Update the renderer
     //auto& renderMan = g_renderAPI();
     //static bool animate = true;
@@ -228,17 +240,7 @@ namespace buEngineSDK {
 
 
 
-    buVector3F scale(m_Scale[0] * m_EngineScale,
-      m_Scale[1] * m_EngineScale,
-      m_Scale[2] * m_EngineScale);
-    buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
-
-
-    buVector3F position(m_position[0], m_position[1], m_position[2]);
-
-    m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
-    m_scene_graph.getSelectedGO().drawUI();
-    m_scene_graph.drawUI();
+    login();
     //renderMan.update(position, rotation, scale, m_angle);
   }
 
@@ -804,6 +806,23 @@ namespace buEngineSDK {
     }
     ImGui::End();
     */
+  }
+
+  void 
+  BaseApp::login() {
+    ImGui::Begin("Login");
+    ImGui::Text("--- Engine Settings ---");
+    if (ImGui::Button("Init Engine")) {
+      IsEngineInitialized = true;
+      //loadInformation();
+    }
+
+    ImGui::Text("--- Server Settings ---");
+    if (ImGui::Button("Init Client"))
+    {
+
+    }
+    ImGui::End();
   }
 
 

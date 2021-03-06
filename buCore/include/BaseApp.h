@@ -147,6 +147,12 @@ namespace buEngineSDK {
 
 		void 
 		sceneGraph();
+
+		/**
+		 * @brief Method in charge of having a visual initialization for the online method.
+		 */
+		void 
+		login();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -283,5 +289,7 @@ namespace buEngineSDK {
 		Vector<String> m_logs = buLogger::GetLogger()->GetLogDataFromFile();
 
 		buTime m_time;
+		// UI variables 
+		bool IsEngineInitialized = false;
 	};
 }
