@@ -169,6 +169,9 @@ namespace buEngineSDK {
       m_scene_graph.drawUI();
 
     }
+    else {
+      login();
+    }
 
     // Update scene information
     // Update the renderer
@@ -239,8 +242,7 @@ namespace buEngineSDK {
     //shaderProperties();
 
 
-
-    login();
+   
     //renderMan.update(position, rotation, scale, m_angle);
   }
 
@@ -343,6 +345,14 @@ namespace buEngineSDK {
         }
         ImGui::EndMenu();
       }
+      if (ImGui::BeginMenu("Window")) {
+        ImGui::Text("Level Editor");
+        ImGui::Separator();
+        if (ImGui::MenuItem("Herarchy")) {
+
+        }
+        ImGui::EndMenu();
+      }
       if (ImGui::BeginMenu("Settings")) {
         if (ImGui::MenuItem("Scene Settings...")) {
           m_sceneWindow = true;
@@ -359,6 +369,7 @@ namespace buEngineSDK {
         }
         ImGui::EndMenu();
       }
+      
       ImGui::EndMainMenuBar();
     }
     if (m_sceneWindow) {
@@ -772,53 +783,16 @@ namespace buEngineSDK {
   }
 
   void 
-  BaseApp::sceneGraph() {
-    /*
-    ImGui::Begin("Scene Graph");
-    ImGui::Text("Scene Graph");
-    ImGui::SameLine();
-    if (ImGui::Button("+")) {
-      OPENFILENAME ofn = { 0 };
-      TCHAR szFile[260] = { 0 };
-      // Initialize remaining fields of OPENFILENAME structure
-      ofn.lStructSize = sizeof(ofn);
-      ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-      ofn.lpstrFile = szFile;
-      ofn.nMaxFile = sizeof(szFile);
-      ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-      ofn.nFilterIndex = 1;
-      ofn.lpstrFileTitle = nullptr;
-      ofn.nMaxFileTitle = 0;
-      ofn.lpstrInitialDir = nullptr;
-      ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-      if (GetOpenFileName(&ofn) == TRUE) {
-        m_scene_graph.addGameObject(ofn.lpstrFile);
-      }
-    }
-    ImGui::Separator();
-    ImGui::Text("Herarchy");
-    ImGui::Separator();
-    for (uint32 i = 0; i < m_scene_graph.m_gameObjects.size(); i++) {
-      if (ImGui::Button(m_scene_graph.m_gameObjects[i].m_name.c_str())) {
-        m_scene_graph.setSelectedGO(i);
-      }
-    }
-    ImGui::End();
-    */
-  }
-
-  void 
   BaseApp::login() {
     ImGui::Begin("Login");
-    ImGui::Text("--- Engine Settings ---");
-    if (ImGui::Button("Init Engine")) {
+    ImGui::Text("New Project Categories");
+
+    if (ImGui::Button("Rendering", ImVec2(120, 30))) {
       IsEngineInitialized = true;
       //loadInformation();
     }
 
-    ImGui::Text("--- Server Settings ---");
-    if (ImGui::Button("Init Client"))
+    if (ImGui::Button("Live production", ImVec2(120, 30)))
     {
 
     }

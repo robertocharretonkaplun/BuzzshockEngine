@@ -96,11 +96,14 @@ namespace buEngineSDK {
     ImGui::Separator();
     
     
-    //vec3Control("Position", pos);
     vec3Control("Position", pos);
     vec3Control("Rotation", rot);
     vec3Control("Scale", sca);
     ImGui::SliderFloat("Angle", m_angle,0, 5);
+    ImGui::Separator();
+    ImGui::Text("Rendering");
+    ImGui::Separator();
+    ImGui::Checkbox("Actor Hidden In Game", & m_isActorHiddenInGame);
     ImGui::Separator();
     ImGui::End();
   }

@@ -17,8 +17,17 @@ namespace buEngineSDK {
   buLogger::LogError(String _message) {
     m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
     m_logfile << m_time.currDateTime() << ":\t";
-    //m_logfile << _message;
-    m_logfile << "Error in line: \t" <<  __LINE__ << ", in file [ "<< __FILE__ << " ]";
+    m_logfile << "Warning " << _message << "(" << __LINE__ << ")" <<": "
+      << " compiling source file  ( " << __FILE__ << " )";
+    m_logfile.close();
+  }
+
+  void
+  buLogger::LogError(String _message, uint32 _errorVal) {
+    m_logfile.open(m_fileName.c_str(), std::ios::out | std::ios::app);
+    m_logfile << m_time.currDateTime() << ":\t";
+    m_logfile << "Warning " << _message << "'" << _errorVal << "'" << ": " 
+      << "("<<__LINE__ << ")" << " compiling source file  ( " << __FILE__ << " )";
     m_logfile.close();
   }
 
