@@ -30,6 +30,7 @@ namespace buEngineSDK {
 
 		void drawUI();
 
+
 	private:
 		void
 		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);

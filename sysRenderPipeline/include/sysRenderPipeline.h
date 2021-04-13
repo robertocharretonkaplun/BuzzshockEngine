@@ -104,7 +104,7 @@ namespace buEngineSDK {
 		SPtr<buCoreSampler> m_sampler_tmp;
 		buLight m_light;
 		SPtr<buCoreTexture2D> m_cubeMap;
-		buCameraManager m_cameraManager;
+		buCameraManager * m_cameraMan;
 		SPtr<buCoreBuffer> BonesTranform;
 
 
@@ -117,7 +117,8 @@ namespace buEngineSDK {
 		/*
 		* @brief
 		*/
-		float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
+		float ClearColor[4] = { 1,1,1,1};
+		//float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
 		/**
 		 * @brief
 		 */

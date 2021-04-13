@@ -5,12 +5,12 @@ namespace buEngineSDK {
   sysRenderPipeline::onCreate() {
     auto& graphMan = g_graphicsAPI();
     graphMan.initialize(m_window, m_screenWidth, m_screenHeight);
+    m_cameraMan = &m_cameraManager;
     createTemporalPipeline();
     // Create billboard
     createBillBoard();
     histogram.init("927310.jpg");
     //String message1 = "Engine initialization";
-    
     //buLogger::GetLogger()->Log("message to be logged");
     //buLogger log;
     //log.Log(message1);
@@ -98,8 +98,8 @@ namespace buEngineSDK {
 
     
 
-    m_cameraManager.AddCamera("CameraTest");
-    m_cameraManager.SetActiveCamera(0);
+    m_cameraMan->AddCamera("CameraTest");
+    m_cameraMan->SetActiveCamera(0);
     
     BonesTranform = graphMan.createBuffer(sizeof(cbBonesTranform));
     // Create light
@@ -152,7 +152,7 @@ namespace buEngineSDK {
     graphMan.setGeometryShader(m_geometyShader);
     graphMan.setPixelhader(m_pixelShader_GS);
 
-    graphMan.GSsetConstantBuffers(m_cameraManager.GetActiveCamera().m_cameraBuffer, BufferSlot::E::CAMERA, 1);
+    graphMan.GSsetConstantBuffers(m_cameraMan->GetActiveCamera().m_cameraBuffer, BufferSlot::E::CAMERA, 1);
     graphMan.GSsetConstantBuffers(_go.changeEveryFrame, BufferSlot::E::WORLD, 1);
     graphMan.GSsetConstantBuffers(m_light.m_lightBuffer, BufferSlot::E::LIGHT, 1);
 
@@ -170,7 +170,7 @@ namespace buEngineSDK {
     buVector3F At(m_at[0], m_at[1], m_at[2]);
     buVector3F Up(m_up[0], m_up[1], m_up[2]);
 
-    m_cameraManager.update(Eye, Up, At,
+    m_cameraMan->update(Eye, Up, At,
       buDegrees(45).getRadians(),
       static_cast<float>(m_screenWidth) /
       static_cast<float>(m_screenHeight),
@@ -211,7 +211,7 @@ namespace buEngineSDK {
                                          1.0f,
                                          0);
     // Set Camera
-    m_cameraManager.render();
+    m_cameraMan->render();
     cbBonesTranform cbBonestransform;
     // Update light
     m_light.render();

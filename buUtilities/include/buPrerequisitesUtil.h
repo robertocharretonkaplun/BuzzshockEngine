@@ -23,6 +23,7 @@
  * @brief Include of short-hand names for various built-in types
  */
 #include "buPlatformTypes.h"      // Platform types
+
 #include "buStdHeaders.h"         // Commonly used standar headers
 
 #include "buString.h"

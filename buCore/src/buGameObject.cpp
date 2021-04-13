@@ -34,6 +34,18 @@ namespace buEngineSDK {
                        buVector3F _scal, float _angle) {
     auto& graphMan = g_graphicsAPI();
     //m_pos = _pos;
+
+    pos[0] = _pos.x;
+    pos[1] = _pos.y;
+    pos[2] = _pos.z;
+    
+    rot[0] = _rot.x;
+    rot[1] = _rot.y;
+    rot[2] = _rot.z;
+
+    sca[0] = _scal.x;
+    sca[1] = _scal.y;
+    sca[2] = _scal.z;
     buVector3F newPos(pos[0], pos[1], pos[2]);
     buVector3F newRot(rot[0], rot[1], rot[2]);
     buVector3F newSca(sca[0], sca[1], sca[2]);
@@ -105,7 +117,11 @@ namespace buEngineSDK {
     ImGui::Separator();
     ImGui::Checkbox("Actor Hidden In Game", & m_isActorHiddenInGame);
     ImGui::Separator();
+
+
+
     ImGui::End();
+
   }
 
   void
@@ -165,6 +181,8 @@ namespace buEngineSDK {
     ImGui::Columns(1);
 
     ImGui::PopID();
+
+
     
   }
 }

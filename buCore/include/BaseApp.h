@@ -21,6 +21,10 @@
 #include "buCommons.h"
 #include "buLogger.h"
 #include "buTime.h"
+
+#include "ImGuizmo\ImGuizmo.h"
+
+
 //#include "imgui\imGuiDocking\imgui.h"
 //#include "imgui\imGuiDocking\imgui_impl_dx11.h"
 //#include "imgui\imGuiDocking\imgui_impl_win32.h"
@@ -153,6 +157,16 @@ namespace buEngineSDK {
 		 */
 		void 
 		login();
+
+		/**
+		 * @brief 
+		 */
+		void
+		SocketUIController();
+
+		void
+		buGizmo(float* matrix);
+
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -291,5 +305,7 @@ namespace buEngineSDK {
 		buTime m_time;
 		// UI variables 
 		bool IsEngineInitialized = false;
+		bool useWindow = false;
+		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 	};
 }

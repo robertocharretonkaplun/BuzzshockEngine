@@ -19,6 +19,9 @@
     <Filter Include="ImGui\Docking">
       <UniqueIdentifier>{c9952cce-b86f-47e8-a03c-957627bded5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\ImGuizmo">
+      <UniqueIdentifier>{3c4728e7-08dc-4192-a2f2-553b04e6e743}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buCoreGraphicsAPI.cpp">
@@ -92,6 +95,18 @@
     </ClCompile>
     <ClCompile Include="src\buHistogram.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImCurveEdit.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGradient.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGuizmo.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImSequencer.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +238,21 @@
     </ClInclude>
     <ClInclude Include="include\buCoreGeometryShader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImCurveEdit.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGradient.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGuizmo.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImSequencer.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImZoomSlider.h">
+      <Filter>ImGui\ImGuizmo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

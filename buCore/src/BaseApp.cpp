@@ -148,6 +148,9 @@ namespace buEngineSDK {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
+
+
     if (IsEngineInitialized) {
       ImGui::Begin("Change Log");
       for (auto go : m_logs) {
@@ -156,17 +159,44 @@ namespace buEngineSDK {
       ImGui::End();
       MainMenu();
       onUpdate(_deltaTime);
-      buVector3F scale(m_Scale[0] * m_EngineScale,
-        m_Scale[1] * m_EngineScale,
-        m_Scale[2] * m_EngineScale);
-      buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
+      buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
+                       m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
+                       m_scene_graph.getSelectedGO().sca[2] * m_EngineScale);
+      buVector3F rotation(m_scene_graph.getSelectedGO().rot[0], m_scene_graph.getSelectedGO().rot[1], m_scene_graph.getSelectedGO().rot[2]);
+      buVector3F position(m_scene_graph.getSelectedGO().pos[0], m_scene_graph.getSelectedGO().pos[1], m_scene_graph.getSelectedGO().pos[2]);
 
+      buMatrix4x4 mat = buMatrix4x4::IDENTITY;
+      //position.x = dir.x;
+      ImGuizmo::RecomposeMatrixFromComponents(&position.x, &rotation.x, &scale.x, &mat.m_x0);
 
-      buVector3F position(m_position[0], m_position[1], m_position[2]);
+      buGizmo(&mat.m_x0);
+      ImGuizmo::DecomposeMatrixToComponents(&mat.m_x0, &position.x, &rotation.x, &scale.x);
 
+      m_Scale[0] = scale.x;
+      m_Scale[1] = scale.y;
+      m_Scale[2] = scale.z;
+
+      m_Rotation[0] = rotation.x;
+      m_Rotation[1] = rotation.y;
+      m_Rotation[2] = rotation.z;
+
+      m_position[0] = position.x;
+      m_position[1] = position.y;
+      m_position[2] = position.z;
       m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
       m_scene_graph.getSelectedGO().drawUI();
       m_scene_graph.drawUI();
+
+      //buMatrix4x4 scaleMat = { scale.x,0,0,0,
+      //                      0,scale.y,0,0,
+      //                      0,0,scale.z,0,
+      //                      0,0,0,1 };
+      //
+      //buMatrix4x4 positionMat = { 0,0,0,0,
+      //                            0,0,0,0,
+      //                            0,0,0,0,
+      //                            0,0,0,0 };
+
 
     }
     else {
@@ -800,7 +830,38 @@ namespace buEngineSDK {
   }
 
 
-  LRESULT 
+  void BaseApp::buGizmo(float* matrix)
+  {
+    static buMatrix4x4 identity = buMatrix4x4::IDENTITY;
+
+    
+    if (m_cameraManager.GetCameras().size() <= 0) {
+      return;
+    }
+
+    auto view = m_cameraManager.GetActiveCamera().m_cameraData.view;
+    view.transpose();
+    auto proj = m_cameraManager.GetActiveCamera().m_cameraData.projection;
+    proj.transpose();
+    
+    ImGuizmo::SetRect(0, 0, m_screenWidth, m_screenHeight);
+    ImGuizmo::Manipulate(&view.m_x0, &proj.m_x0, mCurrentGizmoOperation, ImGuizmo::MODE::LOCAL, matrix, nullptr, nullptr, nullptr, nullptr);
+    ImGui::Begin("Gizmos");
+    if (ImGui::Button("T")) {
+      mCurrentGizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("R")) {
+      mCurrentGizmoOperation = ImGuizmo::OPERATION::ROTATE;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("S")) {
+      mCurrentGizmoOperation = ImGuizmo::OPERATION::SCALE;
+    }
+    ImGui::End();
+  }
+
+  LRESULT
   BaseApp::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
     /*
     //*/

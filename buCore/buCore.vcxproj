@@ -189,6 +189,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImSequencer.cpp" />
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
     <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
@@ -215,6 +219,11 @@
     <ClCompile Include="src\SaveSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
     <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
     <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
