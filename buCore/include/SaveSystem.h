@@ -23,6 +23,11 @@ namespace buEngineSDK {
 		void 
 		setSaveFile(String _filename);
 
+		void
+		saveSerialization(String mem);
+
+		String getSerialization();
+
 		/**
 		 * @brief Method in charge of saving a string on the file.
 		 */

@@ -57,8 +57,8 @@ namespace buEngineSDK {
     void* m_instance = nullptr;
   };
 
-  inline bool buPluggin::loadPluggin(const String& _dllName)
-  {
+  inline bool 
+  buPluggin::loadPluggin(const String& _dllName) {
    /* String buffer;
     buffer.resize(MAX_PATH);
     GetCurrentDirectoryA(MAX_PATH, &buffer[0]);
@@ -81,15 +81,12 @@ namespace buEngineSDK {
       destroy();
       return false;
     }
-
-    
-
     return true;
   }
 
 
-  inline void* buPluggin::getProcedureByName(const String& _name)
-  {
+  inline void* 
+  buPluggin::getProcedureByName(const String& _name) {
     auto createFunction = GetProcAddress(reinterpret_cast<HINSTANCE>(m_instance),
                                          _name.c_str());
 
@@ -101,8 +98,8 @@ namespace buEngineSDK {
     return createFunction;
   }
 
-  inline void buPluggin::destroy()
-  {
+  inline void
+  buPluggin::destroy() {
     // Realese the library.
     FreeLibrary((reinterpret_cast<HINSTANCE>(m_instance)));
   }

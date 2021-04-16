@@ -15,7 +15,29 @@ namespace buEngineSDK {
     // Initialize the renderer 
     //auto& renderMan = g_renderAPI();
     //renderMan.init(m_window, m_screenWidth, m_screenHeight);
+   /* CHAR buffer[4096] = { 0 };
+    RTTIEmptyType<buVector3F> obj;
+    obj.toMemory(buVector3F(5, 15, 20), buffer);
 
+    String meml;
+
+    meml = buffer;
+    for (uint32 i = 0; i < 4096; i++)
+    {
+      meml += buffer[i];
+    }
+
+    m_saverMan.saveSerialization(meml);
+    String Data = m_saverMan.getSerialization();
+    buVector3F empty;
+
+    CHAR buffer2[4096] = { 0 };
+    for (uint32 i = 0; i < 4096; i++)
+    {
+      buffer2[i] += meml[i];
+    }
+
+    obj.fromMemory(empty, buffer2);*/
     onCreate();
     loadInformation();
     // Init Imgui

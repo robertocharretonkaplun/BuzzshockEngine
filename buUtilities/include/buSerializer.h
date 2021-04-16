@@ -64,7 +64,7 @@ namespace buEngineSDK {
     }                                                                                                      \
                                                                                                            \
     static uint32                                                                                          \
-    forMemory(type& data, char* memory) {                                                                  \
+    fromMemory(type& data, char* memory) {                                                                  \
       memcpy(&data, memory, sizeof(type));                                                                 \
       return static_cast<uint32>(sizeof(type));                                                            \
     }                                                                                                      \
@@ -73,5 +73,5 @@ namespace buEngineSDK {
     getDynamicSize(const type&) {                                                                          \
       return static_cast<uint32>(sizeof(type));                                                            \
     }                                                                                                      \
-  };                                                                                                         \
+  };                                                                                                         
 }
