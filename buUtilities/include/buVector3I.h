@@ -9,6 +9,7 @@
 #pragma once
 #include "buPrerequisitesUtil.h"
 #include "buMath.h"
+#include "buSerializer.h"
 
 namespace buEngineSDK {
  class BU_UTILITY_EXPORT buVector3I
@@ -36,7 +37,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  ~buVector3I();
+  //~buVector3I();
   
   /**
    * @brief Copy constructors
@@ -44,7 +45,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector3I(const buVector3I& _v);
+  //buVector3I(const buVector3I& _v);
   
   /**
    * @brief Constructor to equal a vector
@@ -52,8 +53,8 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector3I&
-  operator=(const buVector3I& _v);
+  //buVector3I&
+  //operator=(const buVector3I& _v);
   
   /**
    * @brief Method for addition of another vector
@@ -181,4 +182,5 @@ namespace buEngineSDK {
   static const buVector3I Zero;
 
  };
+ BU_ALLOW_MEMCPY_SERIALIZATION(buVector3I);
 }

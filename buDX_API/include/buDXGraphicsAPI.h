@@ -44,7 +44,7 @@ namespace buEngineSDK {
    ~buDXGraphicsAPI();
   
    /**
-    * @brief Test method to check if the linking between libs works.
+5    * @brief Test method to check if the linking between libs works.
     */
    void
    testFunc() override;

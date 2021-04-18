@@ -5,17 +5,6 @@ namespace buEngineSDK {
 
   buVector2I::buVector2I(int32 _x, int32 _y) : x(_x), y(_y) { }
 
-  buVector2I::~buVector2I() { }
-
-  buVector2I::buVector2I(const buVector2I& _v) : x(_v.x), y(_v.y) { }
-
-  buVector2I&
-  buVector2I::operator=(const buVector2I& _v) {
-    x = _v.x;
-    y = _v.y;
-    return *this;
-  }
-
   buVector2I& 
   buVector2I::operator+=(const buVector2I& _v) {
     *this = *this + _v;

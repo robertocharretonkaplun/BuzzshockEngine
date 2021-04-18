@@ -9,7 +9,7 @@
 #pragma once
 #include "buPrerequisitesUtil.h"
 #include "buMath.h"
-
+#include "buSerializer.h"
 namespace buEngineSDK {
  class BU_UTILITY_EXPORT buVector2I
  {
@@ -34,22 +34,22 @@ namespace buEngineSDK {
    * @return 
    * @bug 
    */
-  ~buVector2I();
+  //~buVector2I();
   /**
    * @brief Copy constructors 
    * @param 
    * @return 
    * @bug 
    */
-  buVector2I(const buVector2I& _v);
+  //buVector2I(const buVector2I& _v);
   /**
    * @brief Constructor to equal a vector
    * @param 
    * @return 
    * @bug 
    */
-  buVector2I& 
-  operator=(const buVector2I& _v);
+  //buVector2I& 
+  //operator=(const buVector2I& _v);
   /**
    * @brief Method for addition of another vector
    * @param 
@@ -160,4 +160,5 @@ namespace buEngineSDK {
    */
   static const buVector2I Zero;
  };
+ BU_ALLOW_MEMCPY_SERIALIZATION(buVector2I);
 }

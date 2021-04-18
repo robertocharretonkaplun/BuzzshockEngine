@@ -6,26 +6,11 @@ namespace buEngineSDK {
   buVector4F::buVector4F(float _x, float _y, float _z, float _w)
     : x(_x), y(_y), z(_z), w(_w) { }
 
-  buVector4F::~buVector4F() { }
-
-  buVector4F::buVector4F(const buVector4F& _v)
-    : x(_v.x), y(_v.y), z(_v.z), w(_v.w) { }
-
   buVector4F::buVector4F(float _arr[4]) 
     : x(_arr[0]), y(_arr[1]), z(_arr[2]), w(_arr[0]) {}
 
   buVector4F::buVector4F(float _arr[3], float _const)
     : x(_arr[0]), y(_arr[1]), z(_arr[2]), w(_const) {}
-
-
-  buVector4F&
-  buVector4F::operator=(const buVector4F& _v) {
-    x = _v.x;
-    y = _v.y;
-    z = _v.z;
-    w = _v.w;
-    return *this;
-  }
 
   buVector4F& 
   buVector4F::operator+=(const buVector4F& _v) {

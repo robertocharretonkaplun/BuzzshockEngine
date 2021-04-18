@@ -6,17 +6,6 @@ namespace buEngineSDK {
 
   buVector2F::buVector2F(float _x, float _y) : x(_x), y(_y) { }
 
-  buVector2F::~buVector2F() { }
-
-  buVector2F::buVector2F(const buVector2F& _v) : x(_v.x), y(_v.y) { }
-
-  buVector2F&
-  buVector2F::operator=(const buVector2F& _v) {
-    x = _v.x;
-    y = _v.y;
-    return *this;
-  }
-
   buVector2F&
   buVector2F::operator+=(const buVector2F& _v) {
     *this = *this + _v;

@@ -10,6 +10,7 @@
 
 #include "buPrerequisitesUtil.h"
 #include "buMath.h"
+#include "buSerializer.h"
 
 namespace buEngineSDK {
  class BU_UTILITY_EXPORT buVector4I
@@ -37,7 +38,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  ~buVector4I();
+  //~buVector4I();
 
   /**
    * @brief Copy constructors
@@ -45,7 +46,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector4I(const buVector4I& _v);
+  //buVector4I(const buVector4I& _v);
 
   /**
    * @brief Constructor to equal a vector
@@ -53,8 +54,8 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector4I& 
-  operator=(const buVector4I& _v);
+  //buVector4I& 
+  //operator=(const buVector4I& _v);
 
   /**
    * @brief Method for addition of another vector
@@ -159,5 +160,6 @@ namespace buEngineSDK {
   static const buVector4I Zero;
   
  };
+ BU_ALLOW_MEMCPY_SERIALIZATION(buVector4I);
 }
 

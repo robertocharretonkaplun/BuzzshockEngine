@@ -13,6 +13,8 @@
 #include "buVector4F.h"
 #include "buVector3F.h"
 #include <buMatrix3x3.h>
+#include "buSerializer.h"
+
 namespace buEngineSDK {
   class BU_UTILITY_EXPORT buMatrix4x4
   {
@@ -41,12 +43,12 @@ namespace buEngineSDK {
    /**
     * @brief Copy constructor
     */
-   buMatrix4x4(const buMatrix4x4& _mat);
+   //buMatrix4x4(const buMatrix4x4& _mat);
    
    /**
     * @brief Destructor
     */
-   ~buMatrix4x4();
+   //~buMatrix4x4();
    
    /**
     * @brief Method for addition of another matrix, 
@@ -198,4 +200,5 @@ namespace buEngineSDK {
    static const buMatrix4x4 IDENTITY;
 
   };
+  BU_ALLOW_MEMCPY_SERIALIZATION(buMatrix4x4);
 }
