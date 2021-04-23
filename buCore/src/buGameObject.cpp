@@ -124,6 +124,7 @@ namespace buEngineSDK {
 
   }
 
+
   void
   buGameObject::vec3Control(String label, float* values, float resetValues, float columnWidth) {
     

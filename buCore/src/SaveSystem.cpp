@@ -9,23 +9,31 @@ namespace buEngineSDK {
   }
   
   void
-  SaveSystem::saveSerialization(String mem) {
-    String tmpFileData = "[ " + mem + " ];";
-    std::ofstream m_data("Data/SavedData/Serialization.bu", std::ios::app);
-    m_data << tmpFileData;
+  SaveSystem::saveSerialization(Vector<BYTE> mem) {
+    //String tmpFileData = "[ " + mem + " ];";
+    std::ofstream m_data("Data/SavedData/Serialization.bu", std::ios::app | std::ios::binary);
+    m_data.write(mem.data(), mem.size());
     m_data.close();
   }
 
-  String SaveSystem::getSerialization()
+  void SaveSystem::saveSerialization(BYTE mem)
   {
-    std::ifstream readData("Data/SavedData/Serialization.bu", std::ios::in);
-    String tmpFileData;
-    while (!readData.eof()) {
-      std::getline(readData, tmpFileData);
-    }
+    std::ofstream m_data("Data/SavedData/Serialization.bu", std::ios::out | std::ios::binary);
+    m_data.write(&mem, sizeof(BYTE));
+    m_data.close();
+  }
+
+  Vector<BYTE> SaveSystem::getSerialization()
+  {
+    Vector<BYTE> Buffer;
+    Buffer.reserve(4096);
+    std::ifstream readData("Data/SavedData/Serialization.bu", std::ios::in | std::ios::binary);
     
+    readData.read(Buffer.data(), 4096);
+    
+
     readData.close();
-    return tmpFileData;
+    return Buffer;
   }
 
   void

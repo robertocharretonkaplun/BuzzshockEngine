@@ -198,7 +198,7 @@ namespace buEngineSDK {
   void
   normalize();
   
-  float *
+  Vector<BYTE>
   data();
 
  public:

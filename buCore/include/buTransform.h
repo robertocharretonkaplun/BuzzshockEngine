@@ -2,6 +2,7 @@
 #include <buPrerequisitesCore.h>
 #include <buVector3F.h>
 #include <buMatrix4x4.h>
+#include <buSerializer.h>
 
 namespace buEngineSDK {
 	class BU_CORE_EXPORT buTransform
@@ -13,6 +14,7 @@ namespace buEngineSDK {
 		void
 		update(buVector3F _pos, buVector3F _rot, buVector3F _scal, float _angle);
 
+
 	public:
 		String m_name = "Transform";
 		buMatrix4x4 m_world;
@@ -21,4 +23,5 @@ namespace buEngineSDK {
 		buVector3F m_scale;
 		float m_angle;
 	};
+
 }

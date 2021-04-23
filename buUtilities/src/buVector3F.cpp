@@ -117,8 +117,12 @@ namespace buEngineSDK {
     
   }
 
-  float *
+  Vector<BYTE>
   buVector3F::data() {
-    return nullptr;
-  }
+    Vector<BYTE> Buffer;
+    Buffer.resize(sizeof(buVector3F) );
+    RTTIEmptyType<buVector3F> Position_object;
+    Position_object.toMemory(buVector3F(x,y,z), Buffer.data());
+    return Buffer;
+   }
 }

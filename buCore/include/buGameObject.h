@@ -28,6 +28,7 @@ namespace buEngineSDK {
 			m_model.m_textures.push_back(tmpTex);
 		}
 
+
 		void drawUI();
 
 
@@ -57,5 +58,6 @@ namespace buEngineSDK {
 		bool m_isSelected = false;
 		bool m_isUsed = false;
 		bool m_isActorHiddenInGame = false;
+		bool m_serialize = false;
 	};
 }

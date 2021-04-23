@@ -15,29 +15,26 @@ namespace buEngineSDK {
     // Initialize the renderer 
     //auto& renderMan = g_renderAPI();
     //renderMan.init(m_window, m_screenWidth, m_screenHeight);
-   /* CHAR buffer[4096] = { 0 };
+    BYTE buffer[4096] = { 0 };
+    Vector<BYTE> ToMem;
+    Vector<BYTE> FromMem;
+
+    ToMem.resize(sizeof(buVector3F));
+    FromMem.reserve(4096);
     RTTIEmptyType<buVector3F> obj;
-    obj.toMemory(buVector3F(5, 15, 20), buffer);
+    //obj.toMemory(buVector3F(5, 15, 20), buffer);
+    //obj.toMemory(buVector3F(5, 15, 20), ToMem.data());
+    //
+    //for (uint32 i = 0; i < 4096; i++) {
+    //  ToMem.push_back(buffer[i]);
+    //}
+    //
+    //m_saverMan.saveSerialization(ToMem);
+    FromMem = m_saverMan.getSerialization();
 
-    String meml;
 
-    meml = buffer;
-    for (uint32 i = 0; i < 4096; i++)
-    {
-      meml += buffer[i];
-    }
-
-    m_saverMan.saveSerialization(meml);
-    String Data = m_saverMan.getSerialization();
     buVector3F empty;
-
-    CHAR buffer2[4096] = { 0 };
-    for (uint32 i = 0; i < 4096; i++)
-    {
-      buffer2[i] += meml[i];
-    }
-
-    obj.fromMemory(empty, buffer2);*/
+    obj.fromMemory(empty, &FromMem.data()[sizeof(empty)-1]);
     onCreate();
     loadInformation();
     // Init Imgui
@@ -209,6 +206,22 @@ namespace buEngineSDK {
       m_scene_graph.getSelectedGO().drawUI();
       m_scene_graph.drawUI();
 
+      ImGui::Begin("Serialization");
+      if (ImGui::Button("Save")) {
+
+
+        m_saverMan.saveSerialization(position.data());
+        m_saverMan.saveSerialization(scale.data());
+      }
+      if (ImGui::Button("Load")) {
+        Vector<BYTE> buffer;
+        buffer = m_saverMan.getSerialization();
+        RTTIEmptyType<buVector3F> obj;
+        buVector3F pos;
+        obj.fromMemory(pos, buffer.data());
+      }
+      ImGui::End();
+      //m_scene_graph.getSelectedGO().m_transform.serialize();
       //buMatrix4x4 scaleMat = { scale.x,0,0,0,
       //                      0,scale.y,0,0,
       //                      0,0,scale.z,0,

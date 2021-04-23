@@ -24,9 +24,13 @@ namespace buEngineSDK {
 		setSaveFile(String _filename);
 
 		void
-		saveSerialization(String mem);
+		saveSerialization(Vector<BYTE> mem);
+		
+		void
+		saveSerialization(BYTE mem);
 
-		String getSerialization();
+		Vector<BYTE> 
+		getSerialization();
 
 		/**
 		 * @brief Method in charge of saving a string on the file.
