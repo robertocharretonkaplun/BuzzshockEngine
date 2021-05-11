@@ -99,7 +99,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -141,7 +141,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>

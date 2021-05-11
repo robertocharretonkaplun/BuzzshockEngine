@@ -15,13 +15,13 @@ namespace buEngineSDK {
     // Initialize the renderer 
     //auto& renderMan = g_renderAPI();
     //renderMan.init(m_window, m_screenWidth, m_screenHeight);
-    BYTE buffer[4096] = { 0 };
-    Vector<BYTE> ToMem;
-    Vector<BYTE> FromMem;
-
-    ToMem.resize(sizeof(buVector3F));
-    FromMem.reserve(4096);
-    RTTIEmptyType<buVector3F> obj;
+    //BYTE buffer[4096] = { 0 };
+    //Vector<BYTE> ToMem;
+    //Vector<BYTE> FromMem;
+    //
+    //ToMem.resize(sizeof(buVector3F));
+    //FromMem.reserve(4096);
+    //RTTIEmptyType<buVector3F> obj;
     //obj.toMemory(buVector3F(5, 15, 20), buffer);
     //obj.toMemory(buVector3F(5, 15, 20), ToMem.data());
     //
@@ -30,11 +30,18 @@ namespace buEngineSDK {
     //}
     //
     //m_saverMan.saveSerialization(ToMem);
-    FromMem = m_saverMan.getSerialization();
+    //FromMem = m_saverMan.getSerialization();
+    //
+    //
+    //buVector3F empty;
+    //obj.fromMemory(empty, &FromMem.data()[sizeof(empty)-1]);
 
+    // Json write
+    m_json.openDoc();
 
-    buVector3F empty;
-    obj.fromMemory(empty, &FromMem.data()[sizeof(empty)-1]);
+    m_json.writePositions(buVector3F(1, 2, 3));
+    m_json.createBuf();
+
     onCreate();
     loadInformation();
     // Init Imgui
@@ -208,10 +215,11 @@ namespace buEngineSDK {
 
       ImGui::Begin("Serialization");
       if (ImGui::Button("Save")) {
-
-
-        m_saverMan.saveSerialization(position.data());
-        m_saverMan.saveSerialization(scale.data());
+        Vector<BYTE> buffer;
+        uint32 spaceAval = 0;
+        spaceAval += m_saverMan.serializeVec3(scale, buffer);
+        spaceAval+= m_saverMan.serializeVec3(position, buffer);
+        m_saverMan.saveSerialization(buffer);
       }
       if (ImGui::Button("Load")) {
         Vector<BYTE> buffer;

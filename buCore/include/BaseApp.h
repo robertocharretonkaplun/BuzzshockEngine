@@ -23,6 +23,7 @@
 #include "buTime.h"
 
 #include "ImGuizmo\ImGuizmo.h"
+#include "buJsonParser.h"
 
 
 //#include "imgui\imGuiDocking\imgui.h"
@@ -307,5 +308,6 @@ namespace buEngineSDK {
 		bool IsEngineInitialized = false;
 		bool useWindow = false;
 		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		buJsonParser m_json;
 	};
 }

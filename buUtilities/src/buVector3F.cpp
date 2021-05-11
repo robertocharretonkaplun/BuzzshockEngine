@@ -125,4 +125,9 @@ namespace buEngineSDK {
     Position_object.toMemory(buVector3F(x,y,z), Buffer.data());
     return Buffer;
    }
+
+  uint32
+  buVector3F::memSize() {
+    return sizeof(buVector3F);
+  }
 }

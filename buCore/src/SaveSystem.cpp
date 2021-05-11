@@ -9,11 +9,24 @@ namespace buEngineSDK {
   }
   
   void
-  SaveSystem::saveSerialization(Vector<BYTE> mem) {
+  SaveSystem::saveSerialization(Vector<BYTE>& mem) {
     //String tmpFileData = "[ " + mem + " ];";
-    std::ofstream m_data("Data/SavedData/Serialization.bu", std::ios::app | std::ios::binary);
+    std::ofstream m_data("Data/SavedData/Serialization.bu", std::ios::out | std::ios::binary);
     m_data.write(mem.data(), mem.size());
     m_data.close();
+  }
+ 
+  uint32
+  SaveSystem::serializeVec3(buVector3F& vec, Vector<BYTE>& outBuffer) {
+    auto space = outBuffer.capacity() - outBuffer.size();
+    if (space < sizeof(buVector3F)) {
+      outBuffer.reserve(outBuffer.size() + vec.memSize());
+    }
+    memcpy(outBuffer.data(), &vec, sizeof(buVector3F));
+    //RTTIEmptyType<buVector3F> obj;
+    //obj.toMemory(vec, &outBuffer[outBuffer.size()-1]);
+
+    return vec.memSize();
   }
 
   void SaveSystem::saveSerialization(BYTE mem)
@@ -26,10 +39,14 @@ namespace buEngineSDK {
   Vector<BYTE> SaveSystem::getSerialization()
   {
     Vector<BYTE> Buffer;
-    Buffer.reserve(4096);
     std::ifstream readData("Data/SavedData/Serialization.bu", std::ios::in | std::ios::binary);
     
-    readData.read(Buffer.data(), 4096);
+    //readData.seekg(0, readData.end);
+    //uint32 length = readData.tellg();
+    //readData.seekg(0, readData.beg);
+    //
+    Buffer.resize(sizeof(buVector3F));
+    readData.read(Buffer.data(), 0);//sizeof(buVector3F));
     
 
     readData.close();

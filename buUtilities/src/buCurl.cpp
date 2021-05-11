@@ -19,17 +19,41 @@ namespace buEngineSDK {
 
   }
   void
-  buCurl::post() {
+  buCurl::post(String _url, char* data) {
     if (m_curl) {
-      curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, "name=charre&project=curl");
+      curl_easy_setopt(m_curl, CURLOPT_URL, _url);
+      curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, data);
+
+      /* if we don't provide POSTFIELDSIZE, libcurl will strlen() by
+         itself */
+      curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, (long)strlen(data));
 
       /* Perform the request, res will get the return code */
       m_res = curl_easy_perform(m_curl);
       /* Check for errors */
-      if (m_res != CURLE_OK) {
-        std::cout << "curl_easy_perform() " << curl_easy_strerror(m_res) << std::endl;
-      }
+      if (m_res != CURLE_OK)
+        fprintf(stderr, "curl_easy_perform() failed: %s\n",
+          curl_easy_strerror(m_res));
+
+      /* always cleanup */
       curl_easy_cleanup(m_curl);
     }
+  }
+
+  void buCurl::get(String _url)
+  {
+    curl_easy_setopt(m_curl, CURLOPT_URL, _url);
+    /* example.com is redirected, so we tell libcurl to follow redirection */
+    curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    /* Perform the request, res will get the return code */
+    m_res = curl_easy_perform(m_curl);
+    /* Check for errors */
+    if (m_res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+        curl_easy_strerror(m_res));
+
+    /* always cleanup */
+    curl_easy_cleanup(m_curl);
   }
 }

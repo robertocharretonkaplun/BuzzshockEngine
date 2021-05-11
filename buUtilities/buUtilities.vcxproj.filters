@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Socket">
       <UniqueIdentifier>{15d25c52-bae1-4a93-8b12-794469f943dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Json">
+      <UniqueIdentifier>{41e0b9af-fa6e-4cdb-b22a-098c0aed59e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Json">
+      <UniqueIdentifier>{c853af15-2f07-4806-b84b-98634b4f5b77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -159,6 +165,9 @@
     <ClInclude Include="include\buSocket.h">
       <Filter>Header Files\Sockets</Filter>
     </ClInclude>
+    <ClInclude Include="include\buJsonParser.h">
+      <Filter>Header Files\Json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -241,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="src\buSocket.cpp">
       <Filter>Source Files\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buJsonParser.cpp">
+      <Filter>Source Files\Json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

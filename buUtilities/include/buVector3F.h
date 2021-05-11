@@ -201,6 +201,9 @@ namespace buEngineSDK {
   Vector<BYTE>
   data();
 
+  uint32
+  memSize();
+
  public:
   /**
    * @brief Member in charge of storing the point of the x - coordinate.

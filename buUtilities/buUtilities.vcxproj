@@ -98,7 +98,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>BU_UTILITY_EXPORTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
@@ -148,7 +148,7 @@
       <PreprocessorDefinitions>BU_UTILITY_EXPORTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -196,6 +196,7 @@
     <ClInclude Include="include\buDegrees.h" />
     <ClInclude Include="include\buFrustrum.h" />
     <ClInclude Include="include\buHeap.h" />
+    <ClInclude Include="include\buJsonParser.h" />
     <ClInclude Include="include\buLogger.h" />
     <ClInclude Include="include\buMath.h" />
     <ClInclude Include="include\buMatrix3x3.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="src\buDegrees.cpp" />
     <ClCompile Include="src\buFrustrum.cpp" />
     <ClCompile Include="src\buHeap.cpp" />
+    <ClCompile Include="src\buJsonParser.cpp" />
     <ClCompile Include="src\buLogger.cpp" />
     <ClCompile Include="src\buMath.cpp" />
     <ClCompile Include="src\buMatrix3x3.cpp" />

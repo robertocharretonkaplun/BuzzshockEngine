@@ -4,6 +4,7 @@
 #include <buVector3F.h>
 #include <buVector4i.h>
 #include <buVector3i.h>
+#include <buSerializer.h>
 namespace buEngineSDK {
 	class BU_CORE_EXPORT SaveSystem
 	{
@@ -24,8 +25,11 @@ namespace buEngineSDK {
 		setSaveFile(String _filename);
 
 		void
-		saveSerialization(Vector<BYTE> mem);
+		saveSerialization(Vector<BYTE> &mem);
 		
+		uint32
+		serializeVec3(buVector3F & vec, Vector<BYTE> & outBuffer);
+
 		void
 		saveSerialization(BYTE mem);
 
@@ -139,5 +143,7 @@ namespace buEngineSDK {
 		
 		Map<String, int[4]> m_vec4i;
 		Map<String, int[3]> m_vec3i;
+
+		uint32 m_space = 0;
 	};
 }
