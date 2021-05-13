@@ -92,7 +92,8 @@ namespace buEngineSDK {
 		rapidjson::Writer<rapidjson::StringBuffer> writer(strbuf);
 		m_document.Accept(writer);
 
-		String BUFF = strbuf.GetString();
+		m_buffer = strbuf.GetString();
+		std::cout << std::endl;
 		std::cout << strbuf.GetString() << std::endl;
 	}
 

@@ -101,7 +101,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -149,7 +149,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>

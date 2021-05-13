@@ -36,11 +36,8 @@ namespace buEngineSDK {
     //buVector3F empty;
     //obj.fromMemory(empty, &FromMem.data()[sizeof(empty)-1]);
 
-    // Json write
+    // Crate Json open document
     m_json.openDoc();
-
-    m_json.writePositions(buVector3F(1, 2, 3));
-    m_json.createBuf();
 
     onCreate();
     loadInformation();
@@ -228,6 +225,25 @@ namespace buEngineSDK {
         buVector3F pos;
         obj.fromMemory(pos, buffer.data());
       }
+      ImGui::End();
+
+      // Server Window for elastic search + curl
+      ImGui::Begin("Server");
+      if (ImGui::Button("Store current position")) {
+        m_json.writePositions(position);
+        m_json.createBuf();
+      }
+      ImGui::Text("----- Json Buffer -----");
+      ImGui::Text(m_json.m_buffer.c_str());
+
+      if (ImGui::Button("POST")) {
+        m_curl.post("http://localhost:9200/mytutorialindex/_bulk?pretty -d", m_json.m_buffer.data());
+      }
+
+      if (ImGui::Button("GET")) {
+        m_curl.get("http://localhost:9200/mytutorialindex/message?pretty");
+      }
+      
       ImGui::End();
       //m_scene_graph.getSelectedGO().m_transform.serialize();
       //buMatrix4x4 scaleMat = { scale.x,0,0,0,

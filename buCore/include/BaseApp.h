@@ -24,7 +24,7 @@
 
 #include "ImGuizmo\ImGuizmo.h"
 #include "buJsonParser.h"
-
+#include "buCurl.h"
 
 //#include "imgui\imGuiDocking\imgui.h"
 //#include "imgui\imGuiDocking\imgui_impl_dx11.h"
@@ -308,6 +308,9 @@ namespace buEngineSDK {
 		bool IsEngineInitialized = false;
 		bool useWindow = false;
 		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+
+		// Server variables
 		buJsonParser m_json;
+		buCurl m_curl;
 	};
 }

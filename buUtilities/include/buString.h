@@ -65,5 +65,13 @@ namespace buEngineSDK {
       }
       return hash ^ (hash >> 16);
     };
+
+    static String ToString(uint32 _val) {
+      String str;
+      StringStream ss;
+      ss << _val;
+      ss >> str;
+      return str;
+    }
   };
 }

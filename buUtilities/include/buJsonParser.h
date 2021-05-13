@@ -61,5 +61,7 @@ namespace buEngineSDK {
 		rapidjson::Document m_document;
 		rapidjson::Document::AllocatorType allocator;
 		rapidjson::Value s;
+	public:
+		String m_buffer;
 	};
 }

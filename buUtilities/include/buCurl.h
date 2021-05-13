@@ -2,7 +2,7 @@
 #include "buPrerequisitesUtil.h"
 #include "curl\curl.h"
 namespace buEngineSDK {
-	class buCurl
+	class BU_UTILITY_EXPORT buCurl
 	{
 	public:
 		buCurl() = default;
