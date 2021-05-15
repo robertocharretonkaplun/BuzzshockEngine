@@ -13,7 +13,7 @@ namespace buEngineSDK {
      * @brief Method in charge of post information to http service.
      */
 		void
-		post(String _url, char * data);
+		post(String _url, String data);
 
 		void
 		get(String _url);

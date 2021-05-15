@@ -237,11 +237,11 @@ namespace buEngineSDK {
       ImGui::Text(m_json.m_buffer.c_str());
 
       if (ImGui::Button("POST")) {
-        m_curl.post("http://localhost:9200/mytutorialindex/_bulk?pretty -d", m_json.m_buffer.data());
+        m_curl.post("http://localhost:9200/mytutorialindex/message?pretty", m_json.m_buffer.data());
       }
 
       if (ImGui::Button("GET")) {
-        m_curl.get("http://localhost:9200/mytutorialindex/message?pretty");
+        m_curl.get("http://localhost:9200/mytutorialindex/_search?pretty");
       }
       
       ImGui::End();
