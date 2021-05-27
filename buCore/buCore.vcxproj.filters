@@ -22,6 +22,24 @@
     <Filter Include="ImGui\ImGuizmo">
       <UniqueIdentifier>{3c4728e7-08dc-4192-a2f2-553b04e6e743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MayaImport">
+      <UniqueIdentifier>{5f517eaa-2ba7-4b01-bc98-375b18347fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MayaExport">
+      <UniqueIdentifier>{9c60270f-13ec-4e8a-9898-5ac804bb967b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MayaImport">
+      <UniqueIdentifier>{fbd41819-57f5-40d6-898b-6011c226a2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MayaExport">
+      <UniqueIdentifier>{9ec15fa0-8be4-4e7c-983c-66a8412557c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{674f73d8-44e1-43df-b753-ec119206062e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Rigidbody">
+      <UniqueIdentifier>{23cbf4d6-5fad-430d-bc7e-fd2e8d53265e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buCoreGraphicsAPI.cpp">
@@ -107,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="..\dependencies\ImGuizmo\ImSequencer.cpp">
       <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buMayaImport.cpp">
+      <Filter>Source Files\MayaImport</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="..\dependencies\ImGuizmo\ImZoomSlider.h">
       <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buMayaImport.h">
+      <Filter>Header Files\MayaImport</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buRigidbody.h">
+      <Filter>Header Files\Physics\Rigidbody</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

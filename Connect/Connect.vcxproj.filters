@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Nucleus">
+      <UniqueIdentifier>{bb56d892-d23b-4d42-aea9-d19a37ef453c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connector">
+      <UniqueIdentifier>{81dbcb60-c984-433d-9d4d-ddf4df6eed1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{675ee777-1821-4d96-968d-296ef68c8b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Nucleus">
+      <UniqueIdentifier>{09ee372f-462e-4709-b5cb-d2286657a8b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{9564d315-c7a0-41f9-a216-7f6603e08ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Connector">
+      <UniqueIdentifier>{23604ae0-b7b9-49d4-8374-5dc52ede4926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Director">
+      <UniqueIdentifier>{bd92ba18-e11e-46e5-9773-f48e36aceeb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Director">
+      <UniqueIdentifier>{2648d311-f16d-474a-b456-3f73fd56d1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\User">
+      <UniqueIdentifier>{d215e7a0-c479-4997-948d-20b929c98259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lobby">
+      <UniqueIdentifier>{976be69f-3dfe-415e-a9e3-ddb6f5427f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lobby">
+      <UniqueIdentifier>{40ff7504-f6f1-4215-8e74-009ac79277f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\User">
+      <UniqueIdentifier>{72787dbb-c858-4480-b8db-3846c5fb8fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Prerequesites">
+      <UniqueIdentifier>{1389370b-7a86-4761-a531-10ef280d11c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PlatformDefines">
+      <UniqueIdentifier>{c9bee980-7edc-41e6-af68-3d13354956c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\buCODirector.h">
+      <Filter>Header Files\Director</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PlatformDefines.h">
+      <Filter>Header Files\PlatformDefines</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PrerequisitesConnect.h">
+      <Filter>Header Files\Prerequesites</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCOLobby.h">
+      <Filter>Header Files\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCOUser.h">
+      <Filter>Header Files\User</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCOServer.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\buCODirector.cpp">
+      <Filter>Source Files\Director</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

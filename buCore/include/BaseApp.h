@@ -25,10 +25,9 @@
 #include "ImGuizmo\ImGuizmo.h"
 #include "buJsonParser.h"
 #include "buCurl.h"
+#include "buRigidbody.h"
+#include "buMayaImport.h"
 
-//#include "imgui\imGuiDocking\imgui.h"
-//#include "imgui\imGuiDocking\imgui_impl_dx11.h"
-//#include "imgui\imGuiDocking\imgui_impl_win32.h"
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
 																						  WPARAM wParam,
@@ -312,5 +311,9 @@ namespace buEngineSDK {
 		// Server variables
 		buJsonParser m_json;
 		buCurl m_curl;
+
+		// Physics
+		buRigidbody m_rigidbody;
+
 	};
 }
