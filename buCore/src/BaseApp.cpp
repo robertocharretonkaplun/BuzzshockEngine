@@ -40,7 +40,8 @@ namespace buEngineSDK {
     m_json.openDoc();
 
     onCreate();
-    loadInformation();
+
+    //loadInformation();
     // Init Imgui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -173,6 +174,14 @@ namespace buEngineSDK {
     ImGui::NewFrame();
     ImGuizmo::BeginFrame();
 
+    if (!IsEngineInitialized || !IsConnectInitialized) {
+      login();
+    }
+
+    if (IsConnectInitialized) {
+      MainMenu();
+      showConnectWindow();
+    }
 
     if (IsEngineInitialized) {
       ImGui::Begin("Change Log");
@@ -258,9 +267,8 @@ namespace buEngineSDK {
 
 
     }
-    else {
-      login();
-    }
+    
+
 
     // Update scene information
     // Update the renderer
@@ -338,11 +346,12 @@ namespace buEngineSDK {
   void 
   BaseApp::render() {
     // Draw the renderer
-    //auto& renderMan = g_renderAPI();
-    //renderMan.render();
     onRender();   
-    m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    renderBillBoard(m_scene_graph.getSelectedGO());
+    if (IsEngineInitialized)
+    {
+      m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+      renderBillBoard(m_scene_graph.getSelectedGO());
+    }
     // Render ImGui Data
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -873,19 +882,83 @@ namespace buEngineSDK {
 
   void 
   BaseApp::login() {
-    ImGui::Begin("Login");
-    ImGui::Text("New Project Categories");
 
-    if (ImGui::Button("Rendering", ImVec2(120, 30))) {
-      IsEngineInitialized = true;
-      //loadInformation();
+    if (deactivateLogin) {
+      ImGui::Begin("Login");
+      ImGui::Text("New Project Categories");
+
+      if (ImGui::Button("Rendering", ImVec2(120, 30))) {
+        IsEngineInitialized = true;
+        loadInformation();
+        deactivateLogin = false;
+      }
+
+      if (ImGui::Button("Start Buzzshock Connect", ImVec2(120, 30))) {
+        IsConnectInitialized = true;
+        deactivateLogin = false; 
+      }
+      ImGui::End();
     }
+  }
 
-    if (ImGui::Button("Live production", ImVec2(120, 30)))
-    {
+  void 
+  BaseApp::showConnectWindow() {
+    ImGui::Begin("Buzzshock Connect");
 
+    ImGui::End();
+
+    ImGui::Begin("Buzzshock Connect Server");
+   
+    String title = "Server initialization";
+    ImGui::Text(title.c_str());
+    ImGui::Separator();
+    toggleButton("Basic", &m_isAdvanceServerInitialization);
+    ImGui::SameLine();
+    ImGui::Text("Basic / Advanced");
+    ImGui::Separator();
+    if (m_isAdvanceServerInitialization) {
+      m_serverType = "Advanced";
+      static char serverName[128] = "";
+      static char path[128] = "";
+      static char port[128] = "";
+      static char address[128] = "";
+      ImGui::InputTextWithHint("Server Name", "Enter the server name...", serverName, IM_ARRAYSIZE(serverName));
+      ImGui::InputTextWithHint("Server Path", "Enter the server path...", path, IM_ARRAYSIZE(path));
+      ImGui::InputTextWithHint("Server Port", "Enter the server port...", port, IM_ARRAYSIZE(port));
+      ImGui::InputTextWithHint("Server Address", "Enter the server address...", address, IM_ARRAYSIZE(address));
+      if (ImGui::Button("Submit")) {
+
+      }
+    }
+    if (!m_isAdvanceServerInitialization) {
+      m_serverType = "Basic";
+      static char Path[128] = "";
+      ImGui::InputTextWithHint("Server Path", "Enter the server path...", Path, IM_ARRAYSIZE(Path));
+      if (ImGui::Button("Submit")) {
+
+      }
     }
     ImGui::End();
+
+    ImGui::Begin("Omniverse Server");
+
+    ImGui::End();
+
+    ImGui::Begin("Server Data");
+    ImGui::Text("Files in server");
+    ImGui::End();
+
+    ImGui::Begin("Lobby");
+
+    ImGui::End();
+
+    ImGui::Begin("Server Status");
+    String status = "Status: ";
+    String msg = status + "Waiting connection";
+    ImGui::Text(msg.c_str());
+
+    ImGui::End();
+
   }
 
 
@@ -918,6 +991,27 @@ namespace buEngineSDK {
       mCurrentGizmoOperation = ImGuizmo::OPERATION::SCALE;
     }
     ImGui::End();
+  }
+
+  void 
+  BaseApp::toggleButton(const char* str_id, bool* v) {
+    ImVec2 p = ImGui::GetCursorScreenPos();
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+    float height = ImGui::GetFrameHeight();
+    float width = height * 1.55f;
+    float radius = height * 0.50f;
+
+    if (ImGui::InvisibleButton(str_id, ImVec2(width, height)))
+      *v = !*v;
+    ImU32 col_bg;
+    if (ImGui::IsItemHovered())
+      col_bg = *v ? IM_COL32(145 + 20, 211, 68 + 20, 255) : IM_COL32(218 - 20, 218 - 20, 218 - 20, 255);
+    else
+      col_bg = *v ? IM_COL32(145, 211, 68, 255) : IM_COL32(218, 218, 218, 255);
+
+    draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height * 0.5f);
+    draw_list->AddCircleFilled(ImVec2(*v ? (p.x + width - radius) : (p.x + radius), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
   }
 
   LRESULT

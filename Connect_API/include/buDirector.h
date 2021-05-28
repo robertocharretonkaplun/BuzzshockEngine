@@ -1,3 +1,11 @@
+/**
+ * @brief This class is in charge of creating all the methods that will
+ * be necessary to create, implement, use, and manage the connect features from
+ * the tool.
+ * This class works as a module for future instances in the engine, so it will be
+ * necessary to be manage as a module when you call it in Connect_API -> Director
+ * class.
+ */
 #pragma once
 #include "buCODirector.h"
 namespace buEngineSDK {

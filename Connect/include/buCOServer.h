@@ -6,6 +6,13 @@
 #include "PrerequisitesConnect.h"
 
 namespace buEngineSDK {
+	enum ServerStatus {
+		Default = 0,
+		Waiting = 1,
+		Ready = 2,
+		NotReady = 3,
+	};
+
 	class buCOServer {
 	public:
 		/**
@@ -23,6 +30,8 @@ namespace buEngineSDK {
 		virtual void
 		create() {};
 
+		virtual ServerStatus 
+		getServerStatus() {return ServerStatus(); }
 	private:
 
 	};

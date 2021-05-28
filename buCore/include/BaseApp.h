@@ -158,6 +158,9 @@ namespace buEngineSDK {
 		void 
 		login();
 
+		void
+		showConnectWindow();
+
 		/**
 		 * @brief 
 		 */
@@ -166,7 +169,9 @@ namespace buEngineSDK {
 
 		void
 		buGizmo(float* matrix);
-
+		
+		void
+		toggleButton(const char* str_id, bool* v);
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -305,6 +310,8 @@ namespace buEngineSDK {
 		buTime m_time;
 		// UI variables 
 		bool IsEngineInitialized = false;
+		bool IsConnectInitialized = false;
+		bool deactivateLogin = true;
 		bool useWindow = false;
 		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 
@@ -315,5 +322,8 @@ namespace buEngineSDK {
 		// Physics
 		buRigidbody m_rigidbody;
 
+		// Buzzshock Connect server
+		String m_serverType = "Basic / Advance ";
+		bool m_isAdvanceServerInitialization = false;
 	};
 }

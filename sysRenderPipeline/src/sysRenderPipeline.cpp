@@ -9,7 +9,7 @@ namespace buEngineSDK {
     createTemporalPipeline();
     // Create billboard
     createBillBoard();
-    histogram.init("927310.jpg");
+    //histogram.init("927310.jpg");
     //String message1 = "Engine initialization";
     //buLogger::GetLogger()->Log("message to be logged");
     //buLogger log;
