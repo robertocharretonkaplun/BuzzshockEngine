@@ -17,9 +17,16 @@ namespace buEngineSDK {
 	class BU_CONNECT_EXPORT buCODirector : public buModule<buCODirector>
 	{
 	public:
+		/**
+		 * @brief Default constructor
+		 */
 		buCODirector() = default;
+		
+		/**
+		 * @brief Default destructor
+		 */
+		~buCODirector() = default;
 
-	public:
 		/**
 		 * @brief Method in charge of creating an instances of the class
 		 */
@@ -28,6 +35,7 @@ namespace buEngineSDK {
 			buCODirector::_instance() = _api;
 		}
 		
+	public:
 		/**
 		 * @brief Method in charge of creating a virtual method for the initialization
 		 * of a lobby with server features and  objects

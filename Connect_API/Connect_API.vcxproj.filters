@@ -19,5 +19,33 @@
     <Filter Include="Header Files\Lobby">
       <UniqueIdentifier>{d91d55cc-b137-4628-93d1-217ae6449fe1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Director">
+      <UniqueIdentifier>{ae5b40bc-1119-4aa6-962a-371e35f18969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lobby">
+      <UniqueIdentifier>{673e146e-e2f3-463c-969f-6d999af2b2cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{4bf2b41c-5939-4cb3-921b-2d12a69724aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{72cf1f65-2678-42cd-b8df-dc9869e490a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{0bc25c6c-7bf5-4138-8865-cfa28ee10730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{84cb5ed1-3eda-48f7-8245-39e4667cf394}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\buDirector.h">
+      <Filter>Header Files\Director</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\buDirector.cpp">
+      <Filter>Source Files\Director</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
