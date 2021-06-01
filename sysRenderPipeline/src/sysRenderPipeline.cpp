@@ -192,7 +192,7 @@ namespace buEngineSDK {
     m_light.update(LB);
     
     //m_userInterface.update();
-    histogram.drawUI("Histogram", "Red");
+    //histogram.drawUI("Histogram", "Red");
 
   }
 
