@@ -37,6 +37,12 @@ namespace buEngineSDK {
 		
 	public:
 		/**
+		 * @brief Virtual method in charge of creating a server from the connect project.
+		 */
+		virtual void
+		createServer() {};
+
+		/**
 		 * @brief Method in charge of creating a virtual method for the initialization
 		 * of a lobby with server features and  objects
 		 */
@@ -69,6 +75,18 @@ namespace buEngineSDK {
 		virtual void
 		createConnector() {};
 
+		/**
+		 * @brief Virtual method in charge of getting the server status of the tool.
+		 */
+		virtual ServerStatus 
+		getServerStatus() {return ServerStatus(); }
+
+		/**
+		 * @brief Virtual method in charge of returning the server initialization
+		 * type.
+		 */
+		virtual ServerInitType
+		getServerInitType() { return ServerInitType(); }
 	private:
 
 	};

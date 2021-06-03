@@ -6,11 +6,19 @@
 #include "PrerequisitesConnect.h"
 
 namespace buEngineSDK {
+	enum ServerInitType {
+		Default = 0,
+		Basic = 1,
+		Advanced = 2,
+	};
+
 	enum ServerStatus {
 		Default = 0,
-		Waiting = 1,
-		Ready = 2,
-		NotReady = 3,
+		Offline = 1,
+		Waiting = 2,
+		Connecting = 3,
+		Ready = 4,
+		Online = 5,
 	};
 
 	class buCOServer {
@@ -30,8 +38,18 @@ namespace buEngineSDK {
 		virtual void
 		create() {};
 
+		/**
+		 * @brief Virtual method in charge of returning the status of the server
+		 */
 		virtual ServerStatus 
 		getServerStatus() {return ServerStatus(); }
+
+		/**
+		 * @brief Virtual method in charge of returning the server initialization
+		 * type.
+		 */
+		virtual ServerInitType
+		getServerInitType() { return ServerInitType(); }
 	private:
 
 	};

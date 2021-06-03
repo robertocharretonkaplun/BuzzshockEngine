@@ -8,6 +8,7 @@
  */
 #pragma once
 #include "buCODirector.h"
+#include "buServer.h"
 namespace buEngineSDK {
 	class buDirector : public buCODirector
 	{
@@ -23,6 +24,11 @@ namespace buEngineSDK {
 		~buDirector() = default;
 
 	public:
+		/**
+		 * @brief Method in charge of creating a server from the connect project.
+		 */
+		void
+		createServer() override;
 		/**
 		 * @brief Method in charge of creating a method for the initialization
 		 * of a lobby with server features and  objects
@@ -56,8 +62,21 @@ namespace buEngineSDK {
 		void
 		createConnector() override;
 
-	private:
+		/**
+		 * @brief Method in charge of getting the server status of the tool.
+		 */
+		ServerStatus 
+		getServerStatus() override;
 
+		/**
+		 * @brief Method in charge of returning the server initialization
+		 * type.
+		 */
+		ServerInitType
+		getServerInitType() override;
+	private:
+	private:
+		buServer m_server;
 	};
 	/**
 	* @brief Plugging exportation data method.

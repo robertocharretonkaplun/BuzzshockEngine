@@ -41,7 +41,6 @@ namespace buEngineSDK {
 
     onCreate();
 
-    //loadInformation();
     // Init Imgui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -64,9 +63,7 @@ namespace buEngineSDK {
         update(m_time.getDeltaTime());
         
         // Render frame
-        render();
-        
-        
+        render(); 
       }
     }
 
@@ -82,15 +79,16 @@ namespace buEngineSDK {
   void 
   BaseApp::initSystems() {
     if (m_directXPlug.loadPluggin("buDX_APId.dll")) {
+      // Initialize the graphics API from DX11
       auto createGraphicsAPI = reinterpret_cast<fnGraphicsAPIProt>(
         m_directXPlug.getProcedureByName("createGraphicAPI"));
-
+      // Initialize the Resource Manager
       auto createResourceManager = reinterpret_cast<fnresourceManagerProt>(
         m_directXPlug.getProcedureByName("createResourceManager"));
-      
+      // Initialize the app options
       auto createAppOptions = reinterpret_cast<fnAppOptionsProt>(
         m_directXPlug.getProcedureByName("createAppOptions"));
-
+      // Initialize the Camera Manager
       auto createCameraManager = reinterpret_cast<fnCameraManagerProt>(
         m_directXPlug.getProcedureByName("createCameraManager"));
 
@@ -168,106 +166,27 @@ namespace buEngineSDK {
 
   void 
   BaseApp::update(float _deltaTime = 0) {
-    // Draw ui
+    // Draw ui from imgui
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
     ImGuizmo::BeginFrame();
 
-    if (!IsEngineInitialized || !IsConnectInitialized) {
+    onUpdate(_deltaTime);
+    // Algorithm that update the different types and contexts of the engine
+    switch (m_initType) {
+    case InitType::Default:
       login();
-    }
-
-    if (IsConnectInitialized) {
+      break;
+    case InitType::BuzzshockEngine:
+      MainMenu();
+      BuzzshockEngineUpdate(_deltaTime);
+      break;
+    case InitType::BuzzshockConnect:
       MainMenu();
       showConnectWindow();
-    }
-
-    if (IsEngineInitialized) {
-      ImGui::Begin("Change Log");
-      for (auto go : m_logs) {
-        ImGui::Text(go.c_str());
-      }
-      ImGui::End();
-      MainMenu();
-      onUpdate(_deltaTime);
-      buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
-                       m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
-                       m_scene_graph.getSelectedGO().sca[2] * m_EngineScale);
-      buVector3F rotation(m_scene_graph.getSelectedGO().rot[0], m_scene_graph.getSelectedGO().rot[1], m_scene_graph.getSelectedGO().rot[2]);
-      buVector3F position(m_scene_graph.getSelectedGO().pos[0], m_scene_graph.getSelectedGO().pos[1], m_scene_graph.getSelectedGO().pos[2]);
-
-      buMatrix4x4 mat = buMatrix4x4::IDENTITY;
-      //position.x = dir.x;
-      ImGuizmo::RecomposeMatrixFromComponents(&position.x, &rotation.x, &scale.x, &mat.m_x0);
-
-      buGizmo(&mat.m_x0);
-      ImGuizmo::DecomposeMatrixToComponents(&mat.m_x0, &position.x, &rotation.x, &scale.x);
-
-      m_Scale[0] = scale.x;
-      m_Scale[1] = scale.y;
-      m_Scale[2] = scale.z;
-
-      m_Rotation[0] = rotation.x;
-      m_Rotation[1] = rotation.y;
-      m_Rotation[2] = rotation.z;
-
-      m_position[0] = position.x;
-      m_position[1] = position.y;
-      m_position[2] = position.z;
-      m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
-      m_scene_graph.getSelectedGO().drawUI();
-      m_scene_graph.drawUI();
-
-      ImGui::Begin("Serialization");
-      if (ImGui::Button("Save")) {
-        Vector<BYTE> buffer;
-        uint32 spaceAval = 0;
-        spaceAval += m_saverMan.serializeVec3(scale, buffer);
-        spaceAval+= m_saverMan.serializeVec3(position, buffer);
-        m_saverMan.saveSerialization(buffer);
-      }
-      if (ImGui::Button("Load")) {
-        Vector<BYTE> buffer;
-        buffer = m_saverMan.getSerialization();
-        RTTIEmptyType<buVector3F> obj;
-        buVector3F pos;
-        obj.fromMemory(pos, buffer.data());
-      }
-      ImGui::End();
-
-      // Server Window for elastic search + curl
-      ImGui::Begin("Server");
-      if (ImGui::Button("Store current position")) {
-        m_json.writePositions(position);
-        m_json.createBuf();
-      }
-      ImGui::Text("----- Json Buffer -----");
-      ImGui::Text(m_json.m_buffer.c_str());
-
-      if (ImGui::Button("POST")) {
-        m_curl.post("http://localhost:9200/mytutorialindex/message?pretty", m_json.m_buffer.data());
-      }
-
-      if (ImGui::Button("GET")) {
-        m_curl.get("http://localhost:9200/mytutorialindex/_search?pretty");
-      }
-      
-      ImGui::End();
-      //m_scene_graph.getSelectedGO().m_transform.serialize();
-      //buMatrix4x4 scaleMat = { scale.x,0,0,0,
-      //                      0,scale.y,0,0,
-      //                      0,0,scale.z,0,
-      //                      0,0,0,1 };
-      //
-      //buMatrix4x4 positionMat = { 0,0,0,0,
-      //                            0,0,0,0,
-      //                            0,0,0,0,
-      //                            0,0,0,0 };
-
-
-    }
-    
+      break;
+    }    
 
 
     // Update scene information
@@ -343,14 +262,97 @@ namespace buEngineSDK {
     //renderMan.update(position, rotation, scale, m_angle);
   }
 
+  void
+  BaseApp::BuzzshockEngineUpdate(float _deltaTime)  {
+
+    ImGui::Begin("Change Log");
+    for (auto go : m_logs) {
+      ImGui::Text(go.c_str());
+    }
+    ImGui::End();
+    
+    buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
+      m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
+      m_scene_graph.getSelectedGO().sca[2] * m_EngineScale);
+    buVector3F rotation(m_scene_graph.getSelectedGO().rot[0], m_scene_graph.getSelectedGO().rot[1], m_scene_graph.getSelectedGO().rot[2]);
+    buVector3F position(m_scene_graph.getSelectedGO().pos[0], m_scene_graph.getSelectedGO().pos[1], m_scene_graph.getSelectedGO().pos[2]);
+
+    buMatrix4x4 mat = buMatrix4x4::IDENTITY;
+    //position.x = dir.x;
+    ImGuizmo::RecomposeMatrixFromComponents(&position.x, &rotation.x, &scale.x, &mat.m_x0);
+
+    buGizmo(&mat.m_x0);
+    ImGuizmo::DecomposeMatrixToComponents(&mat.m_x0, &position.x, &rotation.x, &scale.x);
+
+    m_Scale[0] = scale.x;
+    m_Scale[1] = scale.y;
+    m_Scale[2] = scale.z;
+
+    m_Rotation[0] = rotation.x;
+    m_Rotation[1] = rotation.y;
+    m_Rotation[2] = rotation.z;
+
+    m_position[0] = position.x;
+    m_position[1] = position.y;
+    m_position[2] = position.z;
+    m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
+    m_scene_graph.getSelectedGO().drawUI();
+    m_scene_graph.drawUI();
+
+    ImGui::Begin("Serialization");
+    if (ImGui::Button("Save")) {
+      Vector<BYTE> buffer;
+      uint32 spaceAval = 0;
+      spaceAval += m_saverMan.serializeVec3(scale, buffer);
+      spaceAval += m_saverMan.serializeVec3(position, buffer);
+      m_saverMan.saveSerialization(buffer);
+    }
+    if (ImGui::Button("Load")) {
+      Vector<BYTE> buffer;
+      buffer = m_saverMan.getSerialization();
+      RTTIEmptyType<buVector3F> obj;
+      buVector3F pos;
+      obj.fromMemory(pos, buffer.data());
+    }
+    ImGui::End();
+
+    // Server Window for elastic search + curl
+    ImGui::Begin("Server");
+    if (ImGui::Button("Store current position")) {
+      m_json.writePositions(position);
+      m_json.createBuf();
+    }
+    ImGui::Text("----- Json Buffer -----");
+    ImGui::Text(m_json.m_buffer.c_str());
+
+    if (ImGui::Button("POST")) {
+      m_curl.post("http://localhost:9200/mytutorialindex/message?pretty", m_json.m_buffer.data());
+    }
+
+    if (ImGui::Button("GET")) {
+      m_curl.get("http://localhost:9200/mytutorialindex/_search?pretty");
+    }
+
+    ImGui::End();
+  }
+
   void 
   BaseApp::render() {
     // Draw the renderer
     onRender();   
-    if (IsEngineInitialized)
-    {
-      m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-      renderBillBoard(m_scene_graph.getSelectedGO());
+    switch (m_initType) {
+    case buEngineSDK::Default:
+      break;
+    case buEngineSDK::BuzzshockEngine:
+      {
+        m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        renderBillBoard(m_scene_graph.getSelectedGO());
+      }
+      break;
+    case buEngineSDK::BuzzshockConnect:
+      break;
+    default:
+      break;
     }
     // Render ImGui Data
     ImGui::Render();
@@ -882,20 +884,20 @@ namespace buEngineSDK {
 
   void 
   BaseApp::login() {
-
-    if (deactivateLogin) {
+    // Render the login screen until the correct initialization is made.
+    if (m_initType == InitType::Default) {
       ImGui::Begin("Login");
       ImGui::Text("New Project Categories");
 
       if (ImGui::Button("Rendering", ImVec2(120, 30))) {
-        IsEngineInitialized = true;
+        // If the app initialize the Buzzshock Engine, fill the initType var
+        m_initType = InitType::BuzzshockEngine;
         loadInformation();
-        deactivateLogin = false;
       }
 
       if (ImGui::Button("Start Buzzshock Connect", ImVec2(120, 30))) {
-        IsConnectInitialized = true;
-        deactivateLogin = false; 
+        // If the app initialize the Buzzshock Connect, fill the initType var
+        m_initType = InitType::BuzzshockConnect;
       }
       ImGui::End();
     }
@@ -903,10 +905,11 @@ namespace buEngineSDK {
 
   void 
   BaseApp::showConnectWindow() {
+    // Window in charge of being the main context of the other windows
     ImGui::Begin("Buzzshock Connect");
 
     ImGui::End();
-
+    // Window in charge of initialize the Amazon Web Service (Servers)
     ImGui::Begin("Buzzshock Connect Server");
    
     String title = "Server initialization";
@@ -917,7 +920,6 @@ namespace buEngineSDK {
     ImGui::Text("Basic / Advanced");
     ImGui::Separator();
     if (m_isAdvanceServerInitialization) {
-      m_serverType = "Advanced";
       static char serverName[128] = "";
       static char path[128] = "";
       static char port[128] = "";
@@ -931,7 +933,6 @@ namespace buEngineSDK {
       }
     }
     if (!m_isAdvanceServerInitialization) {
-      m_serverType = "Basic";
       static char Path[128] = "";
       ImGui::InputTextWithHint("Server Path", "Enter the server path...", Path, IM_ARRAYSIZE(Path));
       if (ImGui::Button("Submit")) {
@@ -939,19 +940,19 @@ namespace buEngineSDK {
       }
     }
     ImGui::End();
-
+    // Window in charge of initialize the NVIDIA Omniverse Server
     ImGui::Begin("Omniverse Server");
 
     ImGui::End();
-
+    // Window in charge of showing the files pass between multiples apps.
     ImGui::Begin("Server Data");
     ImGui::Text("Files in server");
     ImGui::End();
-
+    // Window in charge of showing the Host and clients in Lobby/Sesion
     ImGui::Begin("Lobby");
 
     ImGui::End();
-
+    // Window in charge of showing the status of the AWS server and Omniverse Server
     ImGui::Begin("Server Status");
     String status = "Status: ";
     String msg = status + "Waiting connection";

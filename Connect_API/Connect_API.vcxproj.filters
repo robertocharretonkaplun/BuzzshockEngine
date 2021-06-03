@@ -42,10 +42,16 @@
     <ClInclude Include="include\buDirector.h">
       <Filter>Header Files\Director</Filter>
     </ClInclude>
+    <ClInclude Include="include\buServer.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buDirector.cpp">
       <Filter>Source Files\Director</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buServer.cpp">
+      <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

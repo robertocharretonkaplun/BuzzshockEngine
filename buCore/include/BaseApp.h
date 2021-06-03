@@ -33,6 +33,12 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																						  WPARAM wParam,
 																							LPARAM lParam);
 namespace buEngineSDK {
+	enum InitType {
+		Default = 0,
+		BuzzshockEngine = 1,
+		BuzzshockConnect = 2
+	};
+
 	class BU_CORE_EXPORT BaseApp {
 	public:
 		/**
@@ -98,6 +104,13 @@ namespace buEngineSDK {
 		 */
 		void
 		update(float _deltaTime);
+
+		/**
+		* @brief Method in charge of updating the logic information of the Engine 
+		* partition.
+		*/
+		void 
+		BuzzshockEngineUpdate(float _deltaTime);
 
 		/** 
 		 * @brief Method that draw the information that the user will not be
@@ -309,9 +322,6 @@ namespace buEngineSDK {
 
 		buTime m_time;
 		// UI variables 
-		bool IsEngineInitialized = false;
-		bool IsConnectInitialized = false;
-		bool deactivateLogin = true;
 		bool useWindow = false;
 		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 
@@ -323,7 +333,10 @@ namespace buEngineSDK {
 		buRigidbody m_rigidbody;
 
 		// Buzzshock Connect server
-		String m_serverType = "Basic / Advance ";
-		bool m_isAdvanceServerInitialization = false;
+		bool m_isAdvanceServerInitialization = false; // This var will be deprecated
+		// and replaced by the initialization type of connect server var
+
+		// App Initialization Variables
+		InitType m_initType = InitType::Default;
 	};
 }

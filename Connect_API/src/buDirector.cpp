@@ -2,6 +2,11 @@
 
 namespace buEngineSDK {
   void 
+  buDirector::createServer() {
+    m_server.create();
+  }
+  
+  void
   buDirector::createLobby() {
   }
   
@@ -19,5 +24,15 @@ namespace buEngineSDK {
 
   void 
   buDirector::createConnector() {
+  }
+  
+  ServerStatus 
+  buDirector::getServerStatus() {
+    return m_server.getServerStatus();
+  }
+  
+  ServerInitType
+  buDirector::getServerInitType() {
+    return m_server.getServerInitType();
   }
 }

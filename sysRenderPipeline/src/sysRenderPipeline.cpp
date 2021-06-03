@@ -165,31 +165,43 @@ namespace buEngineSDK {
   void
   sysRenderPipeline::onUpdate(float _deltaTime) {
     // Initialize View matrix
+    switch (m_initType)
+    {
+    case buEngineSDK::Default:
+      break;
+    case buEngineSDK::BuzzshockEngine:
+    {
+      buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
+      buVector3F At(m_at[0], m_at[1], m_at[2]);
+      buVector3F Up(m_up[0], m_up[1], m_up[2]);
 
-    buVector3F Eye(m_eye[0], m_eye[1], m_eye[2]);
-    buVector3F At(m_at[0], m_at[1], m_at[2]);
-    buVector3F Up(m_up[0], m_up[1], m_up[2]);
+      m_cameraMan->update(Eye, Up, At,
+        buDegrees(45).getRadians(),
+        static_cast<float>(m_screenWidth) /
+        static_cast<float>(m_screenHeight),
+        m_near,
+        m_far);
+      // Update light
+      buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
+      buVector4F lightPos(m_lightPos, 0);
+      buVector4F LightColor(m_LightColor, 0);
+      buVector4F surfColor(m_surfColor, 0);
+      buVector4F constants(m_constants[0], 0, 0, 0);
+      LB.viewPosition = viewDir;
+      //lightPos = m_userInterface.setPosition();
+      //LB.LightPos = lightPos;
+      LB.LightColor = LightColor;
+      LB.surfColor = surfColor;
+      LB.LightIntensity = constants;
 
-    m_cameraMan->update(Eye, Up, At,
-      buDegrees(45).getRadians(),
-      static_cast<float>(m_screenWidth) /
-      static_cast<float>(m_screenHeight),
-      m_near,
-      m_far);
-    // Update light
-    buVector4F viewDir(Eye.x, Eye.y, Eye.z, 1.0f);
-    buVector4F lightPos(m_lightPos, 0);
-    buVector4F LightColor(m_LightColor, 0);
-    buVector4F surfColor(m_surfColor, 0);
-    buVector4F constants(m_constants[0], 0, 0, 0);
-    LB.viewPosition = viewDir;
-    //lightPos = m_userInterface.setPosition();
-    //LB.LightPos = lightPos;
-    LB.LightColor = LightColor;
-    LB.surfColor = surfColor;
-    LB.LightIntensity = constants;
-
-    m_light.update(LB);
+      m_light.update(LB);
+    }
+      break;
+    case buEngineSDK::BuzzshockConnect:
+      break;
+    default:
+      break;
+    }
     
     //m_userInterface.update();
     //histogram.drawUI("Histogram", "Red");
