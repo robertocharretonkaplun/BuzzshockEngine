@@ -26,11 +26,11 @@ namespace buEngineSDK {
 		/**
 		 * @brief Default constructor
 		 */
-		buCOServer();
+		buCOServer() = default;
 		/**
 		 * @brief Default Constructor
 		 */
-		~buCOServer();
+		~buCOServer() = default;
 
 		/**
 		 * @brief Virtual method in charge of initialize the server.

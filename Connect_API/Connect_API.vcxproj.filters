@@ -45,6 +45,9 @@
     <ClInclude Include="include\buServer.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="include\buLobby.h">
+      <Filter>Header Files\Lobby</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buDirector.cpp">
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="src\buServer.cpp">
       <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buLobby.cpp">
+      <Filter>Source Files\Lobby</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -174,10 +174,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\buDirector.h" />
+    <ClInclude Include="include\buLobby.h" />
     <ClInclude Include="include\buServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buDirector.cpp" />
+    <ClCompile Include="src\buLobby.cpp" />
     <ClCompile Include="src\buServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

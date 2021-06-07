@@ -101,16 +101,17 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)PhysX-4.1/physx/include/;$(MAYA)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)PhysX-4.1/include/;$(MAYA)include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)PhysX-4.1/physx/lib/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)PhysX-4.1/lib/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
@@ -149,16 +150,17 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)PhysX-4.1/physx/include/;$(MAYA)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)PhysX-4.1/include/;$(MAYA)include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)PhysX-4.1/physx/lib/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)PhysX-4.1/lib/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
