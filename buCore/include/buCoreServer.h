@@ -3,34 +3,45 @@
  * and address where the information will be sended.
  */
 #pragma once
-#include "PrerequisitesConnect.h"
+#include <buPrerequisitesCore.h>
 
 namespace buEngineSDK {
 	enum ServerInitType {
-		Default = 0,
-		Basic = 1,
-		Advanced = 2,
+		BASIC = 0,
+		ADVANCED = 1,
 	};
 
 	enum ServerStatus {
-		Default = 0,
-		Offline = 1,
-		Waiting = 2,
-		Connecting = 3,
-		Ready = 4,
-		Online = 5,
+		OFFLINE = 0,
+		WAITING = 1,
+		CONNECTING = 2,
+		READY = 3,
+		ONLINE = 4,
 	};
 
-	class buCOServer {
+	enum ServerAction {
+		GET = 0,
+		PUT = 1,
+		POST = 2,
+	};
+
+	enum SessionType {
+		BASICC = 0, // Host + 4 clients / users
+		EXTRA = 1, // Host + 6 clients / users
+		PREFERRED = 2, // Host + 8 clients / users
+		CUSTOM = 3, // Host + any amount of clients / users (limit 64 - must define)
+	};
+
+	class buCoreServer {
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buCOServer() = default;
+		buCoreServer() = default;
 		/**
 		 * @brief Default Constructor
 		 */
-		~buCOServer() = default;
+		~buCoreServer() = default;
 
 		/**
 		 * @brief Virtual method in charge of initialize the server.

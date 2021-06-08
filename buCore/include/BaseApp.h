@@ -9,6 +9,7 @@
 #pragma once
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
+#include <buCoreConnectAPI.h>
 //#include <sysAudioAPI.h>
 //#include <sysRender.h>
 #include <buCameraManager.h>
@@ -27,6 +28,7 @@
 #include "buCurl.h"
 #include "buRigidbody.h"
 #include "buMayaImport.h"
+
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
@@ -204,6 +206,7 @@ namespace buEngineSDK {
     buPluggin m_directXPlug;
     buPluggin m_audioPlug;
     buPluggin m_renderPlug;
+    buPluggin m_connectAPIPlug;
 
 		/**
 		* @brief Member that sets the window reference.
@@ -241,6 +244,7 @@ namespace buEngineSDK {
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
+		buCoreConnectAPI* m_connectAPI = nullptr;
 		//sysAudioAPI* m_sysAudioAPI = nullptr;
 		//sysRender* m_sysRenderAPI = nullptr;
 		buCameraManager m_cameraManager ;

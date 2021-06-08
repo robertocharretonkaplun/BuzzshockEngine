@@ -8,31 +8,29 @@
  *
  */
 #pragma once
-#include "PrerequisitesConnect.h"
-#include "buModule.h"
-#include "buCOServer.h"
-#include "buCOUser.h"
+#include <buPrerequisitesCore.h>
+#include <buModule.h>
 
 namespace buEngineSDK {
-	class BU_CONNECT_EXPORT buCODirector : public buModule<buCODirector>
+	class BU_CORE_EXPORT buCoreConnectAPI : public buModule<buCoreConnectAPI>
 	{
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buCODirector() = default;
+		buCoreConnectAPI() = default;
 		
 		/**
 		 * @brief Default destructor
 		 */
-		~buCODirector() = default;
+		~buCoreConnectAPI() = default;
 
 		/**
 		 * @brief Method in charge of creating an instances of the class
 		 */
 		FORCEINLINE void
-			setObject(buCODirector* _api) {
-			buCODirector::_instance() = _api;
+			setObject(buCoreConnectAPI* _api) {
+			buCoreConnectAPI::_instance() = _api;
 		}
 		
 	public:
@@ -74,19 +72,6 @@ namespace buEngineSDK {
 		 */
 		virtual void
 		createConnector() {};
-
-		/**
-		 * @brief Virtual method in charge of getting the server status of the tool.
-		 */
-		virtual ServerStatus 
-		getServerStatus() {return ServerStatus(); }
-
-		/**
-		 * @brief Virtual method in charge of returning the server initialization
-		 * type.
-		 */
-		virtual ServerInitType
-		getServerInitType() { return ServerInitType(); }
 	private:
 
 	};
@@ -94,11 +79,11 @@ namespace buEngineSDK {
 	/**
 	 * @brief Export method for the class instance.
 	 */
-	BU_CONNECT_EXPORT buCODirector&
-		g_connect();
+	BU_CORE_EXPORT buCoreConnectAPI&
+	g_connectAPI();
 
 	/**
 	 * @brief Specific member uses as a instance to the class.
 	 */
-	using fnConnectProt = buCODirector * (*)();
+	using fnConnectAPIProt = buCoreConnectAPI * (*)();
 }

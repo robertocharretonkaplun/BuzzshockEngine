@@ -1,21 +1,21 @@
 /**
- * @brief Class in charge of setting the client information in a object. 
+ * @brief Class in charge of setting the client information in a object.
  */
 #pragma once
-#include "PrerequisitesConnect.h"
+#include <buPrerequisitesCore.h>
 
 namespace buEngineSDK {
-	class buCOUser
+	class buCoreUser
 	{
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buCOUser() = default;
+		buCoreUser() = default;
 		/**
 		 * @brief Default destructor
 		 */
-		~buCOUser() = default;
+		~buCoreUser() = default;
 
 		/**
 		 * @brief Method in charge of initialize the user information.

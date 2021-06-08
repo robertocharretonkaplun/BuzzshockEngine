@@ -91,7 +91,7 @@ namespace buEngineSDK {
                                          _name.c_str());
 
     if (!createFunction) {
-      std::cout << "auto createFunction not Initialized!" << std::endl;
+      std::cout << "auto " << _name << " createFunction not Initialized!" << std::endl;
      // return ;
     }
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "buCOServer.h"
+#include <buCoreServer.h>
 
 namespace buEngineSDK {
-	class buServer : public buCOServer
+	class buServer : public buCoreServer
 	{
 	public:
 		buServer()  = default;
@@ -27,7 +27,10 @@ namespace buEngineSDK {
 		ServerInitType
 		getServerInitType() override;
 	private:
-		ServerInitType m_initType = ServerInitType::Basic;
-		ServerStatus m_status = ServerStatus::Offline;
+		ServerInitType m_initType = ServerInitType::BASIC;
+		ServerStatus m_status = ServerStatus::OFFLINE;
+		uint32 m_sesionID = 0;
+		String m_sesionName = "Default Session";
+		
 	};
 }

@@ -91,7 +91,7 @@ namespace buEngineSDK {
       // Initialize the Camera Manager
       auto createCameraManager = reinterpret_cast<fnCameraManagerProt>(
         m_directXPlug.getProcedureByName("createCameraManager"));
-
+      // Initialize the Connect API from Buzzshock Connect
 
       buCoreGraphicsAPI::startUp();
       buCoreGraphicsAPI* graphicAPI = createGraphicsAPI();
@@ -104,6 +104,17 @@ namespace buEngineSDK {
       g_resourceManager().setObject(resourceManager);
       m_resourceManager = &g_resourceManager();
       
+    }
+
+    if (m_connectAPIPlug.loadPluggin("Connect_APId.dll"))
+    {
+      auto createConnectAPI = reinterpret_cast<fnConnectAPIProt>(
+        m_connectAPIPlug.getProcedureByName("createConnectAPI"));
+
+      buCoreConnectAPI::startUp();
+      buCoreConnectAPI* connectAPI = createConnectAPI();
+      g_connectAPI().setObject(connectAPI);
+      m_connectAPI = &g_connectAPI();
     }
 
   }

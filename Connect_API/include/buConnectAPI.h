@@ -7,22 +7,21 @@
  * class.
  */
 #pragma once
-#include
-#include <buCODirector.h>
-#include "buServer.h"
+#include <buCoreConnectAPI.h>
+//#include "buServer.h"
 namespace buEngineSDK {
-	class buDirector : public buCODirector
+	class buConnectAPI : public buCoreConnectAPI
 	{
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buDirector() = default;
+		buConnectAPI();
 		
 		/**
 		 * @brief Default destructor
 		 */
-		~buDirector() = default;
+		~buConnectAPI();
 
 	public:
 		/**
@@ -62,30 +61,16 @@ namespace buEngineSDK {
 		 */
 		void
 		createConnector() override;
-
-		/**
-		 * @brief Method in charge of getting the server status of the tool.
-		 */
-		ServerStatus 
-		getServerStatus() override;
-
-		/**
-		 * @brief Method in charge of returning the server initialization
-		 * type.
-		 */
-		ServerInitType
-		getServerInitType() override;
 	private:
-	private:
-		buServer m_server;
+		//buServer m_server;
 	};
 	/**
 	* @brief Plugging exportation data method.
-	* @return Instance of audio.
+	* @return Instance of Connect.
 	*/
-	extern "C" BU_PLUGIN_EXPORT buDirector *
+	extern "C" BU_PLUGIN_EXPORT buConnectAPI *
 		createConnectAPI() {
-		auto pDirector = new buDirector();
-		return pDirector;
+		auto pConnect = new buConnectAPI();
+		return pConnect;
 	}
 }

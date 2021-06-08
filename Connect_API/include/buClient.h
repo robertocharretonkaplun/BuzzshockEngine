@@ -1,8 +1,7 @@
 #pragma once
-#include "buCOClient.h"
-
+#include <buCoreClient.h>
 namespace buEngineSDK {
-	class buClient : public buCOClient
+	class buClient : public buCoreClient
 	{
 	public:
 		/**

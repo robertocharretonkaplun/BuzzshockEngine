@@ -257,6 +257,7 @@ namespace buEngineSDK {
     //sysAudioAPI::shutDown();
     //delete graphicAPI;
     m_directXPlug.destroy();
+    m_connectAPIPlug.destroy();
     //m_audioPlug.destroy();
   }
   

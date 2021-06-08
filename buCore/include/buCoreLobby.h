@@ -1,29 +1,29 @@
 /**
- * @brief Class in charge of creating a lobby that will create a server and 
+ * @brief Class in charge of creating a lobby that will create a server and
  * has the capability to add clients to the sesion.
  * This class will have all the information of the sesion, server information and
- * client information, also, it will keep record of all the data sended to 
+ * client information, also, it will keep record of all the data sended to
  * multiple apps.
  */
 #pragma once
-#include "PrerequisitesConnect.h"
+#include <buPrerequisitesCore.h>
 
 namespace buEngineSDK {
-	class buCOLobby
+	class buCoreLobby
 	{
 	public:
 		/**
 		 * @brief Default constructor
 		 */
-		buCOLobby() = default;
+		buCoreLobby() = default;
 
 		/**
 		 * @brief Default destructor
 		 */
-		~buCOLobby() = default;
+		~buCoreLobby() = default;
 
 		/**
-		 * @brief Virtual method in charge of creating the basic initializations 
+		 * @brief Virtual method in charge of creating the basic initializations
 		 * of a lobby.
 		 */
 		virtual void
