@@ -51,6 +51,12 @@ namespace buEngineSDK {
 
     virtual Vector<buGameObject>
     getGameObjects() { return Vector<buGameObject>(); };
+
+    virtual buCoreModel*
+    getModelStruct() { return nullptr; };
+
+    virtual buGameObject 
+    getGO(String _filepath) { return buGameObject();};
   };
 
   /**

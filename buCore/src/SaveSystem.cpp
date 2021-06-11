@@ -246,4 +246,58 @@ namespace buEngineSDK {
     readData.close();
     return buVector3F( std::stof(currVal[0]), std::stof(currVal[1]), std::stof(currVal[2]));
   }
+
+  void 
+  SaveSystem::saveGO(buGameObject *_go) {
+    String tmpPath = "Data/SavedData/";
+    String extensionType = ".bu";
+    String fullPath = tmpPath + "GO" + extensionType;
+    std::ofstream projectFile(fullPath.c_str(), std::ios::binary);
+    if (projectFile)
+    {
+      ModelData modelinfo;
+      int numMeshs = _go->m_model.m_meshes.size();// tempModel->meshes.size();
+      modelinfo.numMeshes = numMeshs;
+      modelinfo.numAnimations = 0;
+      modelinfo.animationNodes = false;
+
+      projectFile.write((char*)&modelinfo, sizeof(ModelData));
+
+      for (unsigned int m = 0; m < numMeshs; ++m) {
+        auto cMesh = _go->m_model.m_meshes[m];// tempModel->meshes[m];
+        MeshData meshInfo;
+        meshInfo.nameSize = _go->m_name.size();// cMesh.name.size();
+
+        meshInfo.numVertex = cMesh.m_numVertex;
+        meshInfo.numIndex = cMesh.m_numIndices;
+        meshInfo.numBonesTransform = 0;
+        meshInfo.numBones = 0;
+        meshInfo.num_bonesMap = 0;
+        meshInfo.numBonesInfo = 0;
+        meshInfo.albedoID = 0;
+        meshInfo.normalID = 0;
+        meshInfo.specID = 0;
+        meshInfo.roughnessID = 0;
+
+        projectFile.write((char*)&meshInfo, sizeof(MeshData));
+        projectFile.write((char*)_go->m_name.data(),
+          sizeof(char) * meshInfo.nameSize);
+
+        //write vertexData
+        projectFile.write((char*)_go->m_model.m_vertices.data(),
+          sizeof(Vertex) * meshInfo.numVertex);
+        //write index
+        projectFile.write((char*)_go->m_model.m_indices.data(), sizeof(unsigned int) * meshInfo.numIndex);
+      }
+      projectFile.close();
+    }
+  }
+  
+  buGameObject
+  SaveSystem::loadGO(String _filename) {
+    buCoreModel tmpModel;
+
+
+    return buGameObject();
+  }
 }

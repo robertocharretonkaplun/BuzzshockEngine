@@ -106,6 +106,7 @@ namespace buEngineSDK {
       
     }
 
+    // Initialize the Connect API from Buzzshock Connect
     if (m_connectAPIPlug.loadPluggin("Connect_APId.dll"))
     {
       auto createConnectAPI = reinterpret_cast<fnConnectAPIProt>(
@@ -265,86 +266,55 @@ namespace buEngineSDK {
     // Shader Properties
     //cameraProperties(m_cameraManager.GetActiveCamera());
     
-    //sceneGraph();
-    //shaderProperties();
-
-
-   
-    //renderMan.update(position, rotation, scale, m_angle);
+  
   }
 
   void
-  BaseApp::BuzzshockEngineUpdate(float _deltaTime)  {
+  BaseApp::BuzzshockEngineUpdate(float _deltaTime)  {    
+    if (m_isDataLoaded) {
+      buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
+        m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
+        m_scene_graph.getSelectedGO().sca[2] * m_EngineScale);
+      buVector3F rotation(m_scene_graph.getSelectedGO().rot[0], m_scene_graph.getSelectedGO().rot[1], m_scene_graph.getSelectedGO().rot[2]);
+      buVector3F position(m_scene_graph.getSelectedGO().pos[0], m_scene_graph.getSelectedGO().pos[1], m_scene_graph.getSelectedGO().pos[2]);
 
-    ImGui::Begin("Change Log");
-    for (auto go : m_logs) {
-      ImGui::Text(go.c_str());
+      buMatrix4x4 mat = buMatrix4x4::IDENTITY;
+      //position.x = dir.x;
+      ImGuizmo::RecomposeMatrixFromComponents(&position.x, &rotation.x, &scale.x, &mat.m_x0);
+
+      buGizmo(&mat.m_x0);
+      ImGuizmo::DecomposeMatrixToComponents(&mat.m_x0, &position.x, &rotation.x, &scale.x);
+
+      m_Scale[0] = scale.x;
+      m_Scale[1] = scale.y;
+      m_Scale[2] = scale.z;
+
+      m_Rotation[0] = rotation.x;
+      m_Rotation[1] = rotation.y;
+      m_Rotation[2] = rotation.z;
+
+      m_position[0] = position.x;
+      m_position[1] = position.y;
+      m_position[2] = position.z;
+
+      m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
+      m_scene_graph.getSelectedGO().drawUI();
     }
-    ImGui::End();
-    
-    buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
-      m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
-      m_scene_graph.getSelectedGO().sca[2] * m_EngineScale);
-    buVector3F rotation(m_scene_graph.getSelectedGO().rot[0], m_scene_graph.getSelectedGO().rot[1], m_scene_graph.getSelectedGO().rot[2]);
-    buVector3F position(m_scene_graph.getSelectedGO().pos[0], m_scene_graph.getSelectedGO().pos[1], m_scene_graph.getSelectedGO().pos[2]);
-
-    buMatrix4x4 mat = buMatrix4x4::IDENTITY;
-    //position.x = dir.x;
-    ImGuizmo::RecomposeMatrixFromComponents(&position.x, &rotation.x, &scale.x, &mat.m_x0);
-
-    buGizmo(&mat.m_x0);
-    ImGuizmo::DecomposeMatrixToComponents(&mat.m_x0, &position.x, &rotation.x, &scale.x);
-
-    m_Scale[0] = scale.x;
-    m_Scale[1] = scale.y;
-    m_Scale[2] = scale.z;
-
-    m_Rotation[0] = rotation.x;
-    m_Rotation[1] = rotation.y;
-    m_Rotation[2] = rotation.z;
-
-    m_position[0] = position.x;
-    m_position[1] = position.y;
-    m_position[2] = position.z;
-    m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
-    m_scene_graph.getSelectedGO().drawUI();
+    // Draw Scene Graph UI
     m_scene_graph.drawUI();
-
-    ImGui::Begin("Serialization");
-    if (ImGui::Button("Save")) {
-      Vector<BYTE> buffer;
-      uint32 spaceAval = 0;
-      spaceAval += m_saverMan.serializeVec3(scale, buffer);
-      spaceAval += m_saverMan.serializeVec3(position, buffer);
-      m_saverMan.saveSerialization(buffer);
+    // Draw Guizmo without GO
+    if (!m_isDataLoaded) {
+      buMatrix4x4 tmpMat = buMatrix4x4::IDENTITY;
+      buGizmo(&tmpMat.m_x0);
     }
-    if (ImGui::Button("Load")) {
-      Vector<BYTE> buffer;
-      buffer = m_saverMan.getSerialization();
-      RTTIEmptyType<buVector3F> obj;
-      buVector3F pos;
-      obj.fromMemory(pos, buffer.data());
-    }
-    ImGui::End();
-
+    // Draw the serialization UI
+    serializerUI();
     // Server Window for elastic search + curl
-    ImGui::Begin("Server");
-    if (ImGui::Button("Store current position")) {
-      m_json.writePositions(position);
-      m_json.createBuf();
-    }
-    ImGui::Text("----- Json Buffer -----");
-    ImGui::Text(m_json.m_buffer.c_str());
-
-    if (ImGui::Button("POST")) {
-      m_curl.post("http://localhost:9200/mytutorialindex/message?pretty", m_json.m_buffer.data());
-    }
-
-    if (ImGui::Button("GET")) {
-      m_curl.get("http://localhost:9200/mytutorialindex/_search?pretty");
-    }
-
-    ImGui::End();
+    serverCURLUI();
+    // Draw the tool bar
+    toolsUI();
+    // Draw change log
+    changeLogUI();
   }
 
   void 
@@ -356,8 +326,10 @@ namespace buEngineSDK {
       break;
     case buEngineSDK::BuzzshockEngine:
       {
-        m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        renderBillBoard(m_scene_graph.getSelectedGO());
+      if (m_isDataLoaded) {
+          m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+          renderBillBoard(m_scene_graph.getSelectedGO());
+      }
       }
       break;
     case buEngineSDK::BuzzshockConnect:
@@ -436,6 +408,7 @@ namespace buEngineSDK {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Load...", "CTRL+O")) {
           // Load scene from file
+          m_isDataLoaded = true;
           loadInformation();
         }
         if (ImGui::MenuItem("Save...", "CTRL+S")) {
@@ -673,87 +646,6 @@ namespace buEngineSDK {
   }
 
   void
-  BaseApp::goProperties_ImGui(buGameObject gameobject) {
-    /*
-    static char str0[128] = "Game Object";
-    gameobject.m_name = str0;
-    ImGui::Begin("Properties");
-    ImGui::Checkbox(" ", &m_renderObjects);
-    ImGui::SameLine();
-    ImGui::InputText("-", str0, IM_ARRAYSIZE(str0));
-    ImGui::Separator();
-
-    ImGui::Text("Active GO");
-    ImGui::Checkbox(" ", &m_selectedObject);
-    ImGui::SameLine();
-
-    ImGui::InputInt("GO", &m_scene_graph.m_selectedGO);
-    ImGui::Separator();
-    ImGui::Text("Transform");
-    ImGui::Separator();
-
-     // Set Mesh transform
-    buVector3F scale(m_Scale[0] * m_EngineScale, 
-                     m_Scale[1] * m_EngineScale, 
-                     m_Scale[2] * m_EngineScale);
-    buVector3F rotation(m_Rotation[0], m_Rotation[1], m_Rotation[2]);
-    
-    
-    buVector3F position(m_position[0], m_position[1], m_position[2]);
-    
-    gameobject.update(position, rotation, scale, m_angle);
-    vec3Control("Position", m_position);
-    vec3Control("Rotation", m_Rotation);
-    vec3Control("Scale", m_Scale);
-    valControl("Angle", &m_angle);
-    ImGui::Separator();
-    ImGui::Text("Material");
-    // Button to add a texture component to the scene
-
-    ImGui::Separator();
-
-    for (uint32 i = 0; i < gameobject.m_textures.size(); ++i) {
-     // ImGui::Separator();
-      if (ImGui::Button("Text")) {
-
-      }
-      //ImGui::Image(m_graphicsAPI->getShaderResource()[i], ImVec2(64, 64));
-      //ImGui::SameLine();
-    }
-    ImGui::Separator();
-    const float ItemSpacing = ImGui::GetStyle().ItemSpacing.x;
-
-    static float HostButtonWidth = 255.0f; //The 100.0f is just a guess size for the first frame.
-    float pos = HostButtonWidth + ItemSpacing;
-    ImGui::SameLine(ImGui::GetWindowWidth() - pos);
-    if (ImGui::Button("Add Component Texture")) {
-      OPENFILENAME ofn = { 0 };
-      TCHAR szFile[260] = { 0 };
-      // Initialize remaining fields of OPENFILENAME structure
-      ofn.lStructSize = sizeof(ofn);
-      ofn.hwndOwner = reinterpret_cast<HWND>(m_window);
-      ofn.lpstrFile = szFile;
-      ofn.nMaxFile = sizeof(szFile);
-      ofn.lpstrFilter = ("All\0*.*\0Text\0*.TXT\0");
-      ofn.nFilterIndex = 1;
-      ofn.lpstrFileTitle = nullptr;
-      ofn.nMaxFileTitle = 0;
-      ofn.lpstrInitialDir = nullptr;
-      ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-      if (GetOpenFileName(&ofn) == TRUE) {
-        SPtr<buCoreTexture2D> currTex = m_graphicsAPI->loadImageFromFile(
-          ofn.lpstrFile, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-        m_scene_graph.addTexToSelectedObj(currTex);
-       // m_resourceManager->getModel()->m_textures.push_back(currTex);
-      }
-    }
-
-    ImGui::End();
-    */
-  }
-
-  void
   BaseApp::shaderProperties() {
     /*
     // Container for shader attributes
@@ -903,7 +795,7 @@ namespace buEngineSDK {
       if (ImGui::Button("Rendering", ImVec2(120, 30))) {
         // If the app initialize the Buzzshock Engine, fill the initType var
         m_initType = InitType::BuzzshockEngine;
-        loadInformation();
+        //loadInformation();
       }
 
       if (ImGui::Button("Start Buzzshock Connect", ImVec2(120, 30))) {
@@ -916,9 +808,10 @@ namespace buEngineSDK {
 
   void 
   BaseApp::showConnectWindow() {
+    auto& ConnectDirector = g_connectAPI();
     // Window in charge of being the main context of the other windows
     ImGui::Begin("Buzzshock Connect");
-
+    
     ImGui::End();
     // Window in charge of initialize the Amazon Web Service (Servers)
     ImGui::Begin("Buzzshock Connect Server");
@@ -962,6 +855,7 @@ namespace buEngineSDK {
     // Window in charge of showing the Host and clients in Lobby/Sesion
     ImGui::Begin("Lobby");
 
+    ImGui::Text(ConnectDirector.getLobbyName().c_str());
     ImGui::End();
     // Window in charge of showing the status of the AWS server and Omniverse Server
     ImGui::Begin("Server Status");
@@ -991,15 +885,15 @@ namespace buEngineSDK {
     ImGuizmo::SetRect(0, 0, m_screenWidth, m_screenHeight);
     ImGuizmo::Manipulate(&view.m_x0, &proj.m_x0, mCurrentGizmoOperation, ImGuizmo::MODE::LOCAL, matrix, nullptr, nullptr, nullptr, nullptr);
     ImGui::Begin("Gizmos");
-    if (ImGui::Button("T")) {
+    if (ImGui::Button("T", ImVec2(40, 40))) {
       mCurrentGizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
     }
     ImGui::SameLine();
-    if (ImGui::Button("R")) {
+    if (ImGui::Button("R", ImVec2(40, 40))) {
       mCurrentGizmoOperation = ImGuizmo::OPERATION::ROTATE;
     }
     ImGui::SameLine();
-    if (ImGui::Button("S")) {
+    if (ImGui::Button("S", ImVec2(40, 40))) {
       mCurrentGizmoOperation = ImGuizmo::OPERATION::SCALE;
     }
     ImGui::End();
@@ -1024,6 +918,75 @@ namespace buEngineSDK {
 
     draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height * 0.5f);
     draw_list->AddCircleFilled(ImVec2(*v ? (p.x + width - radius) : (p.x + radius), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
+  }
+
+  void 
+  BaseApp::serializerUI() {
+    ImGui::Begin("Serialization");
+    if (ImGui::Button("Save")) {
+      Vector<BYTE> buffer;
+      uint32 spaceAval = 0;
+      //spaceAval += m_saverMan.serializeVec3(scale, buffer);
+      //spaceAval += m_saverMan.serializeVec3(position, buffer);
+      m_saverMan.saveSerialization(buffer);
+    }
+    if (ImGui::Button("Load")) {
+      Vector<BYTE> buffer;
+      buffer = m_saverMan.getSerialization();
+      RTTIEmptyType<buVector3F> obj;
+      buVector3F pos;
+      obj.fromMemory(pos, buffer.data());
+    }
+    ImGui::End();
+  }
+
+  void 
+  BaseApp::serverCURLUI() {
+    ImGui::Begin("Server");
+    if (ImGui::Button("Store current position")) {
+      //m_json.writePositions(position);
+      m_json.createBuf();
+    }
+    ImGui::Text("----- Json Buffer -----");
+    ImGui::Text(m_json.m_buffer.c_str());
+
+    if (ImGui::Button("POST")) {
+      m_curl.post("http://localhost:9200/mytutorialindex/message?pretty", m_json.m_buffer.data());
+    }
+
+    if (ImGui::Button("GET")) {
+      m_curl.get("http://localhost:9200/mytutorialindex/_search?pretty");
+    }
+
+    ImGui::End();
+  }
+
+  void 
+  BaseApp::toolsUI() {
+    ImGui::Begin("Tools");
+    if (ImGui::Button("Load", ImVec2(40,40))) {
+      m_isDataLoaded = true;
+      loadInformation();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Save GO", ImVec2(40, 40))) {
+      m_saverMan.saveGO(&m_scene_graph.getSelectedGO());
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Load Maya GO", ImVec2(40, 40))) {
+      m_scene_graph.addMayaGameObject();
+      m_scene_graph.setSelectedGO(0);
+    }
+    ImGui::End();
+  }
+
+  void 
+  BaseApp::changeLogUI() {
+    ImGui::Begin("Change Log");
+    for (auto log : m_logs) {
+      ImGui::Text(log.c_str());
+    }
+    ImGui::End();
   }
 
   LRESULT

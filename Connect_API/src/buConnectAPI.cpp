@@ -25,4 +25,10 @@ namespace buEngineSDK {
   void buConnectAPI::createConnector()
   {
   }
+
+  String
+  buConnectAPI::getLobbyName() {
+    return m_lobby.m_lobbyName;
+  }
+  
 }

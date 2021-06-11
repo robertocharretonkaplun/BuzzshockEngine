@@ -17,6 +17,7 @@
 #include <buDXBuffer.h>
 #include <buMatrix4x4.h>
 #include <buGameObject.h>
+#include <buCommons.h>
 namespace buEngineSDK {
   
   class buDXResourceManager : public buResourceManager
@@ -50,6 +51,11 @@ namespace buEngineSDK {
     Vector<SPtr<buCoreTexture2D>>*
     getTextures() override;
 
+    buCoreModel*
+    getModelStruct() override;
+
+    buGameObject 
+    getGO(String _filepath) override;
   public:
     
     Vector<String> textNames;

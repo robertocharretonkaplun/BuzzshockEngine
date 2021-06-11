@@ -27,7 +27,8 @@ namespace buEngineSDK {
 		 * of a lobby.
 		 */
 		virtual void
-		create() {};
+		create(String _lobbyName, String _hostName, 
+					 uint32 _hostID, String _password, ServerInitType _type) {};
 
 	private:
 

@@ -357,4 +357,62 @@ namespace buEngineSDK {
       return &m_textures;
   }
 
+  buCoreModel* 
+  buDXResourceManager::getModelStruct() {
+    auto& graphMan = g_graphicsAPI();
+
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
+      D3D11_BIND_VERTEX_BUFFER,
+      sizeof(SimpleVertex),
+      m_model.m_vertices.data());
+
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
+      D3D11_BIND_INDEX_BUFFER,
+      0,
+      m_model.m_indices.data());
+    return &m_model;
+  }
+
+  buGameObject 
+    buDXResourceManager::getGO(String _filepath) {
+    // Create temporal go
+    buGameObject tmpGO;
+    // Set path of gameobject data
+    String tmpPath = "Data/SavedData/";
+    String extensionType = ".bu";
+    String fullPath = tmpPath + "GO" + extensionType;
+    // Read the file
+    std::ifstream projectFile(fullPath.c_str(), std::ios::binary);
+    if (projectFile)
+    {
+      // Read the model
+      Model currModel;
+      projectFile.read((char*)&currModel, sizeof(Model));
+      // Read the mesh info
+      ModelData modelinfo;
+      projectFile.read((char*)&modelinfo, sizeof(ModelData));
+      m_model.m_meshes.reserve(modelinfo.numMeshes);
+      // Read the Mesh
+      Mesh tmpMesh;
+      projectFile.read((char*)&tmpMesh, sizeof(Mesh));
+
+      // Read vertices and indices
+      for (uint32 i = 0; i < modelinfo.numMeshes; ++i) {
+        auto currMesh = currModel.meshes[i];
+        m_model.m_meshes.emplace_back();
+        auto& tmpMesh = m_model.m_meshes[m_model.m_meshes.size() - 1];
+        tmpMesh.m_topology = 0;// currMesh->mPrimitiveTypes;
+        tmpMesh.m_baseVertex = m_model.m_vertices.size();
+        tmpMesh.m_numVertex = tmpMesh.m_numVertex;// currMesh->mNumVertices;
+        tmpMesh.m_baseIndex = m_model.m_indices.size();
+        tmpMesh.m_numIndices = tmpMesh.m_numIndices * 3; //currMesh->mNumFaces * 3;
+
+
+
+        return buGameObject();
+      }
+    }
+  }
 }

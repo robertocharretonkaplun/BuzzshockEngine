@@ -72,6 +72,10 @@ namespace buEngineSDK {
 		 */
 		virtual void
 		createConnector() {};
+
+
+		virtual String
+		getLobbyName() { return ""; };
 	private:
 
 	};

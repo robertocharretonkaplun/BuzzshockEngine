@@ -13,8 +13,9 @@ namespace buEngineSDK {
 		 * of a lobby.
 		 */
 		void
-		create() override;
-	private:
+		create(String _lobbyName, String _hostName, 
+					 uint32 _hostID, String _password, ServerInitType _type) override;
+	public:
 		String m_lobbyName = "Lobby";
 		String m_hostName = "Host";
 		uint32 m_hostID = 0000;

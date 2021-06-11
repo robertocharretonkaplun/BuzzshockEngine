@@ -15,6 +15,7 @@
 #include <buNumLimits.h>
 #include <buMatrix3x3.h>
 #include <buCoreTexture2D.h>
+#include <buCoreGraphicsAPI.h>
 namespace buEngineSDK {
 	//template<typename V>
 	struct SimpleVertex {
@@ -93,6 +94,8 @@ namespace buEngineSDK {
 
     buMatrix4x4
     nlerp(aiQuaternion a, aiQuaternion b, const float& blend);
+
+
 	public:
 		/**
 		 * @brief Meshes from the model.

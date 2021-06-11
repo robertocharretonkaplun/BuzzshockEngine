@@ -4,7 +4,6 @@
 #include "imgui\imGuiDocking\imgui_impl_dx11.h"
 #include "imgui\imGuiDocking\imgui_impl_win32.h"
 
-
 namespace buEngineSDK {
 	struct CBCamera
 	{
@@ -27,7 +26,48 @@ namespace buEngineSDK {
 
 
 
+  struct ModelData {
+    unsigned int numMeshes;
+    unsigned int numAnimations;
+    float globalInverseTransform[4][4] = { {1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1} };
+    bool animationNodes;
+  };
+
+  struct MeshData {
+    unsigned int nameSize;
+    unsigned int numVertex;
+    unsigned int numIndex;
+    unsigned int numBonesTransform;
+    unsigned int numBones = 0;
+    unsigned int num_bonesMap;
+    unsigned int numBonesInfo;
+    unsigned int albedoID;
+    unsigned int normalID;
+    unsigned int specID;
+    unsigned int roughnessID;
+  };
+
+  struct Vertex {
+    float Pos[3] = { 0,0,0 };
+    float Tex[3] = { 0,0,0 };
+    float Nor[3] = { 0,0,0 };
+    float Tan[3] = { 0,0,0 };
+    unsigned int boneIDs[4] = { 255, 255,255,255 };
+    float boneWeights[4] = { 0.0f , 0.0f, 0.0f, 0.0f };
+  };
+
+  struct Mesh
+  {
+    std::vector<Vertex> vertexInfo;
+    std::vector<unsigned int> indexInfo;
+    std::string name;
+  };
+
+  struct Model {
+    std::vector<Mesh> meshes;
+  };
 }
+
 
 namespace CameraType {
 	enum E {
@@ -220,3 +260,5 @@ namespace BufferSlot {
     LIGHT = 3,
   };
 }
+
+

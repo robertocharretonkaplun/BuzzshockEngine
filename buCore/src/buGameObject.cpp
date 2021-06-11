@@ -104,21 +104,12 @@ namespace buEngineSDK {
     ImGui::SameLine();
     ImGui::InputTextWithHint(" ", m_name.c_str(), str1, IM_ARRAYSIZE(str1));
     ImGui::Separator();
-    ImGui::Text("Transform");
-    ImGui::Separator();
-    
-    
-    vec3Control("Position", pos);
-    vec3Control("Rotation", rot);
-    vec3Control("Scale", sca);
-    ImGui::SliderFloat("Angle", m_angle,0, 5);
-    ImGui::Separator();
-    ImGui::Text("Rendering");
-    ImGui::Separator();
-    ImGui::Checkbox("Actor Hidden In Game", & m_isActorHiddenInGame);
-    ImGui::Separator();
+    // Draw transform ui
+    m_transform.ui(pos, rot, sca, m_angle);
 
+    if (ImGui::Button("Add Component")) {
 
+    }    
 
     ImGui::End();
 

@@ -30,10 +30,13 @@
 #include "buMayaImport.h"
 
 
+
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
 																						  WPARAM wParam,
 																							LPARAM lParam);
+
+
 namespace buEngineSDK {
 	enum InitType {
 		Default = 0,
@@ -187,6 +190,18 @@ namespace buEngineSDK {
 		
 		void
 		toggleButton(const char* str_id, bool* v);
+
+		void
+		serializerUI();
+
+		void
+		serverCURLUI();
+
+		void
+		toolsUI();
+
+		void
+		changeLogUI();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -342,5 +357,6 @@ namespace buEngineSDK {
 
 		// App Initialization Variables
 		InitType m_initType = InitType::Default;
+		bool m_isDataLoaded = false;
 	};
 }

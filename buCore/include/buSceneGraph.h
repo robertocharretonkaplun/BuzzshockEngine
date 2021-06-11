@@ -57,6 +57,9 @@ namespace buEngineSDK {
 		void
 		addGameObject(String _filepath);
 
+		void
+		addMayaGameObject();
+
 		/**
 		 * @brief Method in charge of setting a selected object.
 		 */

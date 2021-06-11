@@ -5,7 +5,11 @@
 #include <buVector4i.h>
 #include <buVector3i.h>
 #include <buSerializer.h>
+#include <buGameObject.h>
+#include <buCommons.h>
 namespace buEngineSDK {
+
+
 	class BU_CORE_EXPORT SaveSystem
 	{
 	public:
@@ -131,6 +135,12 @@ namespace buEngineSDK {
 		 */
 		buVector3F
 		getFloatVec3(String _key);
+
+		void
+		saveGO(buGameObject *_go);
+
+		buGameObject
+		loadGO(String _filename);
 	private:
 
 		Map<String, String> m_string;

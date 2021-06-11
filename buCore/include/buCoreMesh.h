@@ -48,7 +48,6 @@ class buCoreModel;
 		 * @brief 
 		 */
 		
-
 	public:
 		uint32 m_topology = 0;
 		uint32 m_baseVertex = 0;

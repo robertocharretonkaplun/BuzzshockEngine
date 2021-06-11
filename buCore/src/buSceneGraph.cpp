@@ -88,6 +88,20 @@ namespace buEngineSDK {
     poolOfObjects();
   }
 
+  void 
+  buSceneGraph::addMayaGameObject() {
+    // Load the gameObject from the resource manager
+    buGameObject GO;
+    auto& graphMan = g_graphicsAPI();
+    auto& loader = g_resourceManager();
+    GO = loader.getGO("Temp");
+    GO.m_isUsed = true;
+    GO.m_id = StringUtilities::hash(GO.m_name);
+    // Add the game object to the game objects vector
+    m_gameObjects.push_back(GO);
+    poolOfObjects();
+  }
+
   void
   buSceneGraph::setSelectedGO(int32 _index) {
     // Diselect all the game objects

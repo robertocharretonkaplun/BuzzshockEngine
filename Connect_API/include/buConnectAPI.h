@@ -8,6 +8,7 @@
  */
 #pragma once
 #include <buCoreConnectAPI.h>
+#include <buLobby.h>
 //#include "buServer.h"
 namespace buEngineSDK {
 	class buConnectAPI : public buCoreConnectAPI
@@ -61,7 +62,11 @@ namespace buEngineSDK {
 		 */
 		void
 		createConnector() override;
+
+		String
+		getLobbyName() override;
 	private:
+		buLobby m_lobby;
 		//buServer m_server;
 	};
 	/**
