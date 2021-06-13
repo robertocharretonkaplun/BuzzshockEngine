@@ -270,7 +270,7 @@ namespace buEngineSDK {
   }
 
   void
-  BaseApp::BuzzshockEngineUpdate(float _deltaTime)  {    
+  BaseApp::BuzzshockEngineUpdate(float _deltaTime)  {
     if (m_isDataLoaded) {
       buVector3F scale(m_scene_graph.getSelectedGO().sca[0] * m_EngineScale,
         m_scene_graph.getSelectedGO().sca[1] * m_EngineScale,
@@ -298,8 +298,10 @@ namespace buEngineSDK {
       m_position[2] = position.z;
 
       m_scene_graph.getSelectedGO().update(position, rotation, scale, m_angle);
-      m_scene_graph.getSelectedGO().drawUI();
+      //m_scene_graph.getSelectedGO().drawUI();
     }
+    // Draw Properties
+    propertiesUI();
     // Draw Scene Graph UI
     m_scene_graph.drawUI();
     // Draw Guizmo without GO
@@ -327,7 +329,7 @@ namespace buEngineSDK {
     case buEngineSDK::BuzzshockEngine:
       {
       if (m_isDataLoaded) {
-          m_scene_graph.render(TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+          m_scene_graph.render(m_renderMode);
           renderBillBoard(m_scene_graph.getSelectedGO());
       }
       }
@@ -531,47 +533,6 @@ namespace buEngineSDK {
     
   }
 
-  void 
-  BaseApp::cameraHerarchy() { 
-    /*
-    ImGui::Begin("Camera Manager");
-    auto currCamera = m_cameraManager.GetActiveCamera();
-    // Container for the camera manager
-    auto Cameras = m_cameraManager.GetCameras();
-    static char cameraInput[128] = "Camera Object";
-    ImGui::Text("Set Active Camera");
-    ImGui::Separator();
-    ImGui::InputInt("Curr Cam", &m_currCamera);
-    if (Cameras.size() >= 1) {
-      m_cameraManager.SetActiveCamera(m_currCamera);
-    }
-    ImGui::Separator();
-    ImGui::Text("Create Camera");
-    ImGui::Separator();
-    ImGui::InputText("->", cameraInput, IM_ARRAYSIZE(cameraInput));
-    ImGui::SameLine();
-    if (ImGui::Button("Add cam")) {
-      m_cameraManager.AddCamera(cameraInput);
-
-    }
-    ImGui::Separator();
-    ImGui::Text("Camera Herarchy");
-    ImGui::Separator();
-    for (uint32 i = 0; i < Cameras.size(); i++) {
-      bool m_activeCamera = false;
-      if (Cameras[i].m_isCameraActive) {
-        m_activeCamera = true;
-      }
-      ImGui::Checkbox(" ", &m_activeCamera);
-      ImGui::SameLine();
-      ImGui::Text(Cameras[i].m_name.c_str());
-      ImGui::SameLine();
-      ImGui::Checkbox("Static", &currCamera.m_static);
-      ImGui::Separator();
-    }
-    ImGui::End();
-    */
-  }
 
   void 
   BaseApp::loadInformation() {
@@ -643,146 +604,6 @@ namespace buEngineSDK {
     m_saverMan.setString("RoughnessTex", "Data/Textures/Character/Roughness.jpeg");
 
     // Save Shader textures
-  }
-
-  void
-  BaseApp::shaderProperties() {
-    /*
-    // Container for shader attributes
-    ImGui::Begin("Shaders");
-    vec3Control("Light Pos", m_lightPos);
-    vec3Control("Light color", m_LightColor);
-    vec3Control("Surf color", m_surfColor);
-    ImGui::SliderFloat("LightIntensity", &m_constants[0], 0, 10);
-    ImGui::End();
-    */
-  }
-
-  void
-  BaseApp::vec3Control(String label, float*values, float resetValues, float columnWidth) {
-    /*
-    ImGui::PushID(label.c_str());
-    ImGui::Columns(2);
-    ImGui::SetColumnWidth(0, columnWidth);
-    ImGui::Text(label.c_str());
-    ImGui::NextColumn();
-
-    ImGui::PushMultiItemsWidths(3,ImGui::CalcItemWidth());
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0,0 });
-    float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    if (ImGui::Button("X", buttonSize)) {
-      values[0] = resetValues;
-    }
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##X", &values[0], 0.1f);
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    if (ImGui::Button("Y", buttonSize)) {
-      values[1] = resetValues;
-    }
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##Y", &values[1], 0.1f);
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-    if (ImGui::Button("Z", buttonSize)) {
-      values[2] = resetValues;
-    }
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##Z", &values[2], 0.1f);
-    ImGui::PopItemWidth();
-
-    ImGui::PopStyleVar();
-
-    ImGui::Columns(1);
-
-    ImGui::PopID();
-    */
-  }
-
-  void 
-  BaseApp::valControl(String label, float *values, float resetValues, float columnWidth) {
-    /*
-    ImGui::PushID(label.c_str());
-    ImGui::Columns(2);
-    ImGui::SetColumnWidth(0, columnWidth);
-    ImGui::Text(label.c_str());
-    ImGui::NextColumn();
-
-    ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0,0 });
-    float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    if (ImGui::Button("X", buttonSize)) {
-      values[0] = resetValues;
-    }
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##X", &values[0], 0.1f);
-    ImGui::PopItemWidth();
-
-    
-    ImGui::PopStyleVar();
-
-    ImGui::Columns(1);
-
-    ImGui::PopID();
-    */
-  }
-
-  void 
-  BaseApp::cameraProperties(buCamera currCamera) {
-    /*
-    // Container for the camera inpector
-    ImGui::Begin("Camera Inspector");
-    //auto currCamera = m_cameraManager.GetActiveCamera();
-    String CameraName = currCamera.m_name + "               ";
-    ImGui::Checkbox(CameraName.c_str(), &currCamera.m_isCameraActive);
-    ImGui::SameLine();
-    ImGui::Checkbox("Static", &currCamera.m_static);
-    ImGui::Separator();
-    bool transformSettings = true;
-    ImGui::Checkbox("Transform", &transformSettings);
-    ImGui::Separator();
-    vec3Control("Camera Pos", m_eye);
-    
-    vec3Control("Front", m_at);
-    vec3Control("Up", m_up);
-    ImGui::Separator();
-    bool cameraSettings = true;
-    ImGui::Checkbox("Camera", &cameraSettings);
-    ImGui::Separator();
-    const char* items[] = { "Projection", "Orthographic" };
-    static int selectedItem = 0;
-    ImGui::Combo("Projection", &selectedItem, items, IM_ARRAYSIZE(items));
-    ImGui::ColorEdit4("Background", ClearColor);
-    ImGui::SliderFloat("Near", &m_near, 3, 5);
-    ImGui::SliderFloat("Far", &m_far, 0, 300);
-    ImGui::End();
-    */
   }
 
   void 
@@ -976,6 +797,20 @@ namespace buEngineSDK {
     if (ImGui::Button("Load Maya GO", ImVec2(40, 40))) {
       m_scene_graph.addMayaGameObject();
       m_scene_graph.setSelectedGO(0);
+      String AlbedoTexPath = "Data/Textures/DefaultTexture.png";
+    SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
+      AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+    //m_scene_graph.getSelectedGO().m_textures.push_back(AlbedoTex);
+    m_scene_graph.addTexToSelectedObj(AlbedoTex);
+      m_isDataLoaded = true;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Triangles", ImVec2(60, 40))) {
+      m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Lines", ImVec2(60, 40))) {
+      m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_LINELIST;
     }
     ImGui::End();
   }
@@ -985,6 +820,25 @@ namespace buEngineSDK {
     ImGui::Begin("Change Log");
     for (auto log : m_logs) {
       ImGui::Text(log.c_str());
+    }
+    ImGui::End();
+  }
+
+  void 
+  BaseApp::propertiesUI() {
+    ImGui::Begin("Object Properties");
+    // Render GameObject UI
+    if (m_isDataLoaded) {
+      // Can Render Game Object
+      ImGui::Checkbox("|", &m_canRender);
+      
+      if (m_canRender) {
+        m_scene_graph.getSelectedGO().setRenderState(GameObjectRenderState::E::RENDER_ON);
+      }
+      else {
+        m_scene_graph.getSelectedGO().setRenderState(GameObjectRenderState::E::RENDER_OFF);
+      }
+      m_scene_graph.getSelectedGO().drawUI();
     }
     ImGui::End();
   }

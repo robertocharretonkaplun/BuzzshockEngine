@@ -202,6 +202,9 @@ namespace buEngineSDK {
 
 		void
 		changeLogUI();
+
+		void
+		propertiesUI();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -358,5 +361,11 @@ namespace buEngineSDK {
 		// App Initialization Variables
 		InitType m_initType = InitType::Default;
 		bool m_isDataLoaded = false;
+
+		// GO attributes
+		bool m_canRender = true;
+
+		// Render Type
+		TopologyType::E m_renderMode = TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	};
 }

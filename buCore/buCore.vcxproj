@@ -244,6 +244,7 @@
     <ClInclude Include="include\buCamera.h" />
     <ClInclude Include="include\buCameraManager.h" />
     <ClInclude Include="include\buCommons.h" />
+    <ClInclude Include="include\buComponent.h" />
     <ClInclude Include="include\buCoreBuffer.h" />
     <ClInclude Include="include\buCoreClient.h" />
     <ClInclude Include="include\buCoreConfig.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="include\buMayaImport.h" />
     <ClInclude Include="include\buNode.h" />
     <ClInclude Include="include\buPrerequisitesCore.h" />
+    <ClInclude Include="include\buProfiler.h" />
     <ClInclude Include="include\buPxScene.h" />
     <ClInclude Include="include\buResourceManager.h" />
     <ClInclude Include="include\buRigidbody.h" />

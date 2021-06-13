@@ -73,8 +73,8 @@ namespace buEngineSDK {
     // Set change every frame buffer.
     graphMan.PSsetConstantBuffers(changeEveryFrame, BufferSlot::E::WORLD, 1);
     // Render if the go is active
-    if (m_isActive) {
-      for (uint32 i = 0; i < m_model.m_meshes.size(); ++i) {
+    if (m_renderState == GameObjectRenderState::E::RENDER_ON) {
+      for (uint32 i = 0; i < m_model.m_numMeshes; ++i) {
         auto& currMesh = m_model.m_meshes[i];
         // Set Mesh texture
         for (uint32 j = 0; j < m_textures.size(); j++) {
@@ -98,23 +98,79 @@ namespace buEngineSDK {
   
   void 
   buGameObject::drawUI() {
-    ImGui::Begin("Properties");
-    ImGui::Checkbox(" ", &m_isUsed);
+    //ImGui::Checkbox("", &m_canRender);
+    ImGui::SameLine();
     static char str1[128] = "";
     ImGui::SameLine();
     ImGui::InputTextWithHint(" ", m_name.c_str(), str1, IM_ARRAYSIZE(str1));
     ImGui::Separator();
     // Draw transform ui
-    m_transform.ui(pos, rot, sca, m_angle);
+    // Mesh Data
+    
 
+
+    if (ImGui::TreeNode("Model"))
+    {
+      ImGui::Separator();
+      if (ImGui::TreeNode(m_transform.m_name.c_str())) {
+        m_transform.ui(pos, rot, sca, m_angle);
+        ImGui::TreePop();
+      }
+      //ImGui::SameLine();
+      if (ImGui::TreeNode("Mesh Data")) {
+        ImGui::Separator();
+        for (uint32 i = 0; i < m_model.m_numMeshes; ++i) {
+          auto& currMesh = m_model.m_meshes[i];
+          
+          String meshID = "ID: " + StringUtilities::ToString(m_id);
+          ImGui::Text(meshID.c_str());
+          String meshCount = "Meshes Count: " + StringUtilities::ToString(m_model.m_numMeshes);
+          ImGui::Text(meshCount.c_str());
+          String vertexCount = "Vertex Count: " + StringUtilities::ToString(currMesh.m_numVertex);
+          ImGui::Text(vertexCount.c_str());
+          String indexCount = "Index Count: " + StringUtilities::ToString(currMesh.m_numIndices);
+          ImGui::Text(indexCount.c_str());
+          String baseVertexCount = "Base Vertex Count: " + StringUtilities::ToString(currMesh.m_baseVertex);
+          ImGui::Text(baseVertexCount.c_str());
+          String baseIndexCount = "Base Index Count: " + StringUtilities::ToString(currMesh.m_baseIndex);
+          ImGui::Text(baseIndexCount.c_str());
+        }
+        ImGui::TreePop();
+      }
+
+
+      ImGui::TreePop();
+    }
+    ImGui::Indent();
+    //ImGui::Text("Previous Modifications");
+    //ImGui::Text("Debug Ticks");
+    ImGui::Unindent();
+    ImGui::Separator();
     if (ImGui::Button("Add Component")) {
 
     }    
-
-    ImGui::End();
-
   }
 
+  void
+  buGameObject::setSelectorState(GameObjectSelectType::E _selectType) {
+    m_select = _selectType;
+  }
+
+  void
+  buGameObject::setRenderState(GameObjectRenderState::E _renderState) {
+    m_renderState = _renderState;
+    switch (m_renderState)
+    {
+    case GameObjectRenderState::RENDER_ON:
+      m_canRender = true;
+      break;
+    case GameObjectRenderState::RENDER_OFF:
+      m_canRender = false;
+      break;
+    default:
+      break;
+    }
+  }
 
   void
   buGameObject::vec3Control(String label, float* values, float resetValues, float columnWidth) {

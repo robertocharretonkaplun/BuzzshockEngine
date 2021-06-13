@@ -270,14 +270,6 @@ namespace buEngineSDK {
 
         meshInfo.numVertex = cMesh.m_numVertex;
         meshInfo.numIndex = cMesh.m_numIndices;
-        meshInfo.numBonesTransform = 0;
-        meshInfo.numBones = 0;
-        meshInfo.num_bonesMap = 0;
-        meshInfo.numBonesInfo = 0;
-        meshInfo.albedoID = 0;
-        meshInfo.normalID = 0;
-        meshInfo.specID = 0;
-        meshInfo.roughnessID = 0;
 
         projectFile.write((char*)&meshInfo, sizeof(MeshData));
         projectFile.write((char*)_go->m_name.data(),

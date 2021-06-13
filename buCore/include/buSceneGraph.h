@@ -69,7 +69,7 @@ namespace buEngineSDK {
 		/**
 		 * @brief Method in charge of getting the selectef game object.
 		 */
-		buGameObject
+		buGameObject&
 		getSelectedGO();
 
 		/**

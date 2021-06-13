@@ -76,6 +76,7 @@ namespace buEngineSDK {
           tmpvertex.Nor.z = currNormals.z;
         }
 
+        // Allocate Tangents
         if (currMesh->HasTangentsAndBitangents()) {
           auto currTangents = currMesh->mTangents[j];
           tmpvertex.Tan.x = currTangents.x;
@@ -188,7 +189,7 @@ namespace buEngineSDK {
     m_model.TexName = Model->GetShortFilename(_filepath.c_str());
 
     m_model.m_meshes.reserve(Model->mNumMeshes);
-
+    m_model.m_numMeshes = Model->mNumMeshes;
     buGameObject currGameobject;
     SkeletalMesh* skeleton = new SkeletalMesh;
     int32 highVertexNum = 0;
@@ -202,7 +203,6 @@ namespace buEngineSDK {
       tmpMesh.m_numVertex = currMesh->mNumVertices;
       tmpMesh.m_baseIndex = m_model.m_indices.size();
       tmpMesh.m_numIndices = currMesh->mNumFaces * 3;
-
       //Allocate the indices of the mesh
       for (uint32 j = 0; j < currMesh->mNumFaces; ++j) {
         auto& currFace = currMesh->mFaces[j];
@@ -299,7 +299,7 @@ namespace buEngineSDK {
     }
     m_model.m_scene = Model;
     m_model.m_skeleton = skeleton;
-
+    
     // Should be on the model loading 
     m_model.m_bonesTransforms.clear();
     m_model.m_bonesTransforms.resize(skeleton->m_numBones);
@@ -382,36 +382,61 @@ namespace buEngineSDK {
     // Set path of gameobject data
     String tmpPath = "Data/SavedData/";
     String extensionType = ".bu";
-    String fullPath = tmpPath + "GO" + extensionType;
+    String fullPath = tmpPath + "model" + extensionType;
     // Read the file
     std::ifstream projectFile(fullPath.c_str(), std::ios::binary);
     if (projectFile)
     {
-      // Read the model
-      Model currModel;
-      projectFile.read((char*)&currModel, sizeof(Model));
       // Read the mesh info
       ModelData modelinfo;
       projectFile.read((char*)&modelinfo, sizeof(ModelData));
-      m_model.m_meshes.reserve(modelinfo.numMeshes);
-      // Read the Mesh
-      Mesh tmpMesh;
-      projectFile.read((char*)&tmpMesh, sizeof(Mesh));
-
-      // Read vertices and indices
+      m_model.m_meshes.resize(modelinfo.numMeshes);
+      m_model.m_numMeshes = modelinfo.numMeshes;
+      MeshData meshInfo;
+      projectFile.read((char*)&meshInfo, sizeof(MeshData));
+      
       for (uint32 i = 0; i < modelinfo.numMeshes; ++i) {
-        auto currMesh = currModel.meshes[i];
-        m_model.m_meshes.emplace_back();
-        auto& tmpMesh = m_model.m_meshes[m_model.m_meshes.size() - 1];
-        tmpMesh.m_topology = 0;// currMesh->mPrimitiveTypes;
-        tmpMesh.m_baseVertex = m_model.m_vertices.size();
-        tmpMesh.m_numVertex = tmpMesh.m_numVertex;// currMesh->mNumVertices;
-        tmpMesh.m_baseIndex = m_model.m_indices.size();
-        tmpMesh.m_numIndices = tmpMesh.m_numIndices * 3; //currMesh->mNumFaces * 3;
+        auto& graphMan = g_graphicsAPI();
+        // Store Mesh data
+        m_model.m_meshes[i].m_baseVertex = 0;// meshInfo.baseVertex;
+        m_model.m_meshes[i].m_numVertex = meshInfo.numVertex;
+        m_model.m_meshes[i].m_baseIndex = 0;// meshInfo.baseIndex;
+        m_model.m_meshes[i].m_numIndices = meshInfo.numIndex;
+        // Store Vertex data
+        auto VertexInfo = new SimpleVertex[meshInfo.numVertex];
+        projectFile.read((char*)VertexInfo,
+                         sizeof(SimpleVertex) * meshInfo.numVertex);
+        
+        m_model.m_vertexBuffer = graphMan.createBuffer(
+          sizeof(SimpleVertex) * meshInfo.numVertex,
+          D3D11_BIND_VERTEX_BUFFER,
+          sizeof(SimpleVertex),
+          VertexInfo);
+        
+        // Store Index Data
+        auto indexInfo = new uint32[meshInfo.numIndex];
+        projectFile.read((char*)indexInfo, sizeof(uint32) * meshInfo.numIndex);
 
-
-
-        return buGameObject();
+        m_model.m_indexBuffer = graphMan.createBuffer(
+          sizeof(uint32) * meshInfo.numIndex,
+          D3D11_BIND_INDEX_BUFFER,
+          0,
+          indexInfo);
+        // Store gameobject
+        tmpGO.m_name = _filepath;
+        tmpGO.m_type = GameObjectType::MESH_TYPE;
+        tmpGO.m_model = m_model;
+        tmpGO.m_model.m_textures = m_textures;
+        tmpGO.m_id = m_goCounter;
+        tmpGO.init();
+        //m_goCounter++;
+        
+        m_model.m_vertexBuffer = nullptr;
+        m_model.m_indexBuffer = nullptr;
+        m_model.m_vertices.clear();
+        m_model.m_indices.clear();
+        m_model.m_bonesTransforms.clear();
+        return tmpGO;
       }
     }
   }

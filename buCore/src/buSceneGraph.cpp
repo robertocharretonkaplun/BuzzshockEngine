@@ -81,7 +81,7 @@ namespace buEngineSDK {
     auto &graphMan = g_graphicsAPI();
     auto &loader = g_resourceManager();
     GO = loader.getMesh(_filepath);
-    GO.m_isUsed = true;
+    //GO.m_isUsed = true;
     GO.m_id = StringUtilities::hash(GO.m_name);
     // Add the game object to the game objects vector
     m_gameObjects.push_back(GO);
@@ -95,8 +95,10 @@ namespace buEngineSDK {
     auto& graphMan = g_graphicsAPI();
     auto& loader = g_resourceManager();
     GO = loader.getGO("Temp");
-    GO.m_isUsed = true;
+    //GO.m_isUsed = true;
     GO.m_id = StringUtilities::hash(GO.m_name);
+
+    GO.m_isUsed = true;
     // Add the game object to the game objects vector
     m_gameObjects.push_back(GO);
     poolOfObjects();
@@ -113,14 +115,14 @@ namespace buEngineSDK {
     m_gameObjects[m_selectedGO].m_isSelected = true;
   }
 
-  buGameObject 
+  buGameObject &
   buSceneGraph::getSelectedGO() {
     // Check if the selected go was selected
     if (m_gameObjects[m_selectedGO].m_isSelected) {
       return m_gameObjects[m_selectedGO];
     }
     
-    return buGameObject();
+    return m_gameObjects[m_selectedGO];
   }
 
   void 
@@ -135,24 +137,17 @@ namespace buEngineSDK {
     ImGui::Begin("Herarchy");
     if (ImGui::TreeNode(m_sceneName.c_str()))
     {
-      for (auto go : m_gameObjects) {
+      for (auto& go : m_gameObjects) {
+        if (ImGui::Button("+")) {
+          go.setSelectorState(GameObjectSelectType::E::SELECTED);
+        }
+        ImGui::SameLine();
         if (ImGui::TreeNode(go.m_name.c_str())) {
           ImGui::TreePop();
         }
       }
 
-      //if (ImGui::TreeNode("Base"))
-      //{
-      //  ImGui::Indent();
-      //  ImGui::Text("Num Slots");
-      //  ImGui::Text("Count");
-      //  ImGui::Unindent();
-      //  ImGui::TreePop();
-      //}
-      //if (ImGui::TreeNode("Slots"))
-      //{
-      //  ImGui::TreePop();
-      //}
+      
       ImGui::TreePop();
     }
     ImGui::Indent();

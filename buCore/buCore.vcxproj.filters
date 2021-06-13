@@ -76,6 +76,12 @@
     <Filter Include="Source Files\Connect\API">
       <UniqueIdentifier>{ac1d37df-9cab-4654-bfaf-7e7ccd5f0e0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Component">
+      <UniqueIdentifier>{7c137540-8a7c-4afe-a101-6c16aa96c4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Profiler">
+      <UniqueIdentifier>{dc1283c8-10b0-4698-a52a-0414c9dff948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buCoreGraphicsAPI.cpp">
@@ -343,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="include\buCoreUser.h">
       <Filter>Header Files\Connect\User</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buComponent.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buProfiler.h">
+      <Filter>Header Files\Profiler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

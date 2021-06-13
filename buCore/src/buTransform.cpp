@@ -21,7 +21,7 @@ namespace buEngineSDK {
   void 
   buTransform::ui(float* _pos, float* _rot,
     float* _scal, float* _angle) {
-    ImGui::Text("Transform");
+    //ImGui::Text("Transform");
     ImGui::Separator();
 
 

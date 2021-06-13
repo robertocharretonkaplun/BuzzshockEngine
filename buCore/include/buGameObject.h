@@ -5,7 +5,9 @@
 #include "buTransform.h"
 #include <buVector3F.h>
 #include <buCoreGraphicsAPI.h>
+
 namespace buEngineSDK {
+
 	class BU_CORE_EXPORT buGameObject {
 	public:
 		buGameObject() = default;
@@ -28,7 +30,11 @@ namespace buEngineSDK {
 			m_model.m_textures.push_back(tmpTex);
 		}
 
+		void
+		setSelectorState(GameObjectSelectType::E _selectType);
 
+		void
+		setRenderState(GameObjectRenderState::E _renderState);
 		void drawUI();
 
 
@@ -37,27 +43,32 @@ namespace buEngineSDK {
 		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
 
 	public:
-		String m_name;
-		uint32 m_id = 0;
-		GameObjectType::E m_type = GameObjectType::E::DEFAULT_TYPE;
+		// Model Object
 		buCoreModel m_model;
 		Vector<SPtr<buCoreTexture2D>> m_textures;
+		// Components
 		buTransform m_transform;
-		buVector3F m_pos = buVector3F::Zero;
-		buVector3F m_rot = buVector3F::Zero;
-		buVector3F m_sca = buVector3F::Zero;
-		float* pos;// [3] = { 0,100,0 };;
-		float* rot;// = { 0,0,0 };
-		float* sca;// = { 0,0,0 };
-		float* m_angle;// = 0.0f;
-		buTransform m_lastTransform;
+		// Local Variables
+		float* pos;
+		float* rot;
+		float* sca;
+		float* m_angle;
+		// Buffers and Structures
 		CBChangesEveryFrame cb;
 		SPtr<buCoreBuffer> changeEveryFrame;
+		// Attributes
+		String m_name;
+		uint32 m_id = 0;
 		bool m_isActive = true;
 		bool m_isActiveTransform = true;
 		bool m_isSelected = false;
 		bool m_isUsed = false;
 		bool m_isActorHiddenInGame = false;
 		bool m_serialize = false;
+		GameObjectSelectType::E m_select = GameObjectSelectType::E::UNSELECTED;
+		GameObjectType::E m_type = GameObjectType::E::DEFAULT_TYPE;
+		// Render Attributes
+		GameObjectRenderState::E m_renderState = GameObjectRenderState::E::RENDER_ON;
+		bool m_canRender = false;
 	};
 }

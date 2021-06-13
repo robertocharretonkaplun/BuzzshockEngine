@@ -37,14 +37,8 @@ namespace buEngineSDK {
     unsigned int nameSize;
     unsigned int numVertex;
     unsigned int numIndex;
-    unsigned int numBonesTransform;
-    unsigned int numBones = 0;
-    unsigned int num_bonesMap;
-    unsigned int numBonesInfo;
-    unsigned int albedoID;
-    unsigned int normalID;
-    unsigned int specID;
-    unsigned int roughnessID;
+    unsigned int baseVertex;
+    unsigned int baseIndex;
   };
 
   struct Vertex {
@@ -60,14 +54,15 @@ namespace buEngineSDK {
   {
     std::vector<Vertex> vertexInfo;
     std::vector<unsigned int> indexInfo;
+    std::vector<unsigned int> faceIndex;
     std::string name;
+    unsigned int numFaces;
   };
 
   struct Model {
     std::vector<Mesh> meshes;
   };
 }
-
 
 namespace CameraType {
 	enum E {
@@ -76,11 +71,25 @@ namespace CameraType {
 	};
 }
 
+namespace GameObjectSelectType {
+  enum E {
+    UNSELECTED,
+    SELECTED,
+  };
+}
+
 namespace GameObjectType {
 	enum E {
 		DEFAULT_TYPE,
 		MESH_TYPE
 	};
+}
+
+namespace GameObjectRenderState {
+  enum E {
+    RENDER_ON,
+    RENDER_OFF
+  };
 }
 
 namespace Format {

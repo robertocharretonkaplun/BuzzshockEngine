@@ -120,5 +120,7 @@ namespace buEngineSDK {
 		Vector<buMatrix4x4> m_bonesTransforms; // Eliminar
 		const aiScene* m_scene = nullptr;
 		float m_animationTime = 0.0f;
+
+		uint32 m_numMeshes;
 	};
 }
