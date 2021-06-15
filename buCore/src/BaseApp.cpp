@@ -317,6 +317,9 @@ namespace buEngineSDK {
     toolsUI();
     // Draw change log
     changeLogUI();
+    // File Explorer
+    FileExplorerUI();
+   
   }
 
   void 
@@ -452,6 +455,20 @@ namespace buEngineSDK {
         if (ImGui::MenuItem("Show Console...")) {
           m_showConsole = true;
           //m_logs.clear();
+        }
+        ImGui::EndMenu();
+      }
+      
+      if (ImGui::BeginMenu("Maya")) {
+        if (ImGui::MenuItem("Load model...")) {
+          m_scene_graph.addMayaGameObject();
+          m_scene_graph.setSelectedGO(0);
+          String AlbedoTexPath = "Data/Textures/DefaultTexture.png";
+          SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
+            AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+          //m_scene_graph.getSelectedGO().m_textures.push_back(AlbedoTex);
+          m_scene_graph.addTexToSelectedObj(AlbedoTex);
+          m_isDataLoaded = true;
         }
         ImGui::EndMenu();
       }
@@ -794,17 +811,6 @@ namespace buEngineSDK {
       m_saverMan.saveGO(&m_scene_graph.getSelectedGO());
     }
     ImGui::SameLine();
-    if (ImGui::Button("Load Maya GO", ImVec2(40, 40))) {
-      m_scene_graph.addMayaGameObject();
-      m_scene_graph.setSelectedGO(0);
-      String AlbedoTexPath = "Data/Textures/DefaultTexture.png";
-    SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
-      AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
-    //m_scene_graph.getSelectedGO().m_textures.push_back(AlbedoTex);
-    m_scene_graph.addTexToSelectedObj(AlbedoTex);
-      m_isDataLoaded = true;
-    }
-    ImGui::SameLine();
     if (ImGui::Button("Triangles", ImVec2(60, 40))) {
       m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
     }
@@ -812,7 +818,33 @@ namespace buEngineSDK {
     if (ImGui::Button("Lines", ImVec2(60, 40))) {
       m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_LINELIST;
     }
+    ImGui::SameLine();
+    ImGui::Text("Render Mode:");
+    ImGui::SameLine();
+    const char* items[] = {"TRIANGLELIST", "LINELIST"};
+    static const char* current_item = NULL;
+    
+    if (ImGui::BeginCombo("##combo", current_item)) {
+      for (int n = 0; n < IM_ARRAYSIZE(items); n++) {
+        bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+        if (ImGui::Selectable(items[n], is_selected)) {
+          current_item = items[n];
+
+          if (n == 0) {
+            m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST; 
+          }
+          if (n == 1) {
+            m_renderMode = TopologyType::BU_PRIMITIVE_TOPOLOGY_LINELIST;
+          }
+        }
+        if (is_selected)
+          ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+      }
+      ImGui::EndCombo();
+    }
     ImGui::End();
+
+
   }
 
   void 
@@ -843,6 +875,46 @@ namespace buEngineSDK {
     ImGui::End();
   }
 
+  void 
+  BaseApp::FileExplorerUI() {
+    ImGui::Begin("File Explorer");
+    ImGui::Text(m_saverMan.m_pathFile.c_str());
+    ImGui::SameLine();
+    if (ImGui::Button("+")) {
+      String tmpPath = "Data/Models/" + m_saverMan.m_pathFile;
+      m_scene_graph.addGameObject(tmpPath);
+      m_scene_graph.setSelectedGO(0);
+      String AlbedoTexPath = "Data/Textures/Character/Albedo.jpeg";
+      SPtr<buCoreTexture2D> AlbedoTex = m_graphicsAPI->loadImageFromFile(
+        AlbedoTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+      //m_scene_graph.getSelectedGO().m_textures.push_back(AlbedoTex);
+      m_scene_graph.addTexToSelectedObj(AlbedoTex);
+      //m_resourceManager->getTextures()->push_back(AlbedoTex);
+      String NormalTexPath = "Data/Textures/Character/Normal.jpeg";
+      SPtr<buCoreTexture2D> NormalTex = m_graphicsAPI->loadImageFromFile(
+        NormalTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+      //m_scene_graph.getSelectedGO().m_textures.push_back(NormalTex);
+      m_scene_graph.addTexToSelectedObj(NormalTex);
+      //m_resourceManager->getTextures()->push_back(NormalTex);
+      String MetallicTexPath = "Data/Textures/Character/Metallic.jpeg";
+      SPtr<buCoreTexture2D> MetallicTex = m_graphicsAPI->loadImageFromFile(
+        MetallicTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+      //m_scene_graph.getSelectedGO().m_textures.push_back(MetallicTex);
+      m_scene_graph.addTexToSelectedObj(MetallicTex);
+      //m_resourceManager->getTextures()->push_back(MetallicTex);
+      String RoughnessTexPath = "Data/Textures/Character/Roughness.jpeg";
+      SPtr<buCoreTexture2D> RoughnessTex = m_graphicsAPI->loadImageFromFile(
+        RoughnessTexPath, m_screenWidth, m_screenHeight, TextureType::E::DEFAULT);
+      m_scene_graph.addTexToSelectedObj(RoughnessTex);
+      //m_scene_graph.getSelectedGO().m_textures.push_back(RoughnessTex);
+
+      m_isDataLoaded = true;
+    }
+    ImGui::Separator();
+    m_saverMan.OnImGui("Data");
+    ImGui::End();
+  }
+
   LRESULT
   BaseApp::handelWindowEvent(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam) {
     /*
@@ -863,4 +935,40 @@ namespace buEngineSDK {
   BaseApp::Log(String _log) {
     m_logs.push_back(_log);
   }
+
+  String 
+  BaseApp::getFileExtensionByRadioButtton(String _name, uint32& _index) {
+    String Extension;
+    //Vector<String>extensions = { ".png", ".jpg", ".jpeg", ".bu" };
+    const char* items[] = { ".png", ".jpg", ".jpeg", ".bu" };
+    
+    //for (uint32 i = 0; i < extensions.size(); i++) {
+    //  ImGui::PushID(countID);
+    //  if (ImGui::RadioButton(extensions[i].c_str(), &countID, i)) {
+    //    Extension = extensions[_index];
+    //  }
+    //  if (i != extensions.size() - 1) {
+    //    ImGui::SameLine();
+    //  }
+    //  ImGui::PopID();
+    //}
+    //countID++;
+    static const char* current_item = NULL;
+
+    if (ImGui::BeginCombo(_name.c_str(), Extension.c_str())) {
+      for (int n = 0; n < IM_ARRAYSIZE(items); n++) {
+        bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+        if (ImGui::Selectable(items[n], is_selected)) {
+          current_item = items[n];
+
+        }
+        if (is_selected)
+          ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+      }
+      ImGui::EndCombo();
+    }
+    return Extension;
+  }
+
+
 }

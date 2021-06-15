@@ -205,6 +205,9 @@ namespace buEngineSDK {
 
 		void
 		propertiesUI();
+
+		void 
+		FileExplorerUI();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -216,6 +219,9 @@ namespace buEngineSDK {
 	  CustomDialogProcInstance(HWND Hw, UINT Msg, WPARAM wParam, LPARAM lParam);*/
 		void 
 		Log(String _log);
+
+		String 
+		getFileExtensionByRadioButtton(String _name, uint32& _index);
 
   protected:
 		/*
@@ -367,5 +373,16 @@ namespace buEngineSDK {
 
 		// Render Type
 		TopologyType::E m_renderMode = TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+		// Custome model Loading
+		bool m_isLoadingDefaultTextures = false;
+		uint32 selectedExtA;
+		uint32 selectedExtN;
+		uint32 selectedExtM;
+		uint32 selectedExtR;
+		uint32 countID = 0;
+
+		// Explorer
+		String m_explorerPath;
 	};
 }

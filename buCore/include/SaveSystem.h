@@ -7,8 +7,10 @@
 #include <buSerializer.h>
 #include <buGameObject.h>
 #include <buCommons.h>
+#include <filesystem>
+// Loader custom: https://github.com/ocornut/imgui/issues/3384
 namespace buEngineSDK {
-
+#define BIT(x) (1 << x)
 
 	class BU_CORE_EXPORT SaveSystem
 	{
@@ -141,6 +143,10 @@ namespace buEngineSDK {
 
 		buGameObject
 		loadGO(String _filename);
+
+		std::pair<bool, uint32_t>
+		DirectoryTreeViewRecursive(const std::filesystem::path& path, uint32_t* count, int* selection_mask);
+		void OnImGui(std::string directoryPath);
 	private:
 
 		Map<String, String> m_string;
@@ -155,5 +161,7 @@ namespace buEngineSDK {
 		Map<String, int[3]> m_vec3i;
 
 		uint32 m_space = 0;
+		public:
+		String m_pathFile;
 	};
 }
