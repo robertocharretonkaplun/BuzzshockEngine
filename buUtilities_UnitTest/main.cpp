@@ -305,6 +305,12 @@ TEST(buUtilities, Vector3F_Test) {
  //EXPECT_FLOAT_EQ(vector1.x, 0.5345f);
  //EXPECT_FLOAT_EQ(vector1.y, 0.8017f);
  //EXPECT_FLOAT_EQ(vector1.z, 0.2672f);
+ CHAR buffer[4096] = { 0 };
+ RTTIEmptyType<buVector3F> obj;
+ obj.toMemory(buVector3F(5, 15, 20), buffer);
+
+ buVector3F empty;
+ obj.fromMemory(empty, buffer);
 }
 
 /** 

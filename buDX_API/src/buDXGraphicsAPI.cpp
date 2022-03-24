@@ -56,7 +56,12 @@ namespace buEngineSDK {
   buDXGraphicsAPI::initialize(void* _window, uint32 _width, uint32 _height) {
     m_width = _width;
     m_height = _height;
-    createDeviceAndSwapChain(_window);
+    bool result = false;
+    result = createDeviceAndSwapChain(_window);
+    
+    if (!result) {
+      m_logger.LogError("Error");
+    }
   }
 
   bool 
@@ -115,63 +120,117 @@ namespace buEngineSDK {
         break;
       }
     }
+
+   // m_swapchain->SetFullscreenState(true, nullptr);
     return static_cast<int>(hr);
   }
 
-  bool 
-  buDXGraphicsAPI::createTextureForBackBuffer(
-    WeakSPtr<buCoreTexture2D> _backbuffer) {
-    if (_backbuffer.expired()) {
-      return false;
-    }
-    auto bbObj = _backbuffer.lock();
-    auto tmpBB = reinterpret_cast<buDXTexture2D*>(bbObj.get());
-    //ID3D11Texture2D* pBackBuffer = nullptr;
-    return static_cast<int>(m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-      (void**)&tmpBB->m_texture));
-  }
-
   SPtr<buCoreViewport>
-  buDXGraphicsAPI::createViewport(float width, 
-                                  float height, 
-                                  float minDepth,
-                                  float maxDepth, 
-                                  float topLeftX,
-                                  float topLeftY) {
+  buDXGraphicsAPI::createViewport(float width, float height) {
     auto pviewport = std::make_shared<buDXViewport>();
     auto viewport = reinterpret_cast<buDXViewport*>(pviewport.get());
-    viewport->init(width, height, minDepth, maxDepth, topLeftX, topLeftY);
+    viewport->init(width, height, 0.0f, 1.0f, 0.0f, 0.0f);
     return pviewport;
     //return SPtr<buCoreViewport>();
   }
 
   SPtr<buCoreTexture2D> 
-  buDXGraphicsAPI::createTexture2D(int32 width, 
-                                   int32 height, 
-                                   uint32 format,
-                                   uint32 bindflags,
-                                   uint32 miplevels ) {
+  buDXGraphicsAPI::createTexture2D(int32 width, int32 height,
+    TextureType::E _textureType, WString _filename) {
+    auto ptexture2D = std::make_shared<buDXTexture2D>();
+    auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
+
+    // Initialize the basic descriptors for the class
+    texture->init("",width, height, _textureType);
+
+    // Make the proper initializations for each type
+    switch (_textureType) {
+    case TextureType::DEFAULT:
+      m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      break;
+    case TextureType::BACKBUFFER:
+       m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      static_cast<int>(m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+        (void**)&texture->m_texture));
+      // Create the render target view
+      m_device->CreateRenderTargetView(texture->m_texture,
+        nullptr,
+        &texture->m_renderTargetView);
+      // Create the shader resource for the render target
+      m_device->CreateShaderResourceView(texture->m_texture,
+        &texture->m_shaderResourceViewDesc,
+        &texture->m_shaderSubresource);
+      break;
+    case TextureType::DEPTH_STENCIL:
+      m_device->CreateTexture2D(&texture->m_descriptor,
+                                nullptr,
+                                &texture->m_texture);
+      break;
+    case TextureType::RENDER_TARGET:
+      // Create the texture 2D
+      m_device->CreateTexture2D(&texture->m_descriptor,
+        nullptr,
+        &texture->m_texture);
+      // Create the render target view
+      m_device->CreateRenderTargetView(texture->m_texture, 
+                                       nullptr,
+                                       &texture->m_renderTargetView);
+      // Create the shader resource for the render target
+      m_device->CreateShaderResourceView(texture->m_texture, 
+                                         &texture->m_shaderResourceViewDesc,
+                                         &texture->m_shaderSubresource);
+
+      break;
+    case TextureType::CUBE_MAP:
+      DirectX::CreateDDSTextureFromFileEx(m_device,
+        _filename.c_str(),
+        0,
+        texture->m_descriptor.Usage,
+        texture->m_descriptor.BindFlags,
+        texture->m_descriptor.CPUAccessFlags,
+        texture->m_descriptor.MiscFlags,
+        false,
+        (ID3D11Resource**)&texture->m_texture,
+        &texture->m_shaderSubresource);
+      break;
+    default:
+      break;
+    }
+
+
+    return ptexture2D;
+  }
+
+  SPtr<buCoreTexture2D> buDXGraphicsAPI::createTexture2D(int32 width,
+                                                         int32 height, 
+                                                         uint32 format,
+                                                         uint32 usage, 
+                                                         uint32 bindflags) {
     auto ptexture2D = std::make_shared<buDXTexture2D>();
     auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
 
 
     texture->init("",
-                  DXGI_FORMAT_D24_UNORM_S8_UINT,
-                  D3D11_USAGE_DEFAULT,
-                  width,
-                  height,
-                  miplevels,
-                  1,
-                  1,
-                  0,
-                  bindflags,
-                  0,
-                  0);
+      format,
+      usage,
+      width,
+      height,
+      1,
+      1,
+      1,
+      0,
+      bindflags,
+      0,
+      0);
 
 
     m_device->CreateTexture2D(&texture->m_descriptor,
-                              nullptr,
-                              &texture->m_texture);
+      nullptr,
+      &texture->m_texture);
 
     return ptexture2D;
   }
@@ -182,27 +241,106 @@ namespace buEngineSDK {
     return swapchain;
   }
 
-  SPtr<buCoreRenderTargetView> 
-  buDXGraphicsAPI::createRenderTargetView() {
-    auto renderTargetView = std::make_shared<buDXRenderTargetView>();
-    return renderTargetView;
-  }
-
   SPtr<buCoreVertexShader> 
-  buDXGraphicsAPI::createVertexShader() {
+  buDXGraphicsAPI::createVertexShader(WString _fileName) {
     auto vertexShader = std::make_shared<buDXVertexShader>();
+    auto tmpVertexShader = reinterpret_cast<buDXVertexShader*>(vertexShader.get());
+
+    tmpVertexShader->init(_fileName);
+    
+    HRESULT hr = m_device->CreateVertexShader(
+      tmpVertexShader->m_compileVertexShader->GetBufferPointer(),
+      tmpVertexShader->m_compileVertexShader->GetBufferSize(),
+      nullptr,
+      &tmpVertexShader->m_vertexShader);
+
     return vertexShader;
   }
 
+  SPtr<buCoreGeometryShader> 
+  buDXGraphicsAPI::createGeometryShader(WString _fileName) {
+    auto geometryShader = std::make_shared<buDXGeometryShader>();
+    auto tmpGeometryShader = reinterpret_cast<buDXGeometryShader*>(geometryShader.get());
+
+    tmpGeometryShader->init(_fileName);
+    
+    HRESULT hr = m_device->CreateGeometryShader(
+      tmpGeometryShader->m_compileGeometryShader->GetBufferPointer(),
+      tmpGeometryShader->m_compileGeometryShader->GetBufferSize(),
+      nullptr,
+      &tmpGeometryShader->m_geometryShader);
+
+    return geometryShader;
+  }
+
   SPtr<buCorePixelShader> 
-  buDXGraphicsAPI::createPixelShader() {
+  buDXGraphicsAPI::createPixelShader(WString _fileName) {
     auto pixelShader = std::make_shared<buDXPixelShader>();
+    auto tmpPixelShader = reinterpret_cast<buDXPixelShader*>(pixelShader.get());
+
+    tmpPixelShader->init(_fileName);
+
+    // Create the pixel shader
+    static_cast<int>(m_device->CreatePixelShader(
+      tmpPixelShader->m_compilePixelShader->GetBufferPointer(),
+      tmpPixelShader->m_compilePixelShader->GetBufferSize(),
+      nullptr,
+      &tmpPixelShader->m_pixelShader));
+
     return pixelShader;
   }
 
   SPtr<buCoreInputLayout>
-  buDXGraphicsAPI::createInputLayout() {
+  buDXGraphicsAPI::createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                                     Vector<String> _semanticNames) {
     auto inputLayout = std::make_shared<buDXInputLayout>();
+    auto tmpInputLayout = reinterpret_cast<buDXInputLayout*>(inputLayout.get());
+
+    
+    // Vertex Shader
+    if (_vertexShader.expired()) {
+      return nullptr;
+    }
+    auto vsObj = _vertexShader.lock();
+    auto tmpVS = reinterpret_cast<buDXVertexShader*>(vsObj.get());
+
+
+    // Create the input layout
+    tmpInputLayout->init(_semanticNames);
+    static_cast<int>(m_device->CreateInputLayout(tmpInputLayout->m_descriptor.data(),
+      (UINT)tmpInputLayout->m_descriptor.size(),
+      tmpVS->m_compileVertexShader->GetBufferPointer(),
+      tmpVS->m_compileVertexShader->GetBufferSize(),
+      &tmpInputLayout->m_inputLayout));
+
+
+    return inputLayout;
+  }
+
+  SPtr<buCoreInputLayout>
+  buDXGraphicsAPI::createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
+                                     Vector<String> _semanticNames) {
+    auto inputLayout = std::make_shared<buDXInputLayout>();
+    auto tmpInputLayout = reinterpret_cast<buDXInputLayout*>(inputLayout.get());
+
+    
+    // Geometry Shader
+    if (_geometryShader.expired()) {
+      return nullptr;
+    }
+    auto gsObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(gsObj.get());
+
+
+    // Create the input layout
+    tmpInputLayout->init(_semanticNames);
+    static_cast<int>(m_device->CreateInputLayout(tmpInputLayout->m_descriptor.data(),
+      (UINT)tmpInputLayout->m_descriptor.size(),
+      tmpGS->m_compileGeometryShader->GetBufferPointer(),
+      tmpGS->m_compileGeometryShader->GetBufferSize(),
+      &tmpInputLayout->m_inputLayout));
+
+
     return inputLayout;
   }
 
@@ -238,6 +376,34 @@ namespace buEngineSDK {
     return buffer;
   }
 
+  SPtr<buCoreBuffer> buDXGraphicsAPI::createBuffer(uint32 byteWidth) {
+    auto buffer = std::make_shared<buDXBuffer>();
+    auto tmpBuffer = reinterpret_cast<buDXBuffer*>(buffer.get());
+    tmpBuffer->init(D3D11_USAGE_DEFAULT,
+                    byteWidth,
+                    D3D11_BIND_CONSTANT_BUFFER,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    nullptr);
+
+    if (nullptr == tmpBuffer->m_bufferData) {
+      m_device->CreateBuffer(&tmpBuffer->m_descriptor,
+                             nullptr,
+                             &tmpBuffer->m_buffer);
+      return buffer;
+    }
+    else {
+      m_device->CreateBuffer(&tmpBuffer->m_descriptor,
+                             &tmpBuffer->m_subresourceData,
+                             &tmpBuffer->m_buffer);
+      return buffer;
+    }
+    return buffer;
+  }
+
   SPtr<buCoreDepthStencilView>
   buDXGraphicsAPI::createDepthStencilView() {
     auto depthStencilView = std::make_shared<buDXDepthStencilView>();
@@ -247,6 +413,19 @@ namespace buEngineSDK {
   SPtr<buCoreSampler> 
   buDXGraphicsAPI::createSampler() {
     auto sampler = std::make_shared<buDXSampler>();
+    auto tmpSampler = reinterpret_cast<buDXSampler*>(sampler.get());
+
+    tmpSampler->init(D3D11_FILTER_MIN_MAG_MIP_LINEAR,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_TEXTURE_ADDRESS_WRAP,
+      D3D11_COMPARISON_NEVER,
+      0,
+      D3D11_FLOAT32_MAX);
+
+    static_cast<int>(m_device->CreateSamplerState(&tmpSampler->m_descriptor,
+      &tmpSampler->m_sampler));
+
     return sampler;
   }
 
@@ -258,6 +437,22 @@ namespace buEngineSDK {
     auto VSObj = _vertexShader.lock();
     auto tmpVS = reinterpret_cast<buDXVertexShader*>(VSObj.get());
     m_deviceContext->VSSetShader(tmpVS->m_vertexShader, nullptr, 0);
+  }
+
+  void
+  buDXGraphicsAPI::setGeometryShader(WeakSPtr<buCoreGeometryShader> _geometryShader) {
+
+    if (_geometryShader.expired()) {
+      return;
+    }
+    auto GSObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(GSObj.get());
+    m_deviceContext->GSSetShader(tmpGS->m_geometryShader, nullptr, 0);
+  }
+
+  void 
+  buDXGraphicsAPI::removeGeometryShader() {
+    m_deviceContext->GSSetShader(nullptr, nullptr, 0);
   }
 
   void
@@ -289,6 +484,11 @@ namespace buEngineSDK {
                                  _baseVertexLocation);
   }
 
+  void 
+  buDXGraphicsAPI::draw(uint32 _numVertices, uint32 _startIndexLocation) {
+    m_deviceContext->Draw(_numVertices, _startIndexLocation);
+  }
+
   void
   buDXGraphicsAPI::present(uint32 _syncInterval, uint32 _flag) {
     m_swapchain->Present(_syncInterval, _flag);
@@ -316,29 +516,6 @@ namespace buEngineSDK {
       &tmpDSV->m_depthStencilView));
   }
 
-  bool 
-  buDXGraphicsAPI::createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture,
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView) {
-    // Back buffer texture
-    if (_texture.expired()) {
-      return false;
-    }
-    auto textureObj = _texture.lock();
-    auto texture = reinterpret_cast<buDXTexture2D*>(textureObj.get());
-
-    // Render target view
-    if (_renderTargetView.expired()) {
-      return false;
-    }
-    auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
-
-
-    return static_cast<int>(m_device->CreateRenderTargetView(texture->m_texture,
-      nullptr,
-      &tmpRTV->m_renderTargetView));
-  }
-
   bool
   buDXGraphicsAPI::createVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) {
     if (_vertexShader.expired()) {
@@ -353,6 +530,24 @@ namespace buEngineSDK {
       tmpVS->m_compileVertexShader->GetBufferSize(),
       nullptr,
       &tmpVS->m_vertexShader);
+
+    return hr == S_OK;
+  }
+
+  bool 
+  buDXGraphicsAPI::createGeometryShader(WeakSPtr<buCoreGeometryShader> _geometryShader) {
+    if (_geometryShader.expired()) {
+      return false;
+    }
+    auto gsObj = _geometryShader.lock();
+    auto tmpGS = reinterpret_cast<buDXGeometryShader*>(gsObj.get());
+
+    // Create the geometry shader
+    HRESULT hr = m_device->CreateGeometryShader(
+      tmpGS->m_compileGeometryShader->GetBufferPointer(),
+      tmpGS->m_compileGeometryShader->GetBufferSize(),
+      nullptr,
+      &tmpGS->m_geometryShader);
 
     return hr == S_OK;
   }
@@ -438,21 +633,24 @@ namespace buEngineSDK {
   SPtr<buCoreTexture2D>
   buDXGraphicsAPI::loadImageFromFile(String _filepath, 
                                      int32 width, 
-                                     int32 height) {
+                                     int32 height,
+                                     TextureType::E textureType) {
 
     auto ptexture2D = std::make_shared<buDXTexture2D>();
 
     auto texture = reinterpret_cast<buDXTexture2D*>(ptexture2D.get());
 
     String texturePath;
+    String folderPath = "Data/Textures/";
+   // folderPath += _filepath;
     FILE* f = stbi__fopen(_filepath.c_str(), "rb");
-
     // If the texture path wasnt loaded correctly
     if (!f) {
       texturePath = "Data/Textures/DefaultTexture.png";
     }
     else {
       texturePath = _filepath;
+      //texturePath = folderPath;
     }
 
 
@@ -461,7 +659,7 @@ namespace buEngineSDK {
     if (texture->image == nullptr) {
       return nullptr;
     }
-    texture->init(_filepath, width, height, DXGI_FORMAT_R8G8B8A8_UNORM);
+    texture->init(_filepath, width, height, textureType);
 
     D3D11_SUBRESOURCE_DATA subResource;
     subResource.pSysMem = texture->image;
@@ -475,19 +673,25 @@ namespace buEngineSDK {
     CD3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
     shaderResourceViewDesc.Format = texture->m_descriptor.Format;
     shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    
     shaderResourceViewDesc.Texture2D.MipLevels = texture->m_descriptor.MipLevels;
     shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+
+
 
     m_device->CreateShaderResourceView(texture->m_texture,
       &shaderResourceViewDesc,
       &texture->m_shaderSubresource);
     
+
+
     stbi_image_free(texture->image);
     m_ShaderResources.push_back(texture->m_shaderSubresource);
     return ptexture2D;
   }
 
-  SPtr<buCoreModelLoader> 
+
+  SPtr<buCoreModelLoader>
   buDXGraphicsAPI::loadMesh(String _filepath) {
     /*auto meshloader = std::make_shared<buCoreModelLoader>();
     auto loader = reinterpret_cast<buCoreModelLoader*>(meshloader.get());
@@ -558,7 +762,7 @@ namespace buEngineSDK {
 
   void 
   buDXGraphicsAPI::setRenderTargets(int32 _numViews,
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+    WeakSPtr<buCoreTexture2D> _renderTargetView,
     WeakSPtr<buCoreDepthStencilView> _depthStencilView) {
     if (_depthStencilView.expired()) {
       return;
@@ -570,7 +774,7 @@ namespace buEngineSDK {
       return;
     }
     auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
+    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
     m_deviceContext->OMSetRenderTargets(_numViews,
       &tmpRTV->m_renderTargetView,
       tmpDSV->m_depthStencilView);
@@ -578,12 +782,12 @@ namespace buEngineSDK {
 
   void 
   buDXGraphicsAPI::clearRenderTargetView(
-    WeakSPtr<buCoreRenderTargetView> _renderTargetView, float _color[4]) {
+    WeakSPtr<buCoreTexture2D> _renderTargetView, float _color[4]) {
     if (_renderTargetView.expired()) {
       return;
     }
     auto RTVObj = _renderTargetView.lock();
-    auto tmpRTV = reinterpret_cast<buDXRenderTargetView*>(RTVObj.get());
+    auto tmpRTV = reinterpret_cast<buDXTexture2D*>(RTVObj.get());
 
     m_deviceContext->ClearRenderTargetView(tmpRTV->m_renderTargetView, _color);
   }
@@ -641,6 +845,20 @@ namespace buEngineSDK {
     auto bufferObj = _buffer.lock();
     auto tmpbuffer = reinterpret_cast<buDXBuffer*>(bufferObj.get());
     m_deviceContext->VSSetConstantBuffers(_startSlot,
+      _numBuffers,
+      &tmpbuffer->m_buffer);
+  }
+
+  void 
+  buDXGraphicsAPI::GSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
+                                        uint32 _startSlot,
+                                        uint32 _numBuffers) {
+    if (_buffer.expired()) {
+      return;
+    }
+    auto bufferObj = _buffer.lock();
+    auto tmpbuffer = reinterpret_cast<buDXBuffer*>(bufferObj.get());
+    m_deviceContext->GSSetConstantBuffers(_startSlot,
       _numBuffers,
       &tmpbuffer->m_buffer);
   }

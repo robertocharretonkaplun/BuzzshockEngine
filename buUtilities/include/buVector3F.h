@@ -1,6 +1,7 @@
 #pragma once
 #include "buPrerequisitesUtil.h"
 #include "buMath.h"
+#include "buSerializer.h"
 
 namespace buEngineSDK {
  class BU_UTILITY_EXPORT buVector3F
@@ -28,7 +29,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  ~buVector3F();
+  //~buVector3F();
 
   /**
    * @brief Copy constructors
@@ -36,7 +37,7 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector3F(const buVector3F& _v);
+ // buVector3F(const buVector3F& _v);
 
   /**
    * @brief Constructor to equal a vector
@@ -44,8 +45,8 @@ namespace buEngineSDK {
    * @return
    * @bug
    */
-  buVector3F& 
-  operator=(const buVector3F& _v);
+  //buVector3F& 
+  //operator=(const buVector3F& _v);
 
   /**
    * @brief Method for addition of another vector
@@ -197,6 +198,12 @@ namespace buEngineSDK {
   void
   normalize();
   
+  Vector<BYTE>
+  data();
+
+  uint32
+  memSize();
+
  public:
   /**
    * @brief Member in charge of storing the point of the x - coordinate.
@@ -218,5 +225,7 @@ namespace buEngineSDK {
    */
   static const buVector3F Zero;
 
+
  };
+  BU_ALLOW_MEMCPY_SERIALIZATION(buVector3F);
 }

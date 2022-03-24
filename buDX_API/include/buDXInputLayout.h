@@ -30,7 +30,7 @@ namespace buEngineSDK {
 		 * @bug 
 		 */
 		void 
-	  init(INPUT_LAYOUT_DESC* _descriptor, uint32 _numElements) override;
+	  init(Vector<String> _semanticNames) override;
 	public:
 		/**
 		 * @brief 

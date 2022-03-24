@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Lobby">
+      <UniqueIdentifier>{d91d55cc-b137-4628-93d1-217ae6449fe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lobby">
+      <UniqueIdentifier>{673e146e-e2f3-463c-969f-6d999af2b2cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{4bf2b41c-5939-4cb3-921b-2d12a69724aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{72cf1f65-2678-42cd-b8df-dc9869e490a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{0bc25c6c-7bf5-4138-8865-cfa28ee10730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{84cb5ed1-3eda-48f7-8245-39e4667cf394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\User">
+      <UniqueIdentifier>{bf9ffca8-967f-41b8-8ed1-d9c2eab5f76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API">
+      <UniqueIdentifier>{4e6c9179-877f-49d1-8568-c95527f2f380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{c27bca82-0fa8-4205-8acb-c742e1132609}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\buServer.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buLobby.h">
+      <Filter>Header Files\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buClient.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buUser.h">
+      <Filter>Header Files\User</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buConnectAPI.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\buServer.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buLobby.cpp">
+      <Filter>Source Files\Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buClient.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buConnectAPI.cpp">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

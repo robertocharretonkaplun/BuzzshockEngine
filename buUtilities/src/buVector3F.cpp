@@ -5,17 +5,17 @@ namespace buEngineSDK {
 
   buVector3F::buVector3F(float _x, float _y, float _z) : x(_x), y(_y), z(_z) { }
 
-  buVector3F::~buVector3F() { }
+  //buVector3F::~buVector3F() {}
 
-  buVector3F::buVector3F(const buVector3F& _v) : x(_v.x), y(_v.y), z(_v.z) { }
+  //buVector3F::buVector3F(const buVector3F& _v) : x(_v.x), y(_v.y), z(_v.z) { }
 
-  buVector3F& 
-  buVector3F::operator=(const buVector3F& _v) {
-    x = _v.x;
-    y = _v.y;
-    z = _v.z;
-    return *this;
-  }
+  //buVector3F& 
+  //buVector3F::operator=(const buVector3F& _v) {
+  //  x = _v.x;
+  //  y = _v.y;
+  //  z = _v.z;
+  //  return *this;
+  //}
 
   buVector3F&
   buVector3F::operator+=(const buVector3F& _v) {
@@ -115,5 +115,19 @@ namespace buEngineSDK {
     y = y * normValue;
     z = z * normValue;
     
+  }
+
+  Vector<BYTE>
+  buVector3F::data() {
+    Vector<BYTE> Buffer;
+    Buffer.resize(sizeof(buVector3F) );
+    RTTIEmptyType<buVector3F> Position_object;
+    Position_object.toMemory(buVector3F(x,y,z), Buffer.data());
+    return Buffer;
+   }
+
+  uint32
+  buVector3F::memSize() {
+    return sizeof(buVector3F);
   }
 }

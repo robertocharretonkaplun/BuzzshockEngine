@@ -58,6 +58,11 @@
 #include <sstream>
 
 /**
+ * @brief 
+ */
+#include <time.h>
+
+/**
  * @brief C Types and Stats
  */
 extern "C" {

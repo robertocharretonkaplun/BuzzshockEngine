@@ -6,20 +6,6 @@ namespace buEngineSDK {
  buVector4I::buVector4I(int32 _x, int32 _y, int32 _z, int32 _w) 
    : x(_x), y(_y), z(_z), w(_w) { }
  
- buVector4I::~buVector4I() { }
- 
- buVector4I::buVector4I(const buVector4I& _v) 
-   : x(_v.x), y(_v.y), z(_v.z), w(_v.w) { }
- 
- buVector4I&
- buVector4I::operator=(const buVector4I& _v) {
-   x = _v.x;
-   y = _v.y;
-   z = _v.z;
-   w = _v.w;
-   return *this;
- }
- 
  buVector4I& 
  buVector4I::operator+=(const buVector4I& _v) {
    *this = *this + _v;

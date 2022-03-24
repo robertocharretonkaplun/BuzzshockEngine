@@ -101,17 +101,18 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)Connect/Include/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(MAYA)include/;$(DEVLIBS)PhysX-4.1/physx/source/physxextensions/src/;$(DEVLIBS)PhysX-4.1/physx/include/;$(DEVLIBS)PhysX-4.1/physx/snippets/snippetcommon/;$(DEVLIBS)PhysX-4.1/physx/src/foundation/;$(DEVLIBS)PhysX-4.1/pxshared/include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenCL.lib;PhysXExtensions_static_64.lib;PhysX_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;SnippetUtils_static_64.lib;SnippetRender_static_64.lib;PhysXFoundation_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -149,17 +150,18 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(SolutionDir)dependencies/;$(SolutionDir)Connect/Include/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;$(INTELOCLSDKROOT)include/;$(DEVLIBS)rapidjson/include/;$(DEVLIBS)bucurl/include/;$(MAYA)include/;$(DEVLIBS)PhysX-4.1/physx/source/physxextensions/src/;$(DEVLIBS)PhysX-4.1/physx/include/;$(DEVLIBS)PhysX-4.1/physx/snippets/snippetcommon/;$(DEVLIBS)PhysX-4.1/physx/src/foundation/;$(DEVLIBS)PhysX-4.1/pxshared/include/</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(INTELOCLSDKROOT)lib/$(PlatformTarget)/;$(DEVLIBS)\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug/;$(Maya)lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>buUtilitiesd.lib;assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OpenCL.lib;PhysXExtensions_static_64.lib;PhysX_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;SnippetUtils_static_64.lib;SnippetRender_static_64.lib;PhysXFoundation_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -189,52 +191,97 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui.cpp" />
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_draw.cpp" />
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_widgets.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\dependencies\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp" />
     <ClCompile Include="include\buResourceManager.cpp" />
     <ClCompile Include="src\BaseApp.cpp" />
+    <ClCompile Include="src\buCamera.cpp" />
+    <ClCompile Include="src\buCameraManager.cpp" />
     <ClCompile Include="src\buCoreConfig.cpp" />
+    <ClCompile Include="src\buCoreConnectAPI.cpp" />
     <ClCompile Include="src\buCoreGraphicsAPI.cpp" />
     <ClCompile Include="src\buCoreMesh.cpp" />
     <ClCompile Include="src\buCoreModel.cpp" />
     <ClCompile Include="src\buCoreModelLoader.cpp" />
     <ClCompile Include="src\buCoreTexture2D.cpp" />
+    <ClCompile Include="src\buGameObject.cpp" />
+    <ClCompile Include="src\buGraphicsDebug.cpp" />
+    <ClCompile Include="src\buHistogram.cpp" />
     <ClCompile Include="src\buImgui.cpp" />
+    <ClCompile Include="src\buLight.cpp" />
+    <ClCompile Include="src\buMayaImport.cpp" />
+    <ClCompile Include="src\buPxScene.cpp" />
+    <ClCompile Include="src\buRigidbody.cpp" />
+    <ClCompile Include="src\buSceneGraph.cpp" />
+    <ClCompile Include="src\buTransform.cpp" />
+    <ClCompile Include="src\SaveSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imconfig.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_internal.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_rectpack.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_textedit.h" />
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_truetype.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="..\dependencies\ImGuizmo\ImZoomSlider.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h" />
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h" />
     <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\BSPNodeTree.h" />
     <ClInclude Include="include\buAnimation.h" />
+    <ClInclude Include="include\buCamera.h" />
+    <ClInclude Include="include\buCameraManager.h" />
+    <ClInclude Include="include\buCommons.h" />
+    <ClInclude Include="include\buComponent.h" />
     <ClInclude Include="include\buCoreBuffer.h" />
+    <ClInclude Include="include\buCoreClient.h" />
     <ClInclude Include="include\buCoreConfig.h" />
+    <ClInclude Include="include\buCoreConnectAPI.h" />
     <ClInclude Include="include\buCoreDepthStencilView.h" />
+    <ClInclude Include="include\buCoreGeometryShader.h" />
     <ClInclude Include="include\buCoreGraphicsAPI.h" />
     <ClInclude Include="include\buCoreInputLayout.h" />
+    <ClInclude Include="include\buCoreLobby.h" />
     <ClInclude Include="include\buCoreMesh.h" />
     <ClInclude Include="include\buCoreModel.h" />
     <ClInclude Include="include\buCoreModelLoader.h" />
     <ClInclude Include="include\buCorePixelShader.h" />
     <ClInclude Include="include\buCoreRenderTargetView.h" />
     <ClInclude Include="include\buCoreSampler.h" />
+    <ClInclude Include="include\buCoreServer.h" />
     <ClInclude Include="include\buCoreSwapchain.h" />
     <ClInclude Include="include\buCoreTexture2D.h" />
+    <ClInclude Include="include\buCoreUser.h" />
     <ClInclude Include="include\buCoreVertexShader.h" />
     <ClInclude Include="include\buCoreViewport.h" />
+    <ClInclude Include="include\buGameObject.h" />
+    <ClInclude Include="include\buGraphicsDebug.h" />
+    <ClInclude Include="include\buHistogram.h" />
     <ClInclude Include="include\buImgui.h" />
+    <ClInclude Include="include\buLight.h" />
+    <ClInclude Include="include\buMayaImport.h" />
     <ClInclude Include="include\buNode.h" />
     <ClInclude Include="include\buPrerequisitesCore.h" />
+    <ClInclude Include="include\buProfiler.h" />
+    <ClInclude Include="include\buPxScene.h" />
     <ClInclude Include="include\buResourceManager.h" />
+    <ClInclude Include="include\buRigidbody.h" />
     <ClInclude Include="include\buScene.h" />
+    <ClInclude Include="include\buSceneGraph.h" />
+    <ClInclude Include="include\buTransform.h" />
+    <ClInclude Include="include\SaveSystem.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

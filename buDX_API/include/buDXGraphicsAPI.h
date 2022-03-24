@@ -18,32 +18,23 @@
 #include "buDXSwapchain.h"
 #include "buDXRenderTargetView.h"
 #include "buDXVertexShader.h"
+#include "buDXGeometryShader.h"
 #include "buDXPixelShader.h"
 #include "buDXInputLayout.h"
 #include "buDXBuffer.h"
 #include "buDXDepthStencilView.h"
 #include "buDXSampler.h"
+#include "DDSTextureLoader11.h"
+#include "buLogger.h"
 //#include "buDXImgui.h"
 // Assimp
+//using namespace DirectX;
 
 
 namespace buEngineSDK {
   struct SimpleVertex {
     buVector3F Pos;
     buVector2F Tex;
-  };
-
-  struct CBNeverChanges {
-    buMatrix4x4 mView;
-  };
-
-  struct CBChangeOnResize {
-    buMatrix4x4 mProjection;
-  };
-
-  struct CBChangesEveryFrame {
-    buMatrix4x4 mWorld;
-    buVector4F vMeshColor;
   };
 
  class buDXGraphicsAPI : public buCoreGraphicsAPI {
@@ -53,7 +44,7 @@ namespace buEngineSDK {
    ~buDXGraphicsAPI();
   
    /**
-    * @brief Test method to check if the linking between libs works.
+5    * @brief Test method to check if the linking between libs works.
     */
    void
    testFunc() override;
@@ -105,13 +96,6 @@ namespace buEngineSDK {
     */
    bool 
    createDeviceAndSwapChain(void* _window) override;
-   
-   /**
-    * @brief Method that creates the back buffer texture, this is a 
-    * very specific method for his implementation.
-    */
-   bool 
-   createTextureForBackBuffer(WeakSPtr<buCoreTexture2D> _backbuffer) override;
 
    /**
    * @brief
@@ -120,8 +104,7 @@ namespace buEngineSDK {
    * @bug
    */
    SPtr<buCoreViewport>
-   createViewport(float width, float height, float minDepth,
-                  float maxDepth, float topLeftX, float topLeftY) override;
+   createViewport(float width, float height) override;
    
    /** 
    * @brief 
@@ -131,10 +114,16 @@ namespace buEngineSDK {
    */
    SPtr<buCoreTexture2D> 
    createTexture2D(int32 width, 
+                   int32 height, 
+                   TextureType::E _textureType,
+                   WString _filename) override;
+   
+   SPtr<buCoreTexture2D> 
+   createTexture2D(int32 width, 
                    int32 height,
-                   uint32 format,
-                   uint32 bindflags,
-                   uint32 miplevels) override;
+                   uint32 format, 
+                   uint32 usage, 
+                   uint32 bindflags) override;
 
    /** 
     * @brief 
@@ -151,17 +140,11 @@ namespace buEngineSDK {
     * @return 
     * @bug 
     */
-   SPtr<buCoreRenderTargetView>
-   createRenderTargetView() override;
-
-   /** 
-    * @brief 
-    * @param 
-    * @return 
-    * @bug 
-    */
    SPtr<buCoreVertexShader>
-   createVertexShader() override;
+   createVertexShader(WString _fileName) override;
+
+   SPtr<buCoreGeometryShader>
+   createGeometryShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -170,7 +153,7 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCorePixelShader>
-   createPixelShader() override;
+   createPixelShader(WString _fileName) override;
 
    /** 
     * @brief 
@@ -179,7 +162,12 @@ namespace buEngineSDK {
     * @bug 
     */
    SPtr<buCoreInputLayout>
-   createInputLayout() override;
+   createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                     Vector<String> _semanticNames) override;
+
+   SPtr<buCoreInputLayout>
+   createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
+                     Vector<String> _semanticNames) override;
 
    /** 
     * @brief 
@@ -192,6 +180,9 @@ namespace buEngineSDK {
                 uint32 bindFlags,
                 uint32 offset,
                 void* bufferData) override;
+
+   SPtr<buCoreBuffer>
+   createBuffer(uint32 byteWidth) override;
 
    /** 
     * @brief 
@@ -219,6 +210,12 @@ namespace buEngineSDK {
     */
    void
    setVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) override;
+
+   void
+   setGeometryShader(WeakSPtr<buCoreGeometryShader> _vertexShader) override;
+
+   void
+   removeGeometryShader() override;
 
    /** 
     * @brief 
@@ -249,6 +246,9 @@ namespace buEngineSDK {
                uint32 _startIndexLocation, 
                uint32 _baseVertexLocation) override;
    
+   void 
+   draw(uint32 _numVertices, uint32 _startIndexLocation) override;
+
    /** 
     * @brief 
     * @param 
@@ -268,18 +268,16 @@ namespace buEngineSDK {
                           override;
 
    /**
-    * @brief Method that creates the render target view.
-    */
-   bool
-   createRenderTargetView(WeakSPtr<buCoreTexture2D> _texture, 
-                          WeakSPtr<buCoreRenderTargetView> _renderTargetView)
-   override;
-
-   /**
     * @brief Method that creates the vertex shader.
     */
    bool 
    createVertexShader(WeakSPtr<buCoreVertexShader> _vertexShader) override;
+
+   /**
+    * @brief Method that creates the Geometry shader.
+    */
+   bool 
+   createGeometryShader(WeakSPtr<buCoreGeometryShader> _vertexShader) override;
 
    /**
     * @brief Method that creates the input layout.
@@ -319,7 +317,8 @@ namespace buEngineSDK {
     * @brief Method in charge of loading a texture from file
     */
    SPtr<buCoreTexture2D>
-   loadImageFromFile(String _filepath, int32 width, int32 height) override;
+   loadImageFromFile(String _filepath, int32 width, int32 height, TextureType::E textureType) override;
+   
 
    SPtr<buCoreModelLoader>
    loadMesh(String _filepath) override;
@@ -352,14 +351,14 @@ namespace buEngineSDK {
     */
    void
    setRenderTargets(int32 _numViews,
-                    WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+                    WeakSPtr<buCoreTexture2D> _renderTargetView,
                     WeakSPtr<buCoreDepthStencilView> _depthStencilView) override;
 
    /**
     * @brief Method that clears the render target view.
     */
    void
-   clearRenderTargetView(WeakSPtr<buCoreRenderTargetView> _renderTargetView,
+   clearRenderTargetView(WeakSPtr<buCoreTexture2D> _renderTargetView,
                          float _color[4]) override;
 
    /**
@@ -393,6 +392,14 @@ namespace buEngineSDK {
     */
    void
    VSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
+                        uint32 _startSlot,    
+                        uint32 _numBuffers) override;
+
+   /**
+    * @brief Method that sets the geometry constant buffer.
+    */
+   void
+   GSsetConstantBuffers(WeakSPtr<buCoreBuffer> _buffer, 
                         uint32 _startSlot,    
                         uint32 _numBuffers) override;
 
@@ -471,6 +478,7 @@ namespace buEngineSDK {
    uint32 m_height = 0;
    
    Vector<void*> m_ShaderResources;
+   buLogger m_logger;
 };
  
  /** 

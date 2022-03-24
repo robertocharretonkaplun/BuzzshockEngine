@@ -14,13 +14,15 @@
 #include <assimp\include\assimp\scene.h>
 #include <buNumLimits.h>
 #include <buMatrix3x3.h>
-
+#include <buCoreTexture2D.h>
+#include <buCoreGraphicsAPI.h>
 namespace buEngineSDK {
 	//template<typename V>
 	struct SimpleVertex {
 		buVector3F Pos;
 		buVector2F Tex;
 		buVector3F Nor;
+		buVector3F Tan;
 		uint32 boneIDs[4] = { NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32, 
 													NumericLimits::MAX_UINT32, NumericLimits::MAX_UINT32 };
 		float boneWeights[4] = { 0.0f , 0.0f, 0.0f, 0.0f };
@@ -92,12 +94,15 @@ namespace buEngineSDK {
 
     buMatrix4x4
     nlerp(aiQuaternion a, aiQuaternion b, const float& blend);
+
+
 	public:
 		/**
 		 * @brief Meshes from the model.
 		 */
 		String TexName;
 		Vector<buCoreMesh> m_meshes;
+		Vector<SPtr<buCoreTexture2D>> m_textures;
 		Vector<SimpleVertex> m_vertices;
 		Vector<uint32> m_indices;
 
@@ -115,5 +120,7 @@ namespace buEngineSDK {
 		Vector<buMatrix4x4> m_bonesTransforms; // Eliminar
 		const aiScene* m_scene = nullptr;
 		float m_animationTime = 0.0f;
+
+		uint32 m_numMeshes;
 	};
 }

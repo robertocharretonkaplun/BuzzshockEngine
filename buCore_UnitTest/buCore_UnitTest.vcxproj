@@ -99,7 +99,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(DEVLIBS)googletest/include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(DEVLIBS)googletest/include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
@@ -107,7 +107,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;$(DEVLIBS)googletest/lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;gtestd.lib;buCored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buUtilitiesd.lib;gtestd.lib;buCored.lib;sysAudiod.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,7 +139,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(DEVLIBS)googletest/include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(SolutionDir)buUtilities/Include/;$(DEVLIBS)googletest/include/;$(SolutionDir)buCore/Include/;$(SolutionDir)dependencies/;$(SolutionDir)sysAudio/Include/;$(SolutionDir)sysRender/Include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
@@ -147,7 +147,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformShortName)/;$(DEVLIBS)googletest/lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>buUtilitiesd.lib;gtestd.lib;buCored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buUtilitiesd.lib;gtestd.lib;buCored.lib;sysAudiod.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

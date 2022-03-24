@@ -223,6 +223,53 @@ namespace buEngineSDK {
      }
      return cos;
    }
-  
+
+  /**
+   * @brief Method in charge of getting the value the a log.
+   * @param _v scalar value.
+   * @return A logaritmic value.
+   */
+   static float log(float _v) {
+     return std::log(_v);
+   }
+
+   /** 
+    * @brief Method in charge of getting a random value
+    * @return A random int.
+    */
+   static int randI() {
+     return std::rand();
+   }
+
+   /** 
+   * @brief Method in charge of generating a random number using the box muller method.
+   * @param float m from mu
+   * @param float s from sigma 
+   * @return a random float value.
+   */
+   static float box_muller(float m, float s)	{
+     float x1, x2, w, y1;
+     static float y2;
+     static int use_last = 0;
+
+     if (use_last) {
+       y1 = y2;
+       use_last = 0;
+     }
+     else {
+       while (w >= 1.0) {
+         x1 = 2.0 * (float)randI() - 1.0;
+         x2 = 2.0 * (float)randI() - 1.0;
+         w = x1 * x1 + x2 * x2;
+       } 
+
+       w = sqrt((-2.0 * log(w)) / w);
+       y1 = x1 * w;
+       y2 = x2 * w;
+       use_last = 1;
+     }
+
+     return(m + y1 * s);
+   }
   };
 }

@@ -5,18 +5,6 @@ namespace buEngineSDK {
 
   buVector3I::buVector3I(int32 _x, int32 _y, int32 _z) : x(_x), y(_y), z(_z) { }
 
-  buVector3I::~buVector3I() { }
-
-  buVector3I::buVector3I(const buVector3I& _v) : x(_v.x), y(_v.y), z(_v.z) { }
-
-  buVector3I&
-  buVector3I::operator=(const buVector3I& _v) {
-    x = _v.x;
-    y = _v.y;
-    z = _v.z;
-    return *this;
-  }
-
   buVector3I& 
   buVector3I::operator+=(const buVector3I& _v) {
     *this = *this + _v;

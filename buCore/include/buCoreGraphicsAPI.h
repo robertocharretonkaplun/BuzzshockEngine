@@ -15,12 +15,14 @@
 #include <buCoreSwapchain.h>
 #include <buCoreRenderTargetView.h>
 #include <buCoreVertexShader.h>
+#include <buCoreGeometryShader.h>
 #include <buCorePixelShader.h>
 #include <buCoreInputLayout.h>
 #include <buCoreBuffer.h>
 #include <buCoreDepthStencilView.h>
 #include <buCoreSampler.h>
 #include <buCoreModelLoader.h>
+#include <buCommons.h>
 //#include <buImgui.h>
 namespace buEngineSDK {
 
@@ -102,36 +104,23 @@ namespace buEngineSDK {
    */
   virtual bool 
   createDeviceAndSwapChain(void* /*_window*/) { return false; };
-  /**
-   * @brief Virtal method that creates the backbuffer texture, this is a 
-   * very specific method for his implementation.
-   */
-  virtual bool 
-  createTextureForBackBuffer(WeakSPtr<buCoreTexture2D> /*_backbuffer*/)
-  { return false; }
 
   /** 
    * @brief Virtual method that creates a temporal reference to a viewport object.
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreViewport>
-  createViewport(float /*width*/,
-                 float /*height*/,
-                 float /*minDepth*/,
-                 float /*maxDepth*/,
-                 float /*topLeftX*/, 
-                 float /*topLeftY*/) { return nullptr; }
+  createViewport(float /*width*/, float /*height*/) { return nullptr; }
 
   /**
    * @brief Virtual method that creates a temporal reference to a texture2D object.
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreTexture2D>
-  createTexture2D(int32 /*width*/,
-                  int32 /*height*/,
-                  uint32 /*format*/, 
-                  uint32 /*bindflags*/,
-                  uint32 /*miplevels*/) { return nullptr; };
+  createTexture2D(int32 /*width*/, int32 /*height*/, TextureType::E _textureType, WString _filename) { return nullptr; };
+  
+  virtual SPtr<buCoreTexture2D>
+  createTexture2D(int32 /*width*/, int32 /*height*/, uint32, uint32, uint32) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a swap chain object.
@@ -145,22 +134,17 @@ namespace buEngineSDK {
    * @return A smart pointer to the object.
    */
   virtual SPtr<buCoreVertexShader>
-  createVertexShader() { return nullptr; };
+  createVertexShader(WString _fileName) { return nullptr; };
+
+  virtual SPtr<buCoreGeometryShader>
+  createGeometryShader(WString _fileName) { return nullptr; };
 
   /** 
     * @brief Virtual method that creates a temporal reference to a pixel shader object.
     * @return A smart pointer to the object.
     */
   virtual SPtr<buCorePixelShader>
-  createPixelShader() { return nullptr; };
-
-  /**
-   * @brief Virtual method that creates a temporal reference to a
-   * render target view object.
-   * @return A smart pointer to the object.
-   */
-  virtual SPtr<buCoreRenderTargetView>
-  createRenderTargetView() { return nullptr; };
+  createPixelShader(WString _fileName) { return nullptr; };
 
   /**
    * @brief Virtual method that creates a temporal reference to a 
@@ -168,7 +152,12 @@ namespace buEngineSDK {
    * @return A smart pointer object.
    */
   virtual SPtr<buCoreInputLayout>
-  createInputLayout() { return nullptr; };
+  createInputLayout(WeakSPtr<buCoreVertexShader> _vertexShader, 
+                    Vector<String> _semanticNames) { return nullptr; };
+
+  virtual SPtr<buCoreInputLayout>
+  createInputLayout(WeakSPtr<buCoreGeometryShader> _geometryShader, 
+                    Vector<String> _semanticNames) { return nullptr; };
 
   /** 
     * @brief Virtual method that creates a temporal reference to a buffer object.
@@ -179,6 +168,11 @@ namespace buEngineSDK {
                 uint32 /*bindFlags*/,
                 uint32 /*offset*/,
                 void* /*bufferData*/ ) { return nullptr; };
+   /**
+    * @brief Virtual method that creates a temporal reference to a const buffer object. 
+    */
+   virtual SPtr<buCoreBuffer>
+   createBuffer(uint32 /*byteWidth*/) { return nullptr; };
 
    /** 
     * @brief Virtual method that creates a temporal reference to a depth stencil
@@ -208,7 +202,8 @@ namespace buEngineSDK {
    virtual SPtr<buCoreTexture2D>
    loadImageFromFile(String /*_filepath*/, 
                      int32 /*width*/,
-                     int32 /*height*/) { return nullptr; };
+                     int32 /*height*/, 
+                     TextureType::E textureType) { return nullptr; };
    
    virtual SPtr<buCoreModelLoader>
    loadMesh(String _filepath) {return nullptr;};
@@ -231,6 +226,12 @@ namespace buEngineSDK {
     */
    virtual void
    setVertexShader(WeakSPtr<buCoreVertexShader> /*_vertexShader*/) {};
+
+   virtual void
+   setGeometryShader(WeakSPtr<buCoreGeometryShader> /*_vertexShader*/) {};
+
+   virtual void
+   removeGeometryShader() {};
 
    /** 
     * @brief Virtual method that creates a temporal reference to a input layout 
@@ -256,6 +257,9 @@ namespace buEngineSDK {
    drawIndexed(uint32 /*_numVertices*/, 
                uint32 /*_startIndexLocation*/, 
                uint32 /*_baseVertexLocation*/) { };
+
+   virtual void
+   draw(uint32 /*_numVertices*/, uint32 /*_startIndexLocation*/) { };
       
    /**
     * @brief Virtual method that creates the depth stencil texture from the 
@@ -267,18 +271,13 @@ namespace buEngineSDK {
                           { return false; }
 
    /**
-    * @brief Virtual method that creates the render target view.
-    */
-   virtual bool
-   createRenderTargetView(WeakSPtr<buCoreTexture2D> /*_texture*/, 
-                          WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/)
-                          {return false;}
-
-   /**
     * @brief Virtual method that creates the vertex shader.
     */
    virtual bool 
    createVertexShader(WeakSPtr<buCoreVertexShader> /*_vertexShader*/) { return false;}
+   
+   virtual bool 
+   createGeometryShader(WeakSPtr<buCoreGeometryShader> /*_vertexShader*/) { return false;}
 
    /**
     * @brief Virtual method that creates the input layout.
@@ -324,14 +323,14 @@ namespace buEngineSDK {
     */
    virtual void
    setRenderTargets(int32 /*_numViews*/,
-                    WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/,
+                    WeakSPtr<buCoreTexture2D> /*_renderTargetView*/,
                     WeakSPtr<buCoreDepthStencilView> /*_depthStencilView*/) { };
 
    /**
     * @brief Virtual method that clears the render target view.
     */
    virtual void
-   clearRenderTargetView(WeakSPtr<buCoreRenderTargetView> /*_renderTargetView*/,
+   clearRenderTargetView(WeakSPtr<buCoreTexture2D> /*_renderTargetView*/,
                          float /*_color*/[4]) { };
 
    /**
@@ -365,6 +364,14 @@ namespace buEngineSDK {
     */
    virtual void
    VSsetConstantBuffers(WeakSPtr<buCoreBuffer> /*_buffer*/, 
+                        uint32 /*_startSlot*/,    
+                        uint32 /*_numBuffers*/) { };
+
+   /**
+    * @brief Virtual method that sets the constant buffer.
+    */
+   virtual void
+   GSsetConstantBuffers(WeakSPtr<buCoreBuffer> /*_buffer*/, 
                         uint32 /*_startSlot*/,    
                         uint32 /*_numBuffers*/) { };
 

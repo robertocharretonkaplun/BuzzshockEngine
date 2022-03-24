@@ -16,8 +16,71 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{6962f309-9dce-436c-b155-1c10748717c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\DX">
-      <UniqueIdentifier>{9a74c3f2-31a6-4e76-98cb-fa42a680f70b}</UniqueIdentifier>
+    <Filter Include="ImGui\Docking">
+      <UniqueIdentifier>{c9952cce-b86f-47e8-a03c-957627bded5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\ImGuizmo">
+      <UniqueIdentifier>{3c4728e7-08dc-4192-a2f2-553b04e6e743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MayaImport">
+      <UniqueIdentifier>{5f517eaa-2ba7-4b01-bc98-375b18347fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MayaExport">
+      <UniqueIdentifier>{9c60270f-13ec-4e8a-9898-5ac804bb967b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MayaImport">
+      <UniqueIdentifier>{fbd41819-57f5-40d6-898b-6011c226a2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MayaExport">
+      <UniqueIdentifier>{9ec15fa0-8be4-4e7c-983c-66a8412557c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{674f73d8-44e1-43df-b753-ec119206062e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Rigidbody">
+      <UniqueIdentifier>{23cbf4d6-5fad-430d-bc7e-fd2e8d53265e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rigidbody">
+      <UniqueIdentifier>{69333d4f-5850-4be1-b092-dde49601c947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Scene">
+      <UniqueIdentifier>{a773ce53-15a7-4a3b-b0c9-cdf1ea2920ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{9d6ebbdd-60a7-4e38-bf24-538ef1f0b90b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\Scene">
+      <UniqueIdentifier>{425f7f07-9fd1-4322-a2e4-f675d6bf9037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect">
+      <UniqueIdentifier>{6de0ebcd-def7-4a06-b266-f29f8de09453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect\API">
+      <UniqueIdentifier>{758a5447-53c6-4565-8050-7a7d25bb1048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect\Server">
+      <UniqueIdentifier>{97c6757b-7ed9-4136-bda6-789f1d585d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect\Client">
+      <UniqueIdentifier>{ee42e9d0-c591-4a1e-a5e9-10c6b6af4cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect\User">
+      <UniqueIdentifier>{4914d687-cc4b-44e5-8782-64c932996b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Connect\Lobby">
+      <UniqueIdentifier>{c00df3b1-2203-4b25-a26c-b1fec47992f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Connect">
+      <UniqueIdentifier>{5aaeb56a-f1d6-4170-b749-0c2d28f54fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Connect\API">
+      <UniqueIdentifier>{ac1d37df-9cab-4654-bfaf-7e7ccd5f0e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component">
+      <UniqueIdentifier>{7c137540-8a7c-4afe-a101-6c16aa96c4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Profiler">
+      <UniqueIdentifier>{dc1283c8-10b0-4698-a52a-0414c9dff948}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,21 +96,6 @@
     <ClCompile Include="src\buImgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_draw.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\imgui\ImGuiDirectX\imgui_widgets.cpp">
-      <Filter>ImGui\DX</Filter>
-    </ClCompile>
     <ClCompile Include="include\buResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,6 +110,75 @@
     </ClCompile>
     <ClCompile Include="src\buCoreMesh.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_demo.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_draw.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imGuiDocking\imgui_widgets.cpp">
+      <Filter>ImGui\Docking</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buGraphicsDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCameraManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SaveSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buSceneGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buHistogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImCurveEdit.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGradient.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImGuizmo.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\ImGuizmo\ImSequencer.cpp">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buMayaImport.cpp">
+      <Filter>Source Files\MayaImport</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buRigidbody.cpp">
+      <Filter>Source Files\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buPxScene.cpp">
+      <Filter>Source Files\Physics\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCoreConnectAPI.cpp">
+      <Filter>Source Files\Connect\API</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,30 +227,6 @@
     <ClInclude Include="include\buImgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imconfig.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_dx11.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_impl_win32.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imgui_internal.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_rectpack.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_textedit.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\ImGuiDirectX\imstb_truetype.h">
-      <Filter>ImGui\DX</Filter>
-    </ClInclude>
     <ClInclude Include="include\buResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -157,6 +250,111 @@
     </ClInclude>
     <ClInclude Include="include\buAnimation.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imconfig.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_dx11.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_impl_win32.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imgui_internal.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_rectpack.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_textedit.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imGuiDocking\imstb_truetype.h">
+      <Filter>ImGui\Docking</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buGraphicsDebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BSPNodeTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCommons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCameraManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buGameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SaveSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buSceneGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buHistogram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreGeometryShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImCurveEdit.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGradient.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImGuizmo.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImSequencer.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\ImGuizmo\ImZoomSlider.h">
+      <Filter>ImGui\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buMayaImport.h">
+      <Filter>Header Files\MayaImport</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buRigidbody.h">
+      <Filter>Header Files\Physics\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buPxScene.h">
+      <Filter>Header Files\Physics\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreConnectAPI.h">
+      <Filter>Header Files\Connect\API</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreLobby.h">
+      <Filter>Header Files\Connect\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreServer.h">
+      <Filter>Header Files\Connect\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreClient.h">
+      <Filter>Header Files\Connect\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCoreUser.h">
+      <Filter>Header Files\Connect\User</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buComponent.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buProfiler.h">
+      <Filter>Header Files\Profiler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -47,7 +47,7 @@ namespace buEngineSDK {
   using ANSICHAR = char; // ANSI character type
   using UNICHAR = WCHAR; // UNICODE character type
   using BYTE = char;
-
+  using UBYTE = unsigned char;
   /**
    * @brief NULL data type
    */

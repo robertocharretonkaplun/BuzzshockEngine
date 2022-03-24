@@ -24,6 +24,6 @@ namespace buEngineSDK {
 		* @brief Virtual method that initialize the object.
 		*/
 		virtual void
-		init(WString _fileName, String _entryPoint, String _shaderModel) = 0;
+		init(WString _fileName) = 0;
 	};
 }

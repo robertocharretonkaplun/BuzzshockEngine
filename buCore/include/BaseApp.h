@@ -9,18 +9,41 @@
 #pragma once
 #include "buPrerequisitesCore.h"
 #include <buCoreGraphicsAPI.h>
+#include <buCoreConnectAPI.h>
+//#include <sysAudioAPI.h>
+//#include <sysRender.h>
+#include <buCameraManager.h>
 #include <buResourceManager.h>
 #include <buCoreConfig.h>
 #include <buPluggin.h>
-#include "imgui\ImGuiDirectX\imgui.h"
-#include "imgui\ImGuiDirectX\imgui_impl_dx11.h"
-#include "imgui\ImGuiDirectX\imgui_impl_win32.h"
+#include <buCoreTexture2D.h>
+#include <SaveSystem.h>
+#include <buSceneGraph.h>
+#include "buCommons.h"
+#include "buLogger.h"
+#include "buTime.h"
+
+#include "ImGuizmo\ImGuizmo.h"
+#include "buJsonParser.h"
+#include "buCurl.h"
+#include "buRigidbody.h"
+#include "buMayaImport.h"
+
+
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 																							UINT msg,
 																						  WPARAM wParam,
 																							LPARAM lParam);
+
+
 namespace buEngineSDK {
+	enum InitType {
+		Default = 0,
+		BuzzshockEngine = 1,
+		BuzzshockConnect = 2
+	};
+
 	class BU_CORE_EXPORT BaseApp {
 	public:
 		/**
@@ -68,6 +91,9 @@ namespace buEngineSDK {
 		 */
 		virtual void
 		onRender() {};
+
+		virtual void
+		renderBillBoard(buGameObject) {};
 	private:
 		/** 
 		* @brief Method in charge of creating a window in the App.
@@ -83,6 +109,13 @@ namespace buEngineSDK {
 		 */
 		void
 		update(float _deltaTime);
+
+		/**
+		* @brief Method in charge of updating the logic information of the Engine 
+		* partition.
+		*/
+		void 
+		BuzzshockEngineUpdate(float _deltaTime);
 
 		/** 
 		 * @brief Method that draw the information that the user will not be
@@ -102,19 +135,79 @@ namespace buEngineSDK {
 		 */
 		void 
 		destroySystems() {};
-		
-		/**
-		 * @brief 
-		 */
-		void 
-		setImguiWhiteStyle();
-
-		void
-		setDarkStyle();
 
 		void
 		setUnrealStyle();
 
+		void
+		MainMenu();
+
+		void 
+		cameraHerarchy();
+
+		void
+		loadInformation();
+		
+		void
+		saveInformation();
+
+		void 
+		goProperties_ImGui(buGameObject gameobject);
+
+		void
+		shaderProperties();
+
+		void 
+		vec3Control(String label, float* values, float resetValues = 0.0f, float columnWidth = 100.0f);
+
+		void
+		valControl(String label, float *value,
+							 float resetValues = 0.0f, float columnWidth = 100.0f);
+
+		void 
+		cameraProperties(buCamera currCamera);
+
+		void 
+		sceneGraph();
+
+		/**
+		 * @brief Method in charge of having a visual initialization for the online method.
+		 */
+		void 
+		login();
+
+		void
+		showConnectWindow();
+
+		/**
+		 * @brief 
+		 */
+		void
+		SocketUIController();
+
+		void
+		buGizmo(float* matrix);
+		
+		void
+		toggleButton(const char* str_id, bool* v);
+
+		void
+		serializerUI();
+
+		void
+		serverCURLUI();
+
+		void
+		toolsUI();
+
+		void
+		changeLogUI();
+
+		void
+		propertiesUI();
+
+		void 
+		FileExplorerUI();
 	public:
 		/**
 		* @brief Method that set the events and messages for the game.
@@ -127,16 +220,17 @@ namespace buEngineSDK {
 		void 
 		Log(String _log);
 
+		String 
+		getFileExtensionByRadioButtton(String _name, uint32& _index);
+
   protected:
 		/*
 		 * @brief Member in charge of getting the dll of directX.
 		 */
     buPluggin m_directXPlug;
-
-		/**
-		 * @brief Member in charge of getting the dll of a external texture lib. 
-		 */
-    buPluggin m_devILPlug;
+    buPluggin m_audioPlug;
+    buPluggin m_renderPlug;
+    buPluggin m_connectAPIPlug;
 
 		/**
 		* @brief Member that sets the window reference.
@@ -151,43 +245,66 @@ namespace buEngineSDK {
 		 * @brief Member in charge of setting the screen width of the game window.
 		 */
 		uint32 m_screenWidth = 0;
+		uint32 m_screenHeight = 0;
 		/**
 		 * @brief 
 		 */
 		bool windowd = false;
+		bool m_sceneWindow = false;
+		bool isUpdatedSceneInfo = false;
+		
 		bool m_showEngineScale = false;
+		bool m_showConsole = false;
 		bool m_showAnimator = false;
 		bool m_isRotating = false;
 		/**
 		 * @brief Member in charge of setting the screen height of the game window.
 		 */
-		uint32 m_screenHeight = 0;
 		/**
 		 * @brief 
 		 */
-		AppOptions* m_appOptions = nullptr;
+		//AppOptions* m_appOptions = nullptr;
 		/**
 		 * @brief Member in charge of storing the graphicsAPI context.
 		 */
 		buCoreGraphicsAPI* m_graphicsAPI = nullptr;
+		buCoreConnectAPI* m_connectAPI = nullptr;
+		//sysAudioAPI* m_sysAudioAPI = nullptr;
+		//sysRender* m_sysRenderAPI = nullptr;
+		buCameraManager m_cameraManager ;
 		/**
 		 * @brief 
 		 */
 		buResourceManager* m_resourceManager = nullptr;
+		buSceneGraph m_scene_graph ;
 		/**
 		 * @brief Member that creates a depth stencil view object.
 		 */
 		SPtr<buCoreDepthStencilView> depthStencilView;
 
 		/**
-		 * @brief Member that creates a render target view object.
+		 * @brief Member that will be used as a depth stencil texture.
 		 */
-		SPtr<buCoreRenderTargetView> renderTargetView;
+		SPtr<buCoreTexture2D> depthStencil;
+		/*
+		 * @brief Member that will be used as a back buffer texture.
+		 */
+		SPtr<buCoreTexture2D> backBuffer;
 
+		/**
+		 * @brief Member that creates a viewport object.
+		 */
+		SPtr<buCoreViewport> viewport;
+
+		/*
+		* @brief 
+		*/
+		float ClearColor[4] = { 0.7f, 0.7f, 0.7f, 0.7f };
 		/**
 		 * @brief 
 		 */
 		float m_position[3] = { 0,0,0 };
+
 		/**
 		 * @brief 
 		 */
@@ -200,23 +317,72 @@ namespace buEngineSDK {
 		 * @brief 
 		 */
 		float m_angle = 0.0f;
-		float m_near = 0.1f;
+		float m_near = 3.0f;
 		float m_EngineScale = 1.0f;
-		float m_far = 100.0f;
+		float m_far = 300.0f;
 		/**
 		 * @brief
 		 */
-		float m_up[3] = { 0.0f, 1.0f, 0.0f };
-		float m_at[3] = { 0.0f, 60.0f, 0.0f };
-		float m_eye[3] = { 0.0f, 60.0f, -60.0f };
-		Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
+		float m_up[3] = { 0.0f, 90.0f, -1.0f };
+		float m_at[3] = { 0.0f, 0.0f, 1.0f };
+		float m_eye[3] = { 0.0f, 60.0f, -90.0f };
+		//Vector<SPtr<buCoreTexture2D>> m_ShaderResources;
+		float m_lightPos[3] = { -30.0f, 85, -50.0f };
+		float m_LightColor[3] = { 1.0f, 1.0f, 1.0f };
+		float m_surfColor[3] = { 1.0f, 1.0f, 1.0f };
+		float m_constants[4] = { 2.0f, 0,0,0 };
 		/**
 		 * @brief 
 		 */
-		Vector<String> m_logs;
-		Vector<String> m_GONames;
+		Vector<String> m_list;
 
-		float dealtaTime = 0;
-		float oldTime = 0;
+		bool m_renderObjects = true;
+		bool m_selectedObject = false;
+		bool m_isCubeLoaded = false;
+		uint32 m_audioStatec = 0;
+		uint32 val = 1;
+		uint32 m_currCamera = 0;
+		uint32 m_selectedItem = 1;
+		//buGameObject tmpGO;
+		SaveSystem m_saverMan;
+
+		Vector<String> m_logs = buLogger::GetLogger()->GetLogDataFromFile();
+
+		buTime m_time;
+		// UI variables 
+		bool useWindow = false;
+		ImGuizmo::OPERATION mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+
+		// Server variables
+		buJsonParser m_json;
+		buCurl m_curl;
+
+		// Physics
+		buRigidbody m_rigidbody;
+
+		// Buzzshock Connect server
+		bool m_isAdvanceServerInitialization = false; // This var will be deprecated
+		// and replaced by the initialization type of connect server var
+
+		// App Initialization Variables
+		InitType m_initType = InitType::Default;
+		bool m_isDataLoaded = false;
+
+		// GO attributes
+		bool m_canRender = true;
+
+		// Render Type
+		TopologyType::E m_renderMode = TopologyType::E::BU_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+		// Custome model Loading
+		bool m_isLoadingDefaultTextures = false;
+		uint32 selectedExtA;
+		uint32 selectedExtN;
+		uint32 selectedExtM;
+		uint32 selectedExtR;
+		uint32 countID = 0;
+
+		// Explorer
+		String m_explorerPath;
 	};
 }

@@ -13,6 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Allocators">
+      <UniqueIdentifier>{5e6928f9-8874-4f59-b507-3f1dca02d518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logger">
+      <UniqueIdentifier>{30417911-bc3a-483a-8396-bd3b91d55c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logger">
+      <UniqueIdentifier>{021cb4e2-cf0e-41cb-8db6-11bdf6dc7c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CURL">
+      <UniqueIdentifier>{43a497e8-f56e-4afe-94b0-d4e930c49657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CURL">
+      <UniqueIdentifier>{7120a7d3-bd7d-4ad0-9e02-5772124c814c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Allocators">
+      <UniqueIdentifier>{d6e92079-25b2-4640-8b88-237e0c18e4e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Time">
+      <UniqueIdentifier>{071eb79c-764f-4e95-b685-5cb2628733b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{c29d7664-f3c1-4548-8b4b-e745e6c84b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Serializer">
+      <UniqueIdentifier>{00d99371-d627-4056-b1e8-a78f97f65351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{1df2f266-05ad-4fb6-87d1-f9e7d8db2390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{09ee78de-3139-4bfb-9585-7d0460a591b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sockets">
+      <UniqueIdentifier>{d9cdef3b-0547-4fb6-991e-30d373ab1444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{2ae18870-6c95-4f4e-bd35-4e1891fbe47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Socket">
+      <UniqueIdentifier>{15d25c52-bae1-4a93-8b12-794469f943dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Json">
+      <UniqueIdentifier>{41e0b9af-fa6e-4cdb-b22a-098c0aed59e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Json">
+      <UniqueIdentifier>{c853af15-2f07-4806-b84b-98634b4f5b77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\buStdHeaders.h">
@@ -96,6 +144,30 @@
     <ClInclude Include="include\buMatrix3x3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\buLogger.h">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buCurl.h">
+      <Filter>Header Files\CURL</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buHeap.h">
+      <Filter>Header Files\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buTime.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buSerializer.h">
+      <Filter>Header Files\Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buTimer.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buSocket.h">
+      <Filter>Header Files\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\buJsonParser.h">
+      <Filter>Header Files\Json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\buPlatformMath.cpp">
@@ -160,6 +232,27 @@
     </ClCompile>
     <ClCompile Include="src\buMatrix3x3.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buLogger.cpp">
+      <Filter>Source Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buCurl.cpp">
+      <Filter>Source Files\CURL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buHeap.cpp">
+      <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buTime.cpp">
+      <Filter>Source Files\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buTimer.cpp">
+      <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buSocket.cpp">
+      <Filter>Source Files\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buJsonParser.cpp">
+      <Filter>Source Files\Json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

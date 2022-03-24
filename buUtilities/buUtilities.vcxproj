@@ -98,7 +98,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>BU_UTILITY_EXPORTS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
@@ -111,8 +111,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(DEVLIBS)bucurl/lib/;C:\Development\bucurl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>libcurl-d_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,7 +148,7 @@
       <PreprocessorDefinitions>BU_UTILITY_EXPORTS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>./Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Include/;$(DEVLIBS)bucurl/include/;$(DEVLIBS)rapidjson/include/</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -159,8 +160,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/$(PlatformTarget)/;$(DEVLIBS)bucurl/lib/;C:\Development\bucurl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)lib/$(PlatformShortName)/$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>libcurl-d_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -190,8 +192,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\buBox.h" />
+    <ClInclude Include="include\buCurl.h" />
     <ClInclude Include="include\buDegrees.h" />
     <ClInclude Include="include\buFrustrum.h" />
+    <ClInclude Include="include\buHeap.h" />
+    <ClInclude Include="include\buJsonParser.h" />
+    <ClInclude Include="include\buLogger.h" />
     <ClInclude Include="include\buMath.h" />
     <ClInclude Include="include\buMatrix3x3.h" />
     <ClInclude Include="include\buMatrix4x4.h" />
@@ -207,9 +213,13 @@
     <ClInclude Include="include\buRadians.h" />
     <ClInclude Include="include\buRay.h" />
     <ClInclude Include="include\buRectangle.h" />
+    <ClInclude Include="include\buSerializer.h" />
+    <ClInclude Include="include\buSocket.h" />
     <ClInclude Include="include\buSphere.h" />
     <ClInclude Include="include\buStdHeaders.h" />
     <ClInclude Include="include\buString.h" />
+    <ClInclude Include="include\buTime.h" />
+    <ClInclude Include="include\buTimer.h" />
     <ClInclude Include="include\buVector2F.h" />
     <ClInclude Include="include\buVector2I.h" />
     <ClInclude Include="include\buVector3F.h" />
@@ -220,8 +230,12 @@
   <ItemGroup>
     <ClCompile Include="include\Source.cpp" />
     <ClCompile Include="src\buBox.cpp" />
+    <ClCompile Include="src\buCurl.cpp" />
     <ClCompile Include="src\buDegrees.cpp" />
     <ClCompile Include="src\buFrustrum.cpp" />
+    <ClCompile Include="src\buHeap.cpp" />
+    <ClCompile Include="src\buJsonParser.cpp" />
+    <ClCompile Include="src\buLogger.cpp" />
     <ClCompile Include="src\buMath.cpp" />
     <ClCompile Include="src\buMatrix3x3.cpp" />
     <ClCompile Include="src\buMatrix4x4.cpp" />
@@ -232,7 +246,10 @@
     <ClCompile Include="src\buRadians.cpp" />
     <ClCompile Include="src\buRay.cpp" />
     <ClCompile Include="src\buRectangle.cpp" />
+    <ClCompile Include="src\buSocket.cpp" />
     <ClCompile Include="src\buSphere.cpp" />
+    <ClCompile Include="src\buTime.cpp" />
+    <ClCompile Include="src\buTimer.cpp" />
     <ClCompile Include="src\buVector2F.cpp" />
     <ClCompile Include="src\buVector2I.cpp" />
     <ClCompile Include="src\buVector3F.cpp" />

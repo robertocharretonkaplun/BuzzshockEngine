@@ -27,6 +27,7 @@ namespace buEngineSDK {
 
     m_model.m_meshes.reserve(Model->mNumMeshes);
 
+    buGameObject currGameobject;
     SkeletalMesh* skeleton = new SkeletalMesh;
     int32 highVertexNum = 0;
     for (uint32 i = 0; i < Model->mNumMeshes; ++i) {
@@ -73,6 +74,14 @@ namespace buEngineSDK {
           tmpvertex.Nor.x = currNormals.x;
           tmpvertex.Nor.y = currNormals.y;
           tmpvertex.Nor.z = currNormals.z;
+        }
+
+        // Allocate Tangents
+        if (currMesh->HasTangentsAndBitangents()) {
+          auto currTangents = currMesh->mTangents[j];
+          tmpvertex.Tan.x = currTangents.x;
+          tmpvertex.Tan.y = currTangents.y;
+          tmpvertex.Tan.z = currTangents.z;
         }
       }
 
@@ -143,15 +152,194 @@ namespace buEngineSDK {
 
     auto& graphMan = g_graphicsAPI();
 
-    m_model.m_vertexBuffer = graphMan.createBuffer(sizeof(SimpleVertex) * m_model.m_vertices.size(),
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
       D3D11_BIND_VERTEX_BUFFER,
       sizeof(SimpleVertex),
       m_model.m_vertices.data());
 
-    m_model.m_indexBuffer = graphMan.createBuffer(sizeof(uint32) * m_model.m_indices.size(),
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
       D3D11_BIND_INDEX_BUFFER,
       0,
       m_model.m_indices.data());
+    // Store gameobject
+    currGameobject.m_name = _filepath;
+    currGameobject.m_type = GameObjectType::MESH_TYPE;
+    currGameobject.m_model = m_model;
+    currGameobject.m_model.m_textures = m_textures;
+    currGameobject.m_id = m_goCounter;
+    currGameobject.init();
+    m_goCounter++;
+    Model = nullptr;
+    m_model.m_vertexBuffer = nullptr;
+    m_model.m_indexBuffer = nullptr;
+    m_model.m_vertices.clear();
+    m_model.m_indices.clear();
+    m_model.m_bonesTransforms.clear();
+    m_textures.clear();
+    currGameobject.m_model.m_textures.clear();
+    //m_model.;
+  }
+
+  buGameObject buDXResourceManager::getMesh(String _filepath) {
+    const aiScene* Model = aiImportFile(_filepath.c_str(),
+      aiProcess_ConvertToLeftHanded |
+      aiProcessPreset_TargetRealtime_Fast);
+    m_model.TexName = Model->GetShortFilename(_filepath.c_str());
+
+    m_model.m_meshes.reserve(Model->mNumMeshes);
+    m_model.m_numMeshes = Model->mNumMeshes;
+    buGameObject currGameobject;
+    SkeletalMesh* skeleton = new SkeletalMesh;
+    int32 highVertexNum = 0;
+    for (uint32 i = 0; i < Model->mNumMeshes; ++i) {
+      auto currMesh = Model->mMeshes[i];
+
+      m_model.m_meshes.emplace_back();
+      auto& tmpMesh = m_model.m_meshes[m_model.m_meshes.size() - 1];
+      tmpMesh.m_topology = currMesh->mPrimitiveTypes;
+      tmpMesh.m_baseVertex = m_model.m_vertices.size();
+      tmpMesh.m_numVertex = currMesh->mNumVertices;
+      tmpMesh.m_baseIndex = m_model.m_indices.size();
+      tmpMesh.m_numIndices = currMesh->mNumFaces * 3;
+      //Allocate the indices of the mesh
+      for (uint32 j = 0; j < currMesh->mNumFaces; ++j) {
+        auto& currFace = currMesh->mFaces[j];
+
+        m_model.m_indices.push_back(tmpMesh.m_baseVertex + currFace.mIndices[0]);
+        m_model.m_indices.push_back(tmpMesh.m_baseVertex + currFace.mIndices[1]);
+        m_model.m_indices.push_back(tmpMesh.m_baseVertex + currFace.mIndices[2]);
+      }
+
+      for (uint32 j = 0; j < currMesh->mNumVertices; ++j) {
+        auto fullVertex = currMesh->mVertices[j];
+
+        m_model.m_vertices.emplace_back();
+        auto& tmpvertex = m_model.m_vertices[m_model.m_vertices.size() - 1];
+
+        //Allocate Vertices
+        tmpvertex.Pos.x = fullVertex.x;
+        tmpvertex.Pos.y = fullVertex.y;
+        tmpvertex.Pos.z = fullVertex.z;
+
+        //Allocate Texture Coordinates
+        if (currMesh->HasTextureCoords(0)) {
+          auto currTexCoord = currMesh->mTextureCoords[0][j];
+          tmpvertex.Tex.x = currTexCoord.x;
+          tmpvertex.Tex.y = currTexCoord.y;
+        }
+
+        // Allocate Normals
+        if (currMesh->HasNormals()) {
+          auto currNormals = currMesh->mNormals[j];
+          tmpvertex.Nor.x = currNormals.x;
+          tmpvertex.Nor.y = currNormals.y;
+          tmpvertex.Nor.z = currNormals.z;
+        }
+
+        if (currMesh->HasTangentsAndBitangents()) {
+          auto currTangents = currMesh->mTangents[j];
+          tmpvertex.Tan.x = currTangents.x;
+          tmpvertex.Tan.y = currTangents.y;
+          tmpvertex.Tan.z = currTangents.z;
+        }
+      }
+
+
+      // Store Data for animations
+      if (currMesh->HasBones()) {
+        for (uint32 j = 0; j < currMesh->mNumBones; j++) {
+          aiBone* currBone = currMesh->mBones[j];
+          uint32 boneIndex = 0;
+          String boneName(currBone->mName.data);
+
+          if (skeleton->m_bonesMap.find(boneName) == skeleton->m_bonesMap.end()) {
+            boneIndex = skeleton->m_numBones;
+            skeleton->m_numBones++;
+            Bone bone;
+            skeleton->m_bonesInfo.push_back(bone);
+          }
+          else {
+            boneIndex = skeleton->m_bonesMap[boneName];
+          }
+
+          skeleton->m_bonesMap[boneName] = boneIndex;
+          std::memcpy(&skeleton->m_bonesInfo[boneIndex].offset,
+            &currBone->mOffsetMatrix,
+            sizeof(buMatrix4x4));
+
+
+          // Store bone weights
+          for (uint32 w = 0; w < currBone->mNumWeights; w++) {
+            uint32 vertexID = tmpMesh.m_baseVertex + currBone->mWeights[w].mVertexId;
+            float weight = currBone->mWeights[w].mWeight;
+            if (vertexID > highVertexNum) {
+              highVertexNum = vertexID;
+            }
+
+            for (uint32 b = 0; b < 4; ++b) {
+              if (NumericLimits::MAX_UINT32 == m_model.m_vertices[vertexID].boneIDs[b]) {
+                m_model.m_vertices[vertexID].boneIDs[b] = boneIndex;
+                m_model.m_vertices[vertexID].boneWeights[b] = weight;
+              }
+            }
+          }
+        }
+      }
+      else {
+        for (uint32 j = 0; j < tmpMesh.m_numVertex; j++) {
+          uint32 vertexID = tmpMesh.m_baseVertex + j;
+          for (uint32 z = 0; z < 4; z++) {
+            m_model.m_vertices[vertexID].boneIDs[z] = 0;
+            m_model.m_vertices[vertexID].boneWeights[z] = 1;
+          }
+        }
+      }
+    }
+    m_model.m_scene = Model;
+    m_model.m_skeleton = skeleton;
+    
+    // Should be on the model loading 
+    m_model.m_bonesTransforms.clear();
+    m_model.m_bonesTransforms.resize(skeleton->m_numBones);
+
+
+
+
+    if (0 < Model->mNumAnimations) {
+      m_model.m_currAnimation = 0;
+    }
+
+    auto& graphMan = g_graphicsAPI();
+
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
+      D3D11_BIND_VERTEX_BUFFER,
+      sizeof(SimpleVertex),
+      m_model.m_vertices.data());
+
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
+      D3D11_BIND_INDEX_BUFFER,
+      0,
+      m_model.m_indices.data());
+    // Store gameobject
+    currGameobject.m_name = _filepath;
+    currGameobject.m_type = GameObjectType::MESH_TYPE;
+    currGameobject.m_model = m_model;
+    currGameobject.m_model.m_textures = m_textures;
+    currGameobject.m_id = m_goCounter;
+    currGameobject.init();
+    //m_goCounter++;
+    Model = nullptr;
+    m_model.m_vertexBuffer = nullptr;
+    m_model.m_indexBuffer = nullptr;
+    m_model.m_vertices.clear();
+    m_model.m_indices.clear();
+    m_model.m_bonesTransforms.clear();
+    //currGameobject.m_model.m_textures.clear();
+    return currGameobject;
   }
 
   buCoreModel*
@@ -159,4 +347,97 @@ namespace buEngineSDK {
     return &m_model;
   }
 
+  Vector<buGameObject> 
+  buDXResourceManager::getGameObjects() {
+    return Vector<buGameObject>();
+  }
+
+  Vector<SPtr<buCoreTexture2D>> *
+  buDXResourceManager::getTextures() {
+      return &m_textures;
+  }
+
+  buCoreModel* 
+  buDXResourceManager::getModelStruct() {
+    auto& graphMan = g_graphicsAPI();
+
+    m_model.m_vertexBuffer = graphMan.createBuffer(
+      sizeof(SimpleVertex) * m_model.m_vertices.size(),
+      D3D11_BIND_VERTEX_BUFFER,
+      sizeof(SimpleVertex),
+      m_model.m_vertices.data());
+
+    m_model.m_indexBuffer = graphMan.createBuffer(
+      sizeof(uint32) * m_model.m_indices.size(),
+      D3D11_BIND_INDEX_BUFFER,
+      0,
+      m_model.m_indices.data());
+    return &m_model;
+  }
+
+  buGameObject 
+    buDXResourceManager::getGO(String _filepath) {
+    // Create temporal go
+    buGameObject tmpGO;
+    // Set path of gameobject data
+    String tmpPath = "Data/SavedData/";
+    String extensionType = ".bu";
+    String fullPath = tmpPath + "model" + extensionType;
+    // Read the file
+    std::ifstream projectFile(fullPath.c_str(), std::ios::binary);
+    if (projectFile)
+    {
+      // Read the mesh info
+      ModelData modelinfo;
+      projectFile.read((char*)&modelinfo, sizeof(ModelData));
+      m_model.m_meshes.resize(modelinfo.numMeshes);
+      m_model.m_numMeshes = modelinfo.numMeshes;
+      MeshData meshInfo;
+      projectFile.read((char*)&meshInfo, sizeof(MeshData));
+      
+      for (uint32 i = 0; i < modelinfo.numMeshes; ++i) {
+        auto& graphMan = g_graphicsAPI();
+        // Store Mesh data
+        m_model.m_meshes[i].m_baseVertex = 0;// meshInfo.baseVertex;
+        m_model.m_meshes[i].m_numVertex = meshInfo.numVertex;
+        m_model.m_meshes[i].m_baseIndex = 0;// meshInfo.baseIndex;
+        m_model.m_meshes[i].m_numIndices = meshInfo.numIndex;
+        // Store Vertex data
+        auto VertexInfo = new SimpleVertex[meshInfo.numVertex];
+        projectFile.read((char*)VertexInfo,
+                         sizeof(SimpleVertex) * meshInfo.numVertex);
+        
+        m_model.m_vertexBuffer = graphMan.createBuffer(
+          sizeof(SimpleVertex) * meshInfo.numVertex,
+          D3D11_BIND_VERTEX_BUFFER,
+          sizeof(SimpleVertex),
+          VertexInfo);
+        
+        // Store Index Data
+        auto indexInfo = new uint32[meshInfo.numIndex];
+        projectFile.read((char*)indexInfo, sizeof(uint32) * meshInfo.numIndex);
+
+        m_model.m_indexBuffer = graphMan.createBuffer(
+          sizeof(uint32) * meshInfo.numIndex,
+          D3D11_BIND_INDEX_BUFFER,
+          0,
+          indexInfo);
+        // Store gameobject
+        tmpGO.m_name = _filepath;
+        tmpGO.m_type = GameObjectType::MESH_TYPE;
+        tmpGO.m_model = m_model;
+        tmpGO.m_model.m_textures = m_textures;
+        tmpGO.m_id = m_goCounter;
+        tmpGO.init();
+        //m_goCounter++;
+        
+        m_model.m_vertexBuffer = nullptr;
+        m_model.m_indexBuffer = nullptr;
+        m_model.m_vertices.clear();
+        m_model.m_indices.clear();
+        m_model.m_bonesTransforms.clear();
+        return tmpGO;
+      }
+    }
+  }
 }
